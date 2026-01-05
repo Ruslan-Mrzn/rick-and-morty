@@ -1,6 +1,6 @@
 import './App.css';
 import { Routes, Route } from 'react-router';
-import MainLayout from '../MainLayout';
+import MainLayout from '@/shared/components/MainLayout';
 import { HomePage, CharacterPage } from '@/pages';
 
 const App = () => {
