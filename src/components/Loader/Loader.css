@@ -1,0 +1,38 @@
+.loader {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.loader:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.loader.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes loader-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loader-scale {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.1);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .loader {
+    animation:
+      loader-spin infinite 20s linear,
+      loader-scale infinite 20s linear;
+  }
+}
