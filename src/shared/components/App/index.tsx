@@ -1,4 +1,4 @@
-import './App.css';
+import './App.module.scss';
 import { Routes, Route } from 'react-router';
 import { MainLayout } from '@/shared/components';
 import { HomePage, CharacterPage } from '@/pages';

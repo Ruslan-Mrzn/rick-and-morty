@@ -2,8 +2,11 @@ import { Outlet } from 'react-router';
 const MainLayout = () => {
   return (
     <>
-      <div>main layout</div>
-      <Outlet />
+      <header>Header</header>
+      <main>
+        <Outlet />
+      </main>
+      <footer>Footer</footer>
     </>
   );
 };
