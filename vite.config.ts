@@ -12,7 +12,8 @@ export default defineConfig({
     react(),
     svgr({
       svgrOptions: {
-        icon: true
+        icon: false,
+        dimensions: true
       },
       include: '**/*.svg?react'
     })

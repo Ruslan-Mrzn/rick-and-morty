@@ -11,8 +11,18 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 html {
-  font-size: 10px;
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.6rem;
 }
 
 *,
