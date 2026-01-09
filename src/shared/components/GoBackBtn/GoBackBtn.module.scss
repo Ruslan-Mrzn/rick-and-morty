@@ -1,0 +1,17 @@
+.btn {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 0.4rem;
+}
+
+.btn__text {
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #000;
+  text-transform: uppercase;
+  line-height: 1;
+}

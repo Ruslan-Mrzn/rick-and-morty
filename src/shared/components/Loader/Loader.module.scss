@@ -1,0 +1,46 @@
+.loader {
+  position: relative;
+}
+
+.loader_big {
+  width: 47.5rem;
+  min-height: 47rem;
+}
+
+.loader_small {
+  width: 10rem;
+}
+
+.loader__image {
+  width: 100%;
+  max-width: 100%;
+}
+
+.loader__text {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: 700;
+  font-size: 1.8rem;
+  text-align: center;
+  color: #212121;
+}
+
+@keyframes loader-scale {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .loader__image {
+    animation: loader-scale infinite 2s linear;
+  }
+}
