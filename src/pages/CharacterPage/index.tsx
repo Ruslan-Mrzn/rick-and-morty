@@ -1,5 +1,7 @@
 import { GoBackBtn, Loader } from '@/shared/components';
+
 import styles from './CharacterPage.module.scss';
+
 const CharacterPage = () => {
   return (
     <div className={styles.charPage}>

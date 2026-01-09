@@ -1,4 +1,5 @@
 import { logo } from '@/assets/images';
+
 import styles from './BigLogo.module.scss';
 
 const BigLogo = () => {

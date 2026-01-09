@@ -1,5 +1,6 @@
-import styles from './Loader.module.scss';
 import { loader } from '@/assets/images';
+
+import styles from './Loader.module.scss';
 
 interface LoaderProps {
   size: 'big' | 'small';

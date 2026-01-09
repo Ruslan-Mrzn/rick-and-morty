@@ -1,7 +1,9 @@
-import './App.module.scss';
-import { Routes, Route } from 'react-router';
+import { Route, Routes } from 'react-router';
+
+import { CharacterPage, HomePage } from '@/pages';
 import { MainLayout } from '@/shared/components';
-import { HomePage, CharacterPage } from '@/pages';
+
+import './App.module.scss';
 
 const App = () => {
   return (

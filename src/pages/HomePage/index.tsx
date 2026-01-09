@@ -1,6 +1,9 @@
 import { Link } from 'react-router';
-import styles from './HomePage.module.scss';
+
 import { BigLogo, Loader } from '@/shared/components';
+
+import styles from './HomePage.module.scss';
+
 const HomePage = () => {
   return (
     <div className={styles.homePage}>

@@ -1,6 +1,9 @@
 import { Outlet } from 'react-router';
+
+import { LightThemeIcon, LogoIcon } from '@/assets/icons';
+
 import styles from './MainLayout.module.scss';
-import { LogoIcon, LightThemeIcon } from '@/assets/icons';
+
 const MainLayout = () => {
   return (
     <>
