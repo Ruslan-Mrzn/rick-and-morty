@@ -1,6 +1,9 @@
-import { Link } from 'react-router';
-
-import { BigLogo, Loader } from '@/shared/components';
+import { BigLogo, Selector } from '@/shared/components';
+import {
+  genderOptions,
+  speciesOptions,
+  statusOptions
+} from '@/shared/helpers/mocks';
 
 import styles from './HomePage.module.scss';
 
@@ -10,13 +13,23 @@ const HomePage = () => {
       <div className={styles.homePage__logo}>
         <BigLogo />
       </div>
-      <Link to='/character'>Go to character page</Link>
-      <div className={styles.homePage__loader}>
-        <Loader
+      <div className={styles.homePage__selectors}>
+        <Selector
           size='big'
-          text='Loading characters...'
+          options={genderOptions}
+          placeholder='gender'
         />
-        <Loader size='small' />
+        <Selector
+          size='big'
+          options={speciesOptions}
+          placeholder='species'
+        />
+
+        <Selector
+          size='small'
+          options={statusOptions}
+          placeholder='status'
+        />
       </div>
     </div>
   );

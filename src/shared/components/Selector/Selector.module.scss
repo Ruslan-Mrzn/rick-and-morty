@@ -1,0 +1,83 @@
+.selector {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  width: 24rem;
+  color: rgba(0, 0, 0, 0.6);
+  font-weight: 400;
+  font-size: 1.6rem;
+}
+
+.selector_small {
+  width: 9.4rem;
+  font-size: 1.4rem;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+
+  & .selector__input {
+    padding: 0.2rem 3rem 0.2rem 0.5rem;
+    min-height: 2rem;
+  }
+
+  & .selector__arrow {
+    right: 0.9rem;
+  }
+
+  & .selector__list {
+    padding: 0.5rem;
+    gap: 0.5rem;
+  }
+
+  & .selector__option {
+    line-height: 1.5;
+    min-height: 1.7rem;
+    margin-bottom: 0.5rem;
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.selector__input {
+  padding: 0.8rem 3rem 0.8rem 1.4rem;
+  background-color: transparent;
+  border-radius: 0.8rem;
+  border: 1px solid #393939;
+  color: inherit;
+  line-height: 1.19;
+  font-size: inherit;
+  font-weight: inherit;
+  cursor: pointer;
+  text-align: left;
+  min-height: 5.5rem;
+  position: relative;
+  text-transform: capitalize;
+}
+
+.selector__arrow {
+  position: absolute;
+  top: 50%;
+  right: 2.2rem;
+  transform: translateY(-50%);
+}
+
+.selector__arrow_open {
+  transform: rotate(180deg);
+}
+
+.selector__list {
+  list-style: none;
+  border-radius: 0.8rem;
+  border: 1px solid #393939;
+  padding: 0.8rem 3rem 0.8rem 1.4rem;
+}
+
+.selector__option {
+  text-transform: capitalize;
+  cursor: pointer;
+  line-height: 1.19;
+  text-align: left;
+  min-height: 4rem;
+  display: flex;
+  align-items: center;
+}

@@ -3,3 +3,4 @@ export { default as Loader } from './Loader';
 export { default as MainLayout } from './MainLayout';
 export { default as GoBackBtn } from './GoBackBtn';
 export { default as BigLogo } from './BigLogo';
+export { default as Selector } from './Selector';
