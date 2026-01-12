@@ -13,19 +13,15 @@ const MainLayout = () => {
             width={48}
             height={50}
           />
-          <ul className={styles.header__controls}>
-            <li>
-              <button className={styles.header__btn}>
-                <LightThemeIcon
-                  width={25}
-                  height={25}
-                />
-              </button>
-            </li>
-            <li>
-              <button className={styles.header__btn}>РУ</button>
-            </li>
-          </ul>
+          <div className={styles.header__controls}>
+            <button className={styles.header__btn}>
+              <LightThemeIcon
+                width={25}
+                height={25}
+              />
+            </button>
+            <button className={styles.header__btn}>РУ</button>
+          </div>
         </div>
       </header>
       <main className={styles.main}>

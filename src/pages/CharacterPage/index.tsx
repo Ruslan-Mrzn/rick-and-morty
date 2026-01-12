@@ -8,7 +8,7 @@ const CharacterPage = () => {
       <div className={styles.charPage__back}>
         <GoBackBtn />
       </div>
-      <div className={styles.charPage__loader}>
+      <div className={styles.charPage__main}>
         <Loader
           size='big'
           text='Loading character info...'
