@@ -24,7 +24,6 @@ const HomePage = () => {
           options={speciesOptions}
           placeholder='species'
         />
-
         <Selector
           size='small'
           options={statusOptions}
@@ -36,4 +35,5 @@ const HomePage = () => {
     </div>
   );
 };
+
 export default HomePage;

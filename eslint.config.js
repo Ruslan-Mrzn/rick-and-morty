@@ -3,6 +3,7 @@ import prettier from 'eslint-config-prettier';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import { defineConfig, globalIgnores } from 'eslint/config';
+import stylistic from '@stylistic/eslint-plugin'
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
@@ -16,6 +17,9 @@ export default defineConfig([
       reactHooks.configs.flat.recommended,
       reactRefresh.configs.vite
     ],
+    plugins: {
+      '@stylistic': stylistic
+    },
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser
@@ -62,7 +66,15 @@ export default defineConfig([
           ignoreArrayIndexes: true
         }
       ],
-      'no-nested-ternary': 'warn'
+      'no-nested-ternary': 'warn',
+      '@stylistic/padding-line-between-statements': [
+      'error',
+      { blankLine: 'always', prev: '*', next: 'return' }, 
+      { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*'},
+      { blankLine: 'any', prev: ['const', 'let', 'var'], next: ['const', 'let', 'var']},
+      { blankLine: 'always', prev: 'directive', next: '*' },
+      { blankLine: 'always', prev: 'block-like', next: '*' },
+    ],
     }
   },
   prettier

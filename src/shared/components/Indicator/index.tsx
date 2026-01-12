@@ -8,6 +8,7 @@ const Indicator = () => {
   useEffect(() => {
     if (ref.current) {
       const closestParent = ref.current.closest('[data-key]');
+
       if (closestParent) {
         ref.current.setAttribute(
           'data-key',
