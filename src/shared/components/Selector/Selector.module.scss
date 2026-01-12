@@ -52,6 +52,9 @@
   min-height: 5.5rem;
   position: relative;
   text-transform: capitalize;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
 }
 
 .selector__arrow {
@@ -80,4 +83,5 @@
   min-height: 4rem;
   display: flex;
   align-items: center;
+  gap: 0.5rem;
 }

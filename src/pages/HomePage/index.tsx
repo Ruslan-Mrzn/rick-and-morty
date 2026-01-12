@@ -1,4 +1,4 @@
-import { BigLogo, Selector } from '@/shared/components';
+import { BigLogo, Indicator, Selector } from '@/shared/components';
 import {
   genderOptions,
   speciesOptions,
@@ -28,7 +28,9 @@ const HomePage = () => {
         <Selector
           size='small'
           options={statusOptions}
+          defaultOption='alive'
           placeholder='status'
+          indicator={<Indicator />}
         />
       </div>
     </div>

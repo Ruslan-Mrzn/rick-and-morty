@@ -9,22 +9,41 @@ interface SelectorProps {
   options: string[];
   indicator?: ReactNode;
   placeholder?: string;
+  defaultOption?: string;
 }
 
 const Selector = ({
   size = 'big',
   options,
   indicator,
-  placeholder
+  placeholder,
+  defaultOption
 }: SelectorProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeFilter, setActiveFilter] = useState<string>(
+    () => options.find((option) => option === defaultOption) || ''
+  );
+
+  const handleOptionClick = (option: string) => {
+    setActiveFilter(option);
+    setIsOpen(false);
+  };
+
   return (
     <div className={[styles.selector, styles[`selector_${size}`]].join(' ')}>
       <button
         onClick={() => setIsOpen((prev) => !prev)}
         className={styles.selector__input}
       >
-        {placeholder}
+        {activeFilter ? activeFilter : placeholder}
+        {activeFilter && indicator && (
+          <span
+            data-key={activeFilter}
+            key={activeFilter}
+          >
+            {indicator}
+          </span>
+        )}
 
         <SelectorArrowIcon
           className={`${styles.selector__arrow} ${isOpen && styles.selector__arrow_open}`}
@@ -41,9 +60,10 @@ const Selector = ({
             <li
               className={styles.selector__option}
               key={option}
+              onClick={() => handleOptionClick(option)}
             >
-              {indicator}
               {option}
+              {indicator && <span data-key={option}>{indicator}</span>}
             </li>
           ))}
       </ul>
