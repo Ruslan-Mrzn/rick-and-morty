@@ -8,7 +8,7 @@ const MainLayout = () => {
   return (
     <>
       <header className={styles.header}>
-        <div className={styles.header__inner}>
+        <div className={[styles.header__inner, 'wrapper'].join(' ')}>
           <LogoIcon
             width={48}
             height={50}
@@ -24,11 +24,11 @@ const MainLayout = () => {
           </div>
         </div>
       </header>
-      <main className={styles.main}>
+      <main className={[styles.main, 'wrapper'].join(' ')}>
         <Outlet />
       </main>
       <footer className={styles.footer}>
-        <div className={styles.footer__inner}>
+        <div className={[styles.footer__inner, 'wrapper'].join(' ')}>
           <p className={styles.footer__text}>Made with love by Russel_Mrzn</p>
         </div>
       </footer>

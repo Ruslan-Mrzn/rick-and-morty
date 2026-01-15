@@ -4,14 +4,14 @@
   border-radius: 50%;
 }
 
-.indicator[data-key='alive'] {
+.indicator_alive {
   background-color: #12b800;
 }
 
-.indicator[data-key='dead'] {
+.indicator_dead {
   background-color: #df0000;
 }
 
-.indicator[data-key='unknown'] {
+.indicator_unknown {
   background-color: #f90;
 }

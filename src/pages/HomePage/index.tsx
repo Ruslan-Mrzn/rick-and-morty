@@ -29,7 +29,7 @@ const HomePage = () => {
           options={statusOptions}
           defaultOption='alive'
           placeholder='status'
-          indicator={<Indicator />}
+          Indicator={Indicator}
         />
       </div>
     </div>

@@ -2,14 +2,15 @@
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
-  width: 24rem;
+  min-width: 24rem;
+  width: max-content;
   color: rgba(0, 0, 0, 0.6);
   font-weight: 400;
   font-size: 1.6rem;
 }
 
 .selector_small {
-  width: 9.4rem;
+  min-width: 9.4rem;
   font-size: 1.4rem;
   line-height: 1.5;
   letter-spacing: 0.02em;
@@ -55,6 +56,9 @@
   display: flex;
   gap: 0.5rem;
   align-items: center;
+  &:focus-visible {
+    outline: none;
+  }
 }
 
 .selector__arrow {

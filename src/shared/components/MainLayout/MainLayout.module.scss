@@ -3,12 +3,11 @@
 }
 
 .header__inner {
-  max-width: 1020px;
   min-height: 6rem;
+  padding: 0 3rem !important;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0 auto;
 }
 
 .header__controls {
@@ -43,12 +42,10 @@
   box-shadow: -2px 0 8px 2px rgba(0, 0, 0, 0.1);
 }
 .footer__inner {
-  max-width: 1020px;
   min-height: 6rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0 auto;
 }
 
 .footer__text {

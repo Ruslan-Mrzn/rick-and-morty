@@ -1,4 +1,4 @@
-import { type ReactNode, useState } from 'react';
+import { type ComponentType, useEffect, useRef, useState } from 'react';
 
 import { SelectorArrowIcon } from '@/assets/icons';
 
@@ -7,7 +7,7 @@ import styles from './Selector.module.scss';
 interface SelectorProps {
   size?: 'big' | 'small';
   options: string[];
-  indicator?: ReactNode;
+  Indicator?: ComponentType<{ status: string }>;
   placeholder?: string;
   defaultOption?: string;
 }
@@ -15,35 +15,62 @@ interface SelectorProps {
 const Selector = ({
   size = 'big',
   options,
-  indicator,
-  placeholder,
+  Indicator,
+  placeholder = 'select option',
   defaultOption
 }: SelectorProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeFilter, setActiveFilter] = useState<string>(
+  const [activeOption, setActiveOption] = useState<string>(
     () => options.find((option) => option === defaultOption) || ''
   );
 
+  const optionsListRef = useRef<HTMLDivElement>(null);
+
   const handleOptionClick = (option: string) => {
-    setActiveFilter(option);
+    setActiveOption(option);
     setIsOpen(false);
   };
 
+  const handleSelectorClick = () => {
+    setIsOpen((prev) => !prev);
+  };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      optionsListRef.current &&
+      !optionsListRef.current.contains(event.target as Node)
+    ) {
+      setIsOpen(false);
+    }
+  };
+
+  const handlePressEscape = (event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside);
+    document.addEventListener('keydown', handlePressEscape);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('keydown', handlePressEscape);
+    };
+  }, []);
+
   return (
-    <div className={[styles.selector, styles[`selector_${size}`]].join(' ')}>
+    <div
+      ref={optionsListRef}
+      className={[styles.selector, styles[`selector_${size}`]].join(' ')}
+    >
       <button
-        onClick={() => setIsOpen((prev) => !prev)}
+        onClick={handleSelectorClick}
         className={styles.selector__input}
       >
-        {activeFilter ? activeFilter : placeholder}
-        {activeFilter && indicator && (
-          <span
-            data-key={activeFilter}
-            key={activeFilter}
-          >
-            {indicator}
-          </span>
-        )}
+        {activeOption ? activeOption : placeholder}
+        {activeOption && Indicator && <Indicator status={activeOption} />}
 
         <SelectorArrowIcon
           className={`${styles.selector__arrow} ${isOpen && styles.selector__arrow_open}`}
@@ -51,22 +78,20 @@ const Selector = ({
           height={size === 'big' ? 5 : 2}
         />
       </button>
-      <ul
-        className={styles.selector__list}
-        hidden={!isOpen}
-      >
-        {isOpen &&
-          options.map((option) => (
+      {isOpen && (
+        <ul className={styles.selector__list}>
+          {options.map((option) => (
             <li
               className={styles.selector__option}
               key={option}
               onClick={() => handleOptionClick(option)}
             >
               {option}
-              {indicator && <span data-key={option}>{indicator}</span>}
+              {Indicator && <Indicator status={option} />}
             </li>
           ))}
-      </ul>
+        </ul>
+      )}
     </div>
   );
 };
