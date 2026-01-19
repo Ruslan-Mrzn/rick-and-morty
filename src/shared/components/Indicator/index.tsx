@@ -1,6 +1,6 @@
 import styles from './Indicator.module.scss';
 
-const Indicator = ({ status }: { status?: string }) => {
+const Indicator = <T,>({ status }: { status?: T }) => {
   return (
     <div
       className={[styles.indicator, styles[`indicator_${status}`]].join(' ')}

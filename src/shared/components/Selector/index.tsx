@@ -1,33 +1,46 @@
-import { type ComponentType, useEffect, useRef, useState } from 'react';
+import {
+  type ComponentType,
+  type Dispatch,
+  useEffect,
+  useRef,
+  useState
+} from 'react';
 
 import { SelectorArrowIcon } from '@/assets/icons';
 
 import styles from './Selector.module.scss';
 
-interface SelectorProps {
-  size?: 'big' | 'small';
-  options: string[];
-  Indicator?: ComponentType<{ status: string }>;
-  placeholder?: string;
-  defaultOption?: string;
+interface OptionComponentProps<T> {
+  option: T;
 }
 
-const Selector = ({
+interface SelectorProps<T> {
+  size?: 'big' | 'small';
+  options: T[];
+  OptionComponent?: ComponentType<OptionComponentProps<T>>;
+  onChange: Dispatch<T>;
+  placeholder?: string;
+  value?: T;
+}
+
+const valueComponent = <T,>({ option }: OptionComponentProps<T>) => {
+  return <>{option}</>;
+};
+
+const Selector = <T extends string | undefined>({
   size = 'big',
   options,
-  Indicator,
-  placeholder = 'select option',
-  defaultOption
-}: SelectorProps) => {
+  placeholder,
+  value,
+  OptionComponent = valueComponent,
+  onChange
+}: SelectorProps<T>) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeOption, setActiveOption] = useState<string>(
-    () => options.find((option) => option === defaultOption) || ''
-  );
 
   const optionsListRef = useRef<HTMLDivElement>(null);
 
-  const handleOptionClick = (option: string) => {
-    setActiveOption(option);
+  const handleOptionClick = (option: T) => {
+    onChange(option);
     setIsOpen(false);
   };
 
@@ -69,8 +82,7 @@ const Selector = ({
         onClick={handleSelectorClick}
         className={styles.selector__input}
       >
-        {activeOption ? activeOption : placeholder}
-        {activeOption && Indicator && <Indicator status={activeOption} />}
+        {value ? <OptionComponent option={value} /> : placeholder}
 
         <SelectorArrowIcon
           className={`${styles.selector__arrow} ${isOpen && styles.selector__arrow_open}`}
@@ -86,8 +98,7 @@ const Selector = ({
               key={option}
               onClick={() => handleOptionClick(option)}
             >
-              {option}
-              {Indicator && <Indicator status={option} />}
+              <OptionComponent option={option} />
             </li>
           ))}
         </ul>
