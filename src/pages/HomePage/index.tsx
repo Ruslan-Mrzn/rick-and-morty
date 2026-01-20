@@ -10,7 +10,7 @@ import type { TStatus } from '@/shared/types';
 
 import styles from './HomePage.module.scss';
 
-const OptionStatusComponent = <T,>({ option }: { option: T }) => {
+const OptionStatusComponent = ({ option }: { option: TStatus }) => {
   return (
     <>
       {option}
@@ -20,8 +20,8 @@ const OptionStatusComponent = <T,>({ option }: { option: T }) => {
 };
 
 const HomePage = () => {
-  const [gender, setGender] = useState<string>('');
-  const [species, setSpecies] = useState<string>('');
+  const [gender, setGender] = useState('');
+  const [species, setSpecies] = useState('');
   const [status, setStatus] = useState<TStatus>('alive');
 
   return (

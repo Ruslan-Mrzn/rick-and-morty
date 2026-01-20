@@ -48,7 +48,7 @@ const Selector = <T extends string | undefined>({
     setIsOpen((prev) => !prev);
   };
 
-  const handleClickOutside = (event: MouseEvent) => {
+  const handleOutsideClick = (event: MouseEvent) => {
     if (
       optionsListRef.current &&
       !optionsListRef.current.contains(event.target as Node)
@@ -64,11 +64,11 @@ const Selector = <T extends string | undefined>({
   };
 
   useEffect(() => {
-    document.addEventListener('click', handleClickOutside);
+    document.addEventListener('click', handleOutsideClick);
     document.addEventListener('keydown', handlePressEscape);
 
     return () => {
-      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('click', handleOutsideClick);
       document.removeEventListener('keydown', handlePressEscape);
     };
   }, []);

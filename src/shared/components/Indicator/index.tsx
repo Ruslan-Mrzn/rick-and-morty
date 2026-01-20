@@ -1,6 +1,8 @@
+import { type TStatus } from '@/shared/types';
+
 import styles from './Indicator.module.scss';
 
-const Indicator = <T,>({ status }: { status?: T }) => {
+const Indicator = ({ status }: { status?: TStatus }) => {
   return (
     <div
       className={[styles.indicator, styles[`indicator_${status}`]].join(' ')}
