@@ -1,21 +1,59 @@
-import { Link } from 'react-router';
+import { useState } from 'react';
+
+import { BigLogo, Indicator, Selector } from '@/shared/components';
+import {
+  genderOptions,
+  speciesOptions,
+  statusOptions
+} from '@/shared/helpers/mocks';
+import type { TStatus } from '@/shared/types';
+
 import styles from './HomePage.module.scss';
-import { BigLogo, Loader } from '@/shared/components';
+
+const OptionStatusComponent = ({ option }: { option: TStatus }) => {
+  return (
+    <>
+      {option}
+      <Indicator status={option} />
+    </>
+  );
+};
+
 const HomePage = () => {
+  const [gender, setGender] = useState('');
+  const [species, setSpecies] = useState('');
+  const [status, setStatus] = useState<TStatus>('alive');
+
   return (
     <div className={styles.homePage}>
       <div className={styles.homePage__logo}>
         <BigLogo />
       </div>
-      <Link to='/character'>Go to character page</Link>
-      <div className={styles.homePage__loader}>
-        <Loader
+      <div className={styles.homePage__selectors}>
+        <Selector
           size='big'
-          text='Loading characters...'
+          options={genderOptions}
+          value={gender}
+          placeholder='gender'
+          onChange={setGender}
         />
-        <Loader size='small' />
+        <Selector
+          size='big'
+          value={species}
+          options={speciesOptions}
+          placeholder='species'
+          onChange={setSpecies}
+        />
+        <Selector
+          size='small'
+          options={statusOptions}
+          value={status}
+          OptionComponent={OptionStatusComponent}
+          onChange={setStatus}
+        />
       </div>
     </div>
   );
 };
+
 export default HomePage;

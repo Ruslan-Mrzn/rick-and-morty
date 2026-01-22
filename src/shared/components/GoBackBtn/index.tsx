@@ -1,4 +1,5 @@
 import { LeftArrowIcon } from '@/assets/icons';
+
 import styles from './GoBackBtn.module.scss';
 
 const GoBackBtn = () => {

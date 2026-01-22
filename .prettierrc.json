@@ -8,5 +8,33 @@
   "semi": true,
   "arrowParens": "always",
   "bracketSpacing": true,
-  "endOfLine": "lf"
+  "endOfLine": "lf",
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
+
+  "importOrder": [
+    "^react$",
+    "^react-native$",
+    "^react-dom",
+    "^react-",
+    "^@reduxjs/",
+    "^react-redux",
+    "^@tanstack/",
+    "^react-router",
+    "^@testing-library/",
+    "<THIRD_PARTY_MODULES>",
+    "^@/components/(.*)$",
+    "^@/hooks/(.*)$",
+    "^@/utils/(.*)$",
+    "^@/services/(.*)$",
+    "^@/store/(.*)$",
+    "^@/types/(.*)$",
+    "^@/(.*)$",
+    "^[./]",
+    "^.+\\.(css|scss|sass|less)$"
+  ],
+
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "importOrderCaseInsensitive": true,
+  "importOrderParserPlugins": ["typescript", "jsx", "decorators-legacy"]
 }

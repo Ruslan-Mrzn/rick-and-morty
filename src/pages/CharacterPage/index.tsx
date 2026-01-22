@@ -1,12 +1,14 @@
 import { GoBackBtn, Loader } from '@/shared/components';
+
 import styles from './CharacterPage.module.scss';
+
 const CharacterPage = () => {
   return (
     <div className={styles.charPage}>
       <div className={styles.charPage__back}>
         <GoBackBtn />
       </div>
-      <div className={styles.charPage__loader}>
+      <div className={styles.charPage__main}>
         <Loader
           size='big'
           text='Loading character info...'
@@ -15,4 +17,5 @@ const CharacterPage = () => {
     </div>
   );
 };
+
 export default CharacterPage;
