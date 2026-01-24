@@ -1,11 +1,8 @@
 import { useState } from 'react';
 
-import { BigLogo, Indicator, Selector } from '@/shared/components';
-import {
-  genderOptions,
-  speciesOptions,
-  statusOptions
-} from '@/shared/helpers/mocks';
+import { SearchIcon } from '@/assets/icons';
+import { BigLogo, Indicator, Selector, TextInput } from '@/shared/components';
+import { genderOptions, statusOptions } from '@/shared/helpers/mocks';
 import type { TStatus } from '@/shared/types';
 
 import styles from './HomePage.module.scss';
@@ -21,8 +18,9 @@ const OptionStatusComponent = ({ option }: { option: TStatus }) => {
 
 const HomePage = () => {
   const [gender, setGender] = useState('');
-  const [species, setSpecies] = useState('');
   const [status, setStatus] = useState<TStatus>('alive');
+  const [nameFilter, setNameFilter] = useState('');
+  const [characterName, setCharacterName] = useState('Rick');
 
   return (
     <div className={styles.homePage}>
@@ -38,18 +36,26 @@ const HomePage = () => {
           onChange={setGender}
         />
         <Selector
-          size='big'
-          value={species}
-          options={speciesOptions}
-          placeholder='species'
-          onChange={setSpecies}
-        />
-        <Selector
           size='small'
           options={statusOptions}
           value={status}
           OptionComponent={OptionStatusComponent}
           onChange={setStatus}
+        />
+        <TextInput
+          variant='bordered'
+          placeholder='Filter by name...'
+          value={nameFilter}
+          onChange={setNameFilter}
+          name='nameFilter'
+          icon={<SearchIcon />}
+        />
+        <TextInput
+          variant='underlined'
+          placeholder='Enter name...'
+          value={characterName}
+          name='characterName'
+          onChange={setCharacterName}
         />
       </div>
     </div>

@@ -5,3 +5,4 @@ export { default as GoBackBtn } from './GoBackBtn';
 export { default as BigLogo } from './BigLogo';
 export { default as Selector } from './Selector';
 export { default as Indicator } from './Indicator';
+export { default as TextInput } from './TextInput';
