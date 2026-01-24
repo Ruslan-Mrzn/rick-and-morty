@@ -8,7 +8,7 @@ import './App.module.scss';
 const App = () => {
   return (
     <Routes>
-      <Route element={<MainLayout />}>
+      <Route element={<MainLayout customClassName='wrapper' />}>
         <Route
           path='/'
           element={<HomePage />}

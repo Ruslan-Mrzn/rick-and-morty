@@ -1,3 +1,4 @@
+import { classNames } from '@/shared/helpers';
 import { type TStatus } from '@/shared/types';
 
 import styles from './Indicator.module.scss';
@@ -5,7 +6,11 @@ import styles from './Indicator.module.scss';
 const Indicator = ({ status }: { status?: TStatus }) => {
   return (
     <div
-      className={[styles.indicator, styles[`indicator_${status}`]].join(' ')}
+      className={classNames(styles.indicator, {
+        [styles.indicator_alive]: status === 'alive',
+        [styles.indicator_dead]: status === 'dead',
+        [styles.indicator_unknown]: status === 'unknown'
+      })}
     ></div>
   );
 };

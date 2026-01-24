@@ -1,5 +1,6 @@
 import type { ChangeEvent, Dispatch, ReactNode } from 'react';
 
+import { classNames } from '@/shared/helpers';
 import { type TInputTextVariant } from '@/shared/types';
 
 import styles from './TextInput.module.scss';
@@ -31,7 +32,12 @@ const TextInput = ({
 
   return (
     <label>
-      <div className={[styles.input, styles[`input_${variant}`]].join(' ')}>
+      <div
+        className={classNames(styles.input, {
+          [styles.input_bordered]: variant === 'bordered',
+          [styles.input_underlined]: variant === 'underlined'
+        })}
+      >
         {icon && <div className={styles.input__icon}>{icon}</div>}
         <input
           className={styles.input__field}
