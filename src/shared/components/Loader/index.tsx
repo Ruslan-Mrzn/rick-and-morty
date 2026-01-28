@@ -1,4 +1,5 @@
 import { loader } from '@/assets/images';
+import { classNames } from '@/shared/helpers';
 
 import styles from './Loader.module.scss';
 
@@ -9,7 +10,12 @@ interface LoaderProps {
 
 const Loader = ({ size, text }: LoaderProps) => {
   return (
-    <div className={[styles.loader, styles[`loader_${size}`]].join(' ')}>
+    <div
+      className={classNames(styles.loader, {
+        [styles.loader_big]: size === 'big',
+        [styles.loader_small]: size === 'small'
+      })}
+    >
       <img
         className={styles.loader__image}
         src={loader}

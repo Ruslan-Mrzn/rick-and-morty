@@ -1,14 +1,15 @@
 import { Outlet } from 'react-router';
 
 import { LightThemeIcon, LogoIcon } from '@/assets/icons';
+import { classNames } from '@/shared/helpers';
 
 import styles from './MainLayout.module.scss';
 
-const MainLayout = () => {
+const MainLayout = ({ customClassName }: { customClassName?: string }) => {
   return (
     <>
       <header className={styles.header}>
-        <div className={[styles.header__inner, 'wrapper'].join(' ')}>
+        <div className={classNames(styles.header__inner, customClassName)}>
           <LogoIcon
             width={48}
             height={50}
@@ -24,11 +25,11 @@ const MainLayout = () => {
           </div>
         </div>
       </header>
-      <main className={[styles.main, 'wrapper'].join(' ')}>
+      <main className={classNames(styles.main, customClassName)}>
         <Outlet />
       </main>
       <footer className={styles.footer}>
-        <div className={[styles.footer__inner, 'wrapper'].join(' ')}>
+        <div className={classNames(styles.footer__inner, customClassName)}>
           <p className={styles.footer__text}>Made with love by Russel_Mrzn</p>
         </div>
       </footer>

@@ -7,6 +7,7 @@ import {
 } from 'react';
 
 import { SelectorArrowIcon } from '@/assets/icons';
+import { classNames } from '@/shared/helpers';
 
 import styles from './Selector.module.scss';
 
@@ -76,7 +77,10 @@ const Selector = <T extends string | undefined>({
   return (
     <div
       ref={optionsListRef}
-      className={[styles.selector, styles[`selector_${size}`]].join(' ')}
+      className={classNames(styles.selector, {
+        [styles.selector_big]: size === 'big',
+        [styles.selector_small]: size === 'small'
+      })}
     >
       <button
         onClick={handleSelectorClick}
