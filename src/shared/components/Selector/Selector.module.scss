@@ -1,12 +1,14 @@
 .selector {
   display: flex;
   flex-direction: column;
+  align-self: start;
   gap: 0.8rem;
   min-width: 24rem;
   width: max-content;
   color: rgba(0, 0, 0, 0.6);
   font-weight: 400;
   font-size: 1.6rem;
+  position: relative;
 }
 
 .selector_small {
@@ -77,6 +79,12 @@
   border-radius: 0.8rem;
   border: 1px solid #393939;
   padding: 0.8rem 3rem 0.8rem 1.4rem;
+  position: absolute;
+  top: calc(100% + 0.7rem);
+  right: 0;
+  left: 0;
+  z-index: 100;
+  background-color: #fff;
 }
 
 .selector__option {

@@ -1,18 +1,9 @@
-import type { ChangeEvent, Dispatch, ReactNode } from 'react';
+import type { ChangeEvent } from 'react';
 
 import { classNames } from '@/shared/helpers';
-import { type TInputTextVariant } from '@/shared/types';
+import { type TextInputProps } from '@/shared/types';
 
 import styles from './TextInput.module.scss';
-
-interface TextInputProps {
-  variant: TInputTextVariant;
-  placeholder: string;
-  name: string;
-  icon?: ReactNode;
-  value?: string;
-  onChange?: Dispatch<string>;
-}
 
 const TextInput = ({
   variant,
