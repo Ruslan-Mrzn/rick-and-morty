@@ -3,22 +3,23 @@
 }
 
 .homePage__logo {
-  margin: 0 auto;
   width: 60rem;
   height: 20rem;
+  margin: 0 auto;
 }
 
 .homePage__loader {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 2rem;
+  align-items: center;
+
   margin: 0 auto;
 }
 
 .homePage__selectors {
-  margin: 0 auto;
   display: flex;
   gap: 3rem;
+  margin: 0 auto;
   margin-top: 3rem;
 }

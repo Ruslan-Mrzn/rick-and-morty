@@ -5,14 +5,15 @@
 }
 
 .charPage__back {
-  padding-top: 4.2rem;
   margin-right: auto;
+  padding-top: 4.2rem;
 }
 
 .charPage__main {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 2rem;
+  align-items: center;
+
   margin: 0 auto;
 }

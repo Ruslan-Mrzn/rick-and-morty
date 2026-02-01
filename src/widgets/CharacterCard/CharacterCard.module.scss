@@ -1,25 +1,29 @@
 .characterCard {
   position: relative;
+
   display: flex;
-  align-items: center;
   gap: 1.3rem;
+  align-items: center;
+
   width: 50.8rem;
   height: 24.8rem;
-  border-radius: 6px;
-  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.25);
   padding: 0.7rem;
   padding-right: 1.3rem;
+  border-radius: 6px;
+
+  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.25);
   &:hover > .characterCard__edit {
     display: block;
   }
 }
 
 .characterCard__imgContainer {
+  overflow: hidden;
+  flex-shrink: 0;
+
   width: 24rem;
   height: 23.4rem;
   border-radius: 8px 8px 0 0;
-  overflow: hidden;
-  flex-shrink: 0;
 }
 
 .characterCard__img {
@@ -28,19 +32,23 @@
 }
 
 .characterCard__formContainer {
+  flex-grow: 1;
+  flex-shrink: 1;
   align-self: stretch;
   min-width: 0;
-  flex-shrink: 1;
-  flex-grow: 1;
 }
 
 .characterCard__edit {
+  cursor: pointer;
+
   position: absolute;
-  width: 1.3rem;
-  height: 1.3rem;
-  font-size: 0;
   top: 1.2rem;
   right: 0.9rem;
+
   display: none;
-  cursor: pointer;
+
+  width: 1.3rem;
+  height: 1.3rem;
+
+  font-size: 0;
 }
