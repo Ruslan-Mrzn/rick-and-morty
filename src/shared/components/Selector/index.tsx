@@ -36,7 +36,7 @@ const Selector = <T extends string | undefined>({
   OptionComponent = valueComponent,
   onChange
 }: SelectorProps<T>) => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const optionsListRef = useRef<HTMLDivElement>(null);
 
