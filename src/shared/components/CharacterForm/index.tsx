@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import { z as zod } from 'zod';
 
 import { CheckIcon, CrossIcon } from '@/assets/icons';
 import { FormTextInput, Selector } from '@/shared/components';
@@ -24,23 +24,23 @@ const OptionStatusComponent = ({ option }: { option: TStatus }) => {
   );
 };
 
-const characterEditSchema = z.object({
-  name: z
+const characterEditSchema = zod.object({
+  name: zod
     .string()
     .min(1, 'Name is required')
     .max(20, 'Name is too long')
     .trim(),
-  location: z
+  location: zod
     .string()
     .min(1, 'Location is required')
     .max(20, 'Location is too long')
     .trim(),
-  status: z
-    .union([z.literal('alive'), z.literal('dead'), z.literal('unknown')])
+  status: zod
+    .union([zod.literal('alive'), zod.literal('dead'), zod.literal('unknown')])
     .catch('unknown')
 });
 
-type TCharacterEditFormData = z.infer<typeof characterEditSchema>;
+type TCharacterEditFormData = zod.infer<typeof characterEditSchema>;
 
 type CharacterFormProps = {
   data: TCharacter;
