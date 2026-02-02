@@ -16,9 +16,12 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-router": "^7.11.0"
+    "react-hook-form": "^7.71.1",
+    "react-router": "^7.11.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
@@ -37,7 +40,9 @@
     "prettier": "^3.7.4",
     "sass": "^1.97.2",
     "stylelint": "^16.26.1",
+    "stylelint-config-clean-order": "^8.0.0",
     "stylelint-config-standard-scss": "^16.0.0",
+    "stylelint-order": "^7.0.1",
     "stylelint-prettier": "^5.0.3",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",

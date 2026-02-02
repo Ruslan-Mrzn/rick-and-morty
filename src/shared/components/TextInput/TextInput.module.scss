@@ -7,36 +7,41 @@
   &_bordered {
     width: 24rem;
     height: 5.6rem;
+    padding-right: 1.2rem;
+    padding-left: 1.6rem;
     border: 1px solid rgba(0, 0, 0, 0.5);
     border-radius: 0.8rem;
-    font-weight: 400;
-    font-size: 16px;
 
+    font-size: 1.6rem;
+    font-weight: 400;
     color: #000;
-    padding-left: 1.6rem;
-    padding-right: 1.2rem;
   }
 
   &_underlined {
-    width: 20.8rem;
-    height: 3rem;
+    width: 100%;
+    height: auto;
     border-bottom: 1px solid #000;
-    font-weight: 500;
-    font-size: 2rem;
-    letter-spacing: 0.01em;
-    color: rgba(0, 0, 0, 0.87);
+
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+    letter-spacing: inherit;
   }
 }
 
 .input__field {
   flex-shrink: 1;
+
   min-width: 0;
   border: none;
-  background-color: transparent;
-  outline: none;
-  color: inherit;
+
+  font: inherit;
   font-size: inherit;
   line-height: inherit;
+  color: inherit;
+
+  background-color: transparent;
+  outline: none;
 }
 
 .input__icon {
@@ -45,30 +50,36 @@
 }
 
 .input__clear {
+  cursor: pointer;
+  position: relative;
   width: 1.3rem;
   height: 1.3rem;
-  position: relative;
-  cursor: pointer;
   &::before {
     content: '';
+
     position: absolute;
     top: 50%;
     right: 0;
     transform: translateY(-50%) rotate(45deg);
+
     width: 100%;
     height: 0.2rem;
     border-radius: 0.1rem;
+
     background-color: #000;
   }
   &::after {
     content: '';
+
     position: absolute;
     top: 50%;
     right: 0;
     transform: translateY(-50%) rotate(-45deg);
+
     width: 100%;
     height: 0.2rem;
     border-radius: 0.1rem;
+
     background-color: #000;
   }
 }

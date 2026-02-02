@@ -6,3 +6,5 @@ export { default as BigLogo } from './BigLogo';
 export { default as Selector } from './Selector';
 export { default as Indicator } from './Indicator';
 export { default as TextInput } from './TextInput';
+export { default as FormTextInput } from './FormTextInput';
+export { default as CharacterForm } from './CharacterForm';

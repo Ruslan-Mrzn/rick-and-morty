@@ -1,24 +1,14 @@
 import { useState } from 'react';
 
 import { SearchIcon } from '@/assets/icons';
-import { BigLogo, Indicator, Selector, TextInput } from '@/shared/components';
-import { genderOptions, statusOptions } from '@/shared/helpers/mocks';
-import type { TStatus } from '@/shared/types';
+import { BigLogo, Selector, TextInput } from '@/shared/components';
+import { genderOptions, mockCharacter } from '@/shared/helpers/mocks';
+import { CharacterCard } from '@/widgets';
 
 import styles from './HomePage.module.scss';
 
-const OptionStatusComponent = ({ option }: { option: TStatus }) => {
-  return (
-    <>
-      {option}
-      <Indicator status={option} />
-    </>
-  );
-};
-
 const HomePage = () => {
   const [gender, setGender] = useState('');
-  const [status, setStatus] = useState<TStatus>('alive');
   const [nameFilter, setNameFilter] = useState('');
   const [characterName, setCharacterName] = useState('Rick');
 
@@ -34,13 +24,6 @@ const HomePage = () => {
           value={gender}
           placeholder='gender'
           onChange={setGender}
-        />
-        <Selector
-          size='small'
-          options={statusOptions}
-          value={status}
-          OptionComponent={OptionStatusComponent}
-          onChange={setStatus}
         />
         <TextInput
           variant='bordered'
@@ -58,6 +41,7 @@ const HomePage = () => {
           onChange={setCharacterName}
         />
       </div>
+      <CharacterCard {...mockCharacter} />
     </div>
   );
 };

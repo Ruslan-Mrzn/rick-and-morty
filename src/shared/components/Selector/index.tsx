@@ -15,14 +15,14 @@ interface OptionComponentProps<T> {
   option: T;
 }
 
-interface SelectorProps<T> {
+export type SelectorProps<T> = {
   size?: 'big' | 'small';
   options: T[];
   OptionComponent?: ComponentType<OptionComponentProps<T>>;
   onChange: Dispatch<T>;
   placeholder?: string;
   value?: T;
-}
+};
 
 const valueComponent = <T,>({ option }: OptionComponentProps<T>) => {
   return <>{option}</>;
@@ -82,7 +82,7 @@ const Selector = <T extends string | undefined>({
         [styles.selector_small]: size === 'small'
       })}
     >
-      <button
+      <div
         onClick={handleSelectorClick}
         className={styles.selector__input}
       >
@@ -93,7 +93,7 @@ const Selector = <T extends string | undefined>({
           width={size === 'big' ? 10 : 4}
           height={size === 'big' ? 5 : 2}
         />
-      </button>
+      </div>
       {isOpen && (
         <ul className={styles.selector__list}>
           {options.map((option) => (
