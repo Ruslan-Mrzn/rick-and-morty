@@ -1,3 +1,2 @@
-import CharacterCard from './CharacterCard';
-
-export { CharacterCard };
+export { default as CharacterCard } from './CharacterCard';
+export { default as FiltersPanel } from './FiltersPanel';
