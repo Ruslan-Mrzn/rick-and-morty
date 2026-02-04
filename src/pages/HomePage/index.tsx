@@ -32,10 +32,15 @@ const HomePage = () => {
   };
 
   useEffect(() => {
+    const abortController = new AbortController();
+    const signal = abortController.signal;
+
     setIsLoading(true);
     const fetchCharacters = async () => {
       try {
-        const response = await characterApi.getAll();
+        const response = await characterApi.getAll({ signal });
+
+        if (signal.aborted) return;
 
         const results = response.data.results;
 
@@ -49,6 +54,10 @@ const HomePage = () => {
     };
 
     fetchCharacters();
+
+    return () => {
+      abortController.abort();
+    };
   }, []);
 
   return (
