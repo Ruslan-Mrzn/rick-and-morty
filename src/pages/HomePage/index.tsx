@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 
+import toast, { Toaster } from 'react-hot-toast';
+
 import { characterApi } from '@/api';
-import { BigLogo } from '@/shared/components';
+import { BigLogo, Loader } from '@/shared/components';
 import type { TCharacter, TServerCharacter } from '@/shared/types';
 import { CharacterCard, FiltersPanel } from '@/widgets';
 
@@ -9,6 +11,7 @@ import styles from './HomePage.module.scss';
 
 const HomePage = () => {
   const [characters, setCharacters] = useState<TCharacter[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const parseServerCharactersResponse = (
     serverCharacters: TServerCharacter[]
@@ -29,6 +32,7 @@ const HomePage = () => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchCharacters = async () => {
       try {
         const response = await characterApi.getAll();
@@ -38,6 +42,9 @@ const HomePage = () => {
         setCharacters(parseServerCharactersResponse(results));
       } catch (error) {
         Promise.reject(error);
+        toast.error('Failed to fetch characters');
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -52,6 +59,15 @@ const HomePage = () => {
       <div className={styles.homePage__filters}>
         <FiltersPanel />
       </div>
+      <div className={styles.homePage__loader}>
+        {isLoading && (
+          <Loader
+            size='big'
+            text='Loading characters...'
+          />
+        )}
+      </div>
+
       <ul className={styles.homePage__charactersList}>
         {characters?.map((character) => (
           <li key={character.id}>
@@ -59,6 +75,7 @@ const HomePage = () => {
           </li>
         ))}
       </ul>
+      <Toaster position='bottom-right' />
     </div>
   );
 };
