@@ -28,15 +28,15 @@ const characterEditSchema = zod.object({
   name: zod
     .string()
     .min(1, 'Name is required')
-    .max(20, 'Name is too long')
+    .max(25, 'Name is too long')
     .trim(),
   location: zod
     .string()
     .min(1, 'Location is required')
-    .max(20, 'Location is too long')
+    .max(30, 'Location is too long')
     .trim(),
   status: zod
-    .union([zod.literal('alive'), zod.literal('dead'), zod.literal('unknown')])
+    .union([zod.literal('Alive'), zod.literal('Dead'), zod.literal('unknown')])
     .catch('unknown')
 });
 

@@ -17,9 +17,20 @@
   margin: 0 auto;
 }
 
-.homePage__selectors {
+.homePage__filters {
   display: flex;
   gap: 3rem;
   margin: 0 auto;
   margin-top: 3rem;
+}
+
+.homePage__charactersList {
+  display: grid;
+  grid-template-columns: auto auto;
+  row-gap: 3rem;
+  justify-content: space-between;
+
+  margin-top: 3rem;
+
+  list-style: none;
 }

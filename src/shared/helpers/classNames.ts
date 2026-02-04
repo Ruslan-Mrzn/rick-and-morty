@@ -1,6 +1,4 @@
-export function classNames(
-  ...args: (string | undefined | Record<string, boolean>)[]
-) {
+function classNames(...args: (string | undefined | Record<string, boolean>)[]) {
   const result = [];
 
   for (const arg of args) {
@@ -21,3 +19,5 @@ export function classNames(
 
   return result.join(' ');
 }
+
+export default classNames;
