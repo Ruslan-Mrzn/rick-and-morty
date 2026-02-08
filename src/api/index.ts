@@ -1,1 +1,1 @@
-export { default as characterApi } from './character';
+export { default as getCharacters } from './getCharacters';
