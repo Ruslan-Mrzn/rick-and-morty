@@ -2,7 +2,7 @@ import mockCardImage from '../../assets/images/card-image.jpg';
 import type { TCharacter, TStatus } from '../types';
 
 const genderOptions = ['female', 'male', 'genderless', 'unknown'];
-const statusOptions: TStatus[] = ['alive', 'dead', 'unknown'];
+const statusOptions: TStatus[] = ['Alive', 'Dead', 'unknown'];
 const speciesOptions = [
   'human',
   'alien',
@@ -17,7 +17,7 @@ const speciesOptions = [
 const mockCharacter: TCharacter = {
   id: 1,
   name: 'Rick Sanchez',
-  status: 'alive',
+  status: 'Alive',
   species: 'Human',
   gender: 'Male',
   location: 'Citadel of Ricks',

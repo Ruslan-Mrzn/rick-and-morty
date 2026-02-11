@@ -28,21 +28,21 @@ const FiltersPanel = () => {
         icon={<SearchIcon />}
       />
       <Selector
-        key={status}
+        key={status || 'Status'}
         value={status}
         placeholder='Status'
         options={statusOptions}
         onChange={setStatus}
       />
       <Selector
-        key={gender}
+        key={gender || 'Gender'}
         value={gender}
         placeholder='Gender'
         options={genderOptions}
         onChange={setGender}
       />
       <Selector
-        key={species}
+        key={species || 'Species'}
         value={species}
         placeholder='Species'
         options={speciesOptions}
