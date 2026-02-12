@@ -1,16 +1,16 @@
 import mockCardImage from '../../assets/images/card-image.jpg';
-import type { TCharacter, TStatus } from '../types';
+import type { TCharacter, TGender, TSpecies, TStatus } from '../types';
 
-const genderOptions = ['female', 'male', 'genderless', 'unknown'];
+const genderOptions: TGender[] = ['Female', 'Male', 'Genderless', 'unknown'];
 const statusOptions: TStatus[] = ['Alive', 'Dead', 'unknown'];
-const speciesOptions = [
-  'human',
-  'alien',
-  'humanoid',
-  'animal',
-  'robot',
-  'cronenberg',
-  'disease',
+const speciesOptions: TSpecies[] = [
+  'Human',
+  'Alien',
+  'Humanoid',
+  'Animal',
+  'Robot',
+  'Cronenberg',
+  'Disease',
   'unknown'
 ];
 

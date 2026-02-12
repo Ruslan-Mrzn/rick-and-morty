@@ -10,7 +10,7 @@ import { CharacterCard, FiltersPanel } from '@/widgets';
 import styles from './HomePage.module.scss';
 
 const HomePage = () => {
-  const { characters, isLoading, error } = useCharacters();
+  const { characters, isLoading, error, refetchCharacters } = useCharacters();
 
   useEffect(() => {
     if (error) {
@@ -24,7 +24,7 @@ const HomePage = () => {
         <BigLogo />
       </div>
       <div className={styles.homePage__filters}>
-        <FiltersPanel />
+        <FiltersPanel refetchCharacters={refetchCharacters} />
       </div>
       <div className={styles.homePage__loader}>
         {isLoading && (

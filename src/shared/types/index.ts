@@ -1,6 +1,16 @@
-import type { Dispatch, ReactNode } from 'react';
+import type { Dispatch, KeyboardEvent, ReactNode } from 'react';
 
 export type TStatus = 'Alive' | 'Dead' | 'unknown';
+export type TGender = 'Female' | 'Male' | 'Genderless' | 'unknown';
+export type TSpecies =
+  | 'Human'
+  | 'Alien'
+  | 'Humanoid'
+  | 'Animal'
+  | 'Robot'
+  | 'Cronenberg'
+  | 'Disease'
+  | 'unknown';
 export type TInputTextVariant = 'bordered' | 'underlined';
 export type TCharacter = {
   id: number;
@@ -19,6 +29,8 @@ export type TextInputProps = {
   icon?: ReactNode;
   value?: string;
   onChange?: Dispatch<string>;
+  // eslint-disable-next-line no-unused-vars
+  onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void;
 };
 
 export type TServerCharacter = {
