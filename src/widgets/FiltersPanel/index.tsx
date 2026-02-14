@@ -13,14 +13,13 @@ import type { TGender, TSpecies, TStatus } from '@/shared/types';
 import styles from './FiltersPanel.module.scss';
 
 type TFiltersPanelProps = {
-  // eslint-disable-next-line no-unused-vars
-  refetchCharacters: (params: TGetAllProps) => Promise<undefined>;
+  refetchCharacters: (_params: TGetAllProps) => Promise<undefined>;
 };
 
 const FiltersPanel = ({ refetchCharacters }: TFiltersPanelProps) => {
-  const [gender, setGender] = useState<TGender | undefined>(undefined);
-  const [status, setStatus] = useState<TStatus | undefined>(undefined);
-  const [species, setSpecies] = useState<TSpecies | undefined>(undefined);
+  const [gender, setGender] = useState<TGender | undefined>();
+  const [status, setStatus] = useState<TStatus | undefined>();
+  const [species, setSpecies] = useState<TSpecies | undefined>();
   const [nameFilter, setNameFilter] = useState('');
   const [params, setParams] = useState<TGetAllProps>({});
 
@@ -37,7 +36,7 @@ const FiltersPanel = ({ refetchCharacters }: TFiltersPanelProps) => {
     setParams(
       (prev): TGetAllProps => ({
         ...prev,
-        status: value.toLowerCase() as Lowercase<TStatus>
+        status: value
       })
     );
   };
@@ -47,7 +46,7 @@ const FiltersPanel = ({ refetchCharacters }: TFiltersPanelProps) => {
     setParams(
       (prev): TGetAllProps => ({
         ...prev,
-        species: value.toLowerCase() as Lowercase<TSpecies>
+        species: value
       })
     );
   };
@@ -57,7 +56,7 @@ const FiltersPanel = ({ refetchCharacters }: TFiltersPanelProps) => {
     setParams(
       (prev): TGetAllProps => ({
         ...prev,
-        gender: value.toLowerCase() as Lowercase<TGender>
+        gender: value
       })
     );
   };
@@ -93,21 +92,18 @@ const FiltersPanel = ({ refetchCharacters }: TFiltersPanelProps) => {
         }
       />
       <Selector
-        key={status || 'Status'}
         value={status}
         placeholder='Status'
         options={statusOptions}
         onChange={handleStatusChange}
       />
       <Selector
-        key={gender || 'Gender'}
         value={gender}
         placeholder='Gender'
         options={genderOptions}
         onChange={handleGenderChange}
       />
       <Selector
-        key={species || 'Species'}
         value={species}
         placeholder='Species'
         options={speciesOptions}

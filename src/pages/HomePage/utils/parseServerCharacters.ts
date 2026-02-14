@@ -1,21 +1,27 @@
-import type { TCharacter, TServerCharacter } from '@/shared/types';
+import type {
+  TCharacter,
+  TGender,
+  TServerCharacter,
+  TSpecies,
+  TStatus
+} from '@/shared/types';
 
-const parseServerCharactersResponse = (
+const charactersAdapter = (
   serverCharacters: TServerCharacter[]
 ): TCharacter[] => {
   return serverCharacters.map(
     ({ id, gender, image, location, name, status, species }) => {
       return {
         id,
-        gender,
+        gender: gender.toLowerCase() as TGender,
         image,
         location: location.name,
         name,
-        status: status,
-        species
+        status: status.toLowerCase() as TStatus,
+        species: species.toLowerCase() as TSpecies
       };
     }
   );
 };
 
-export default parseServerCharactersResponse;
+export default charactersAdapter;

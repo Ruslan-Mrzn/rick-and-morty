@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import { getCharacters } from '@/api';
 import type { TGetAllProps } from '@/api/getCharacters';
-import { parseServerCharactersResponse } from '@/pages/HomePage/utils';
+import { charactersAdapter } from '@/pages/HomePage/utils';
 import type { TCharacter } from '@/shared/types';
 
 interface IUseCharactersState {
@@ -32,7 +32,7 @@ const useCharacters = () => {
     try {
       const response = await getCharacters({ ...params, signal });
       const results = response.data.results;
-      const parsedCharacters = parseServerCharactersResponse(results);
+      const parsedCharacters = charactersAdapter(results);
 
       if (!signal?.aborted) {
         setState({

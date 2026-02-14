@@ -30,7 +30,7 @@ class ErrorBoundary extends Component<Props, State> {
     this.setState({ hasError: false, error: null });
   };
 
-  render(): ReactNode {
+  render() {
     if (this.state.hasError) {
       return (
         <div className={styles.container}>

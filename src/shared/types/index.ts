@@ -1,8 +1,8 @@
 import type { Dispatch, KeyboardEvent, ReactNode } from 'react';
 
-export type TStatus = 'Alive' | 'Dead' | 'unknown';
-export type TGender = 'Female' | 'Male' | 'Genderless' | 'unknown';
-export type TSpecies =
+export type TStatus = Lowercase<'Alive' | 'Dead' | 'unknown'>;
+export type TGender = Lowercase<'Female' | 'Male' | 'Genderless' | 'unknown'>;
+export type TSpecies = Lowercase<
   | 'Human'
   | 'Alien'
   | 'Humanoid'
@@ -10,15 +10,16 @@ export type TSpecies =
   | 'Robot'
   | 'Cronenberg'
   | 'Disease'
-  | 'unknown';
+  | 'unknown'
+>;
 export type TInputTextVariant = 'bordered' | 'underlined';
 export type TCharacter = {
   id: number;
   name: string;
   status: TStatus;
-  species: string;
+  species: TSpecies;
   image: string;
-  gender: string;
+  gender: TGender;
   location: string;
 };
 
@@ -29,14 +30,13 @@ export type TextInputProps = {
   icon?: ReactNode;
   value?: string;
   onChange?: Dispatch<string>;
-  // eslint-disable-next-line no-unused-vars
-  onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void;
+  onKeyDown?: (_e: KeyboardEvent<HTMLInputElement>) => void;
 };
 
 export type TServerCharacter = {
   id: number;
   name: string;
-  status: TStatus;
+  status: 'Alive' | 'Dead' | 'unknown';
   species: string;
   type?: string;
   gender: string;

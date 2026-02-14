@@ -1,1 +1,1 @@
-export { default as parseServerCharactersResponse } from './parseServerCharacters';
+export { default as charactersAdapter } from './parseServerCharacters';
