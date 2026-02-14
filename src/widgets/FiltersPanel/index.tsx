@@ -82,6 +82,7 @@ const FiltersPanel = ({ refetchCharacters }: TFiltersPanelProps) => {
         name='nameFilter'
         icon={
           <SearchIcon
+            className={styles.searchIcon}
             onClick={() =>
               setParams((prev) => ({
                 ...prev,
