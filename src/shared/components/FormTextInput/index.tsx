@@ -15,6 +15,7 @@ const FormTextInput = <T extends FieldValues>({
   name,
   variant = 'underlined',
   placeholder,
+  onKeyDown,
   icon
 }: FormTextInputProps<T>) => {
   return (
@@ -28,6 +29,7 @@ const FormTextInput = <T extends FieldValues>({
           name={field.name}
           value={field.value || ''}
           onChange={field.onChange}
+          onKeyDown={onKeyDown}
           icon={icon}
         />
       )}

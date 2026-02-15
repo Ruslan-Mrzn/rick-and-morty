@@ -36,7 +36,7 @@ const characterEditSchema = zod.object({
     .max(30, 'Location is too long')
     .trim(),
   status: zod
-    .union([zod.literal('Alive'), zod.literal('Dead'), zod.literal('unknown')])
+    .union([zod.literal('alive'), zod.literal('dead'), zod.literal('unknown')])
     .catch('unknown')
 });
 

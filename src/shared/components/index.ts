@@ -8,3 +8,4 @@ export { default as Indicator } from './Indicator';
 export { default as TextInput } from './TextInput';
 export { default as FormTextInput } from './FormTextInput';
 export { default as CharacterForm } from './CharacterForm';
+export { default as ErrorBoundary } from './ErrorBoundary';

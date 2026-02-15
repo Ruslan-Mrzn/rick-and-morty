@@ -13,6 +13,8 @@
 .characterForm__nameContainer {
   position: relative;
 
+  overflow: hidden;
+
   max-width: 100%;
   height: 3rem;
   padding-right: 6rem;

@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { type KeyboardEvent, useEffect, useState } from 'react';
 
+import type { TGetAllProps } from '@/api/getCharacters';
 import { SearchIcon } from '@/assets/icons';
 import { Selector, TextInput } from '@/shared/components';
 import {
@@ -7,15 +8,67 @@ import {
   speciesOptions,
   statusOptions
 } from '@/shared/helpers/mocks';
-import type { TStatus } from '@/shared/types';
+import type { TGender, TSpecies, TStatus } from '@/shared/types';
 
 import styles from './FiltersPanel.module.scss';
 
-const FiltersPanel = () => {
-  const [gender, setGender] = useState('');
-  const [status, setStatus] = useState<TStatus | ''>('');
-  const [species, setSpecies] = useState('');
+type TFiltersPanelProps = {
+  refetchCharacters: (_params: TGetAllProps) => Promise<undefined>;
+};
+
+const FiltersPanel = ({ refetchCharacters }: TFiltersPanelProps) => {
+  const [gender, setGender] = useState<TGender | undefined>();
+  const [status, setStatus] = useState<TStatus | undefined>();
+  const [species, setSpecies] = useState<TSpecies | undefined>();
   const [nameFilter, setNameFilter] = useState('');
+  const [params, setParams] = useState<TGetAllProps>({});
+
+  useEffect(() => {
+    refetchCharacters(params);
+  }, [params]);
+
+  const handleNameChange = (value: string) => {
+    setNameFilter(value);
+  };
+
+  const handleStatusChange = (value: TStatus) => {
+    setStatus(value);
+    setParams(
+      (prev): TGetAllProps => ({
+        ...prev,
+        status: value
+      })
+    );
+  };
+
+  const handleSpeciesChange = (value: TSpecies) => {
+    setSpecies(value);
+    setParams(
+      (prev): TGetAllProps => ({
+        ...prev,
+        species: value
+      })
+    );
+  };
+
+  const handleGenderChange = (value: TGender) => {
+    setGender(value);
+    setParams(
+      (prev): TGetAllProps => ({
+        ...prev,
+        gender: value
+      })
+    );
+  };
+
+  const handleEnterKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      setParams((prev) => ({
+        ...prev,
+        name: nameFilter.toLowerCase()
+      }));
+    }
+  };
 
   return (
     <div className={styles.filtersPanel}>
@@ -23,30 +76,38 @@ const FiltersPanel = () => {
         variant='bordered'
         placeholder='Filter by name...'
         value={nameFilter}
-        onChange={setNameFilter}
+        onChange={handleNameChange}
+        onKeyDown={handleEnterKeyDown}
         name='nameFilter'
-        icon={<SearchIcon />}
+        icon={
+          <SearchIcon
+            className={styles.searchIcon}
+            onClick={() =>
+              setParams((prev) => ({
+                ...prev,
+                name: nameFilter.toLowerCase()
+              }))
+            }
+          />
+        }
       />
       <Selector
-        key={status || 'Status'}
         value={status}
         placeholder='Status'
         options={statusOptions}
-        onChange={setStatus}
+        onChange={handleStatusChange}
       />
       <Selector
-        key={gender || 'Gender'}
         value={gender}
         placeholder='Gender'
         options={genderOptions}
-        onChange={setGender}
+        onChange={handleGenderChange}
       />
       <Selector
-        key={species || 'Species'}
         value={species}
         placeholder='Species'
         options={speciesOptions}
-        onChange={setSpecies}
+        onChange={handleSpeciesChange}
       />
     </div>
   );

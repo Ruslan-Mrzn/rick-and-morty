@@ -1,14 +1,25 @@
-import type { Dispatch, ReactNode } from 'react';
+import type { Dispatch, KeyboardEvent, ReactNode } from 'react';
 
-export type TStatus = 'Alive' | 'Dead' | 'unknown';
+export type TStatus = Lowercase<'Alive' | 'Dead' | 'unknown'>;
+export type TGender = Lowercase<'Female' | 'Male' | 'Genderless' | 'unknown'>;
+export type TSpecies = Lowercase<
+  | 'Human'
+  | 'Alien'
+  | 'Humanoid'
+  | 'Animal'
+  | 'Robot'
+  | 'Cronenberg'
+  | 'Disease'
+  | 'unknown'
+>;
 export type TInputTextVariant = 'bordered' | 'underlined';
 export type TCharacter = {
   id: number;
   name: string;
   status: TStatus;
-  species: string;
+  species: TSpecies;
   image: string;
-  gender: string;
+  gender: TGender;
   location: string;
 };
 
@@ -19,12 +30,13 @@ export type TextInputProps = {
   icon?: ReactNode;
   value?: string;
   onChange?: Dispatch<string>;
+  onKeyDown?: (_e: KeyboardEvent<HTMLInputElement>) => void;
 };
 
 export type TServerCharacter = {
   id: number;
   name: string;
-  status: TStatus;
+  status: 'Alive' | 'Dead' | 'unknown';
   species: string;
   type?: string;
   gender: string;
