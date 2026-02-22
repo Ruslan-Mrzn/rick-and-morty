@@ -1,4 +1,9 @@
-import { type KeyboardEvent, useEffect, useState } from 'react';
+import {
+  type Dispatch,
+  type KeyboardEvent,
+  type SetStateAction,
+  useState
+} from 'react';
 
 import type { TGetAllProps } from '@/api/getCharacters';
 import { SearchIcon } from '@/assets/icons';
@@ -13,60 +18,45 @@ import type { TGender, TSpecies, TStatus } from '@/shared/types';
 import styles from './FiltersPanel.module.scss';
 
 type TFiltersPanelProps = {
-  refetchCharacters: (_params: TGetAllProps) => Promise<undefined>;
+  setFilters: Dispatch<SetStateAction<Omit<TGetAllProps, 'page'>>>;
 };
 
-const FiltersPanel = ({ refetchCharacters }: TFiltersPanelProps) => {
+const FiltersPanel = ({ setFilters }: TFiltersPanelProps) => {
   const [gender, setGender] = useState<TGender | undefined>();
   const [status, setStatus] = useState<TStatus | undefined>();
   const [species, setSpecies] = useState<TSpecies | undefined>();
   const [nameFilter, setNameFilter] = useState('');
-  const [params, setParams] = useState<TGetAllProps>({});
 
-  useEffect(() => {
-    refetchCharacters(params);
-  }, [params]);
+  const updateFilters = (updates: Partial<Omit<TGetAllProps, 'page'>>) => {
+    setFilters((prev) => ({ ...prev, ...updates }));
+  };
+
+  const handleStatusChange = (value: TStatus) => {
+    setStatus(value);
+    updateFilters({ status: value });
+  };
+
+  const handleSpeciesChange = (value: TSpecies) => {
+    setSpecies(value);
+    updateFilters({ species: value });
+  };
+
+  const handleGenderChange = (value: TGender) => {
+    setGender(value);
+    updateFilters({ gender: value });
+  };
 
   const handleNameChange = (value: string) => {
     setNameFilter(value);
   };
 
-  const handleStatusChange = (value: TStatus) => {
-    setStatus(value);
-    setParams(
-      (prev): TGetAllProps => ({
-        ...prev,
-        status: value
-      })
-    );
-  };
-
-  const handleSpeciesChange = (value: TSpecies) => {
-    setSpecies(value);
-    setParams(
-      (prev): TGetAllProps => ({
-        ...prev,
-        species: value
-      })
-    );
-  };
-
-  const handleGenderChange = (value: TGender) => {
-    setGender(value);
-    setParams(
-      (prev): TGetAllProps => ({
-        ...prev,
-        gender: value
-      })
-    );
+  const applyNameFilter = () => {
+    updateFilters({ name: nameFilter.toLowerCase() || undefined });
   };
 
   const handleEnterKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      setParams((prev) => ({
-        ...prev,
-        name: nameFilter.toLowerCase()
-      }));
+      applyNameFilter();
     }
   };
 
@@ -82,12 +72,7 @@ const FiltersPanel = ({ refetchCharacters }: TFiltersPanelProps) => {
         icon={
           <SearchIcon
             className={styles.searchIcon}
-            onClick={() =>
-              setParams((prev) => ({
-                ...prev,
-                name: nameFilter.toLowerCase()
-              }))
-            }
+            onClick={applyNameFilter}
           />
         }
       />
