@@ -6,6 +6,7 @@ import useCharacters from '@/hooks/useCharacters';
 
 import type { TGetAllProps } from '@/api/getCharacters';
 import { BigLogo, InfiniteScroll, Loader } from '@/shared/components';
+import { NO_CHARACTERS_FOUND } from '@/shared/constants/errorTextConstants';
 import type { TCharacter } from '@/shared/types';
 import { CharacterCard, FiltersPanel } from '@/widgets';
 
@@ -104,11 +105,13 @@ const HomePage = () => {
         )}
       </InfiniteScroll>
 
-      {!isLoading && !hasError && !loadedCharacters.length && (
-        <span className={styles.homePage__noResults}>
-          No results. <br /> Please try changing the filter parameters.{' '}
-        </span>
-      )}
+      {!isLoading &&
+        error === NO_CHARACTERS_FOUND &&
+        !loadedCharacters.length && (
+          <span className={styles.homePage__noResults}>
+            No results. <br /> Please try changing the filter parameters.
+          </span>
+        )}
 
       {isLoading && !isInitialLoad && (
         <div className={styles.homePage__loader}>

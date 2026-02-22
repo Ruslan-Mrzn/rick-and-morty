@@ -5,6 +5,7 @@ import axios from 'axios';
 import { getCharacters } from '@/api';
 import type { TGetAllProps } from '@/api/getCharacters';
 import { charactersAdapter } from '@/pages/HomePage/utils';
+import { NO_CHARACTERS_FOUND } from '@/shared/constants/errorTextConstants';
 import type { TCharacter } from '@/shared/types';
 
 interface IUseCharactersState {
@@ -68,7 +69,7 @@ const useCharacters = (params: TGetAllProps = {}) => {
               setState((prev) => ({
                 ...prev,
                 isLoading: false,
-                error: error.message
+                error: NO_CHARACTERS_FOUND
               }));
             }
 
