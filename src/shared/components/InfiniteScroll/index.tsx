@@ -14,7 +14,7 @@ import styles from './InfiniteScroll.module.scss';
 interface InfiniteScrollProps {
   pages: number;
   isLoading: boolean;
-  hasError: boolean;
+  error: null | string;
   page: number;
   setPage: Dispatch<SetStateAction<number>>;
   children: (_props: {
@@ -25,7 +25,7 @@ interface InfiniteScrollProps {
 const InfiniteScroll = ({
   pages,
   isLoading,
-  hasError,
+  error,
   page,
   setPage,
   children
@@ -34,11 +34,11 @@ const InfiniteScroll = ({
 
   const handleInView = useCallback(
     (inView: boolean) => {
-      if (inView && hasMore && !isLoading && !hasError) {
+      if (inView && hasMore && !isLoading && !error) {
         setPage((prev) => prev + 1);
       }
     },
-    [hasMore, isLoading, setPage, hasError]
+    [hasMore, isLoading, setPage, error]
   );
 
   const lastElementRef = useOnInView(handleInView);
@@ -46,19 +46,19 @@ const InfiniteScroll = ({
   return (
     <>
       {children({ lastElementRef })}
-      {!isLoading && !hasMore && !hasError && (
+      {!isLoading && !hasMore && !error && (
         <span className={styles.infiniteScroll__infoText}>
-          All characters are loaded
+          Аll data has been loaded
         </span>
       )}
-      {!isLoading && hasError && hasMore && (
+      {!isLoading && error && (
         <span
           className={classNames(
             styles.infiniteScroll__infoText_error,
             styles.infiniteScroll__infoText
           )}
         >
-          Something went wrong
+          {error}
         </span>
       )}
     </>

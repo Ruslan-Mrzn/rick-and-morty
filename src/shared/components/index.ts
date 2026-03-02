@@ -10,3 +10,4 @@ export { default as FormTextInput } from './FormTextInput';
 export { default as CharacterForm } from './CharacterForm';
 export { default as ErrorBoundary } from './ErrorBoundary';
 export { default as InfiniteScroll } from './InfiniteScroll';
+export { default as CharactersList } from './CharactersList';

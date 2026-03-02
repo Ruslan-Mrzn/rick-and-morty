@@ -28,6 +28,7 @@ export default defineConfig([
       'no-console': 'error',
       'no-debugger': 'error',
       'no-alert': 'error',
+      'react-hooks/set-state-in-effect': 'warn',
 
       'no-unused-vars': [
         'error',

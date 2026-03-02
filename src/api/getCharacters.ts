@@ -1,15 +1,6 @@
-import { apiConstants } from '@/shared/constants';
+import { CHARACTERS_ENDPOINT } from '@/shared/constants';
 import { axios } from '@/shared/helpers';
-import type { TGender, TSpecies, TStatus } from '@/shared/types';
-
-export type TGetAllProps = {
-  page?: number;
-  name?: string;
-  status?: Lowercase<TStatus>;
-  gender?: Lowercase<TGender>;
-  species?: Lowercase<TSpecies>;
-  signal?: AbortSignal;
-};
+import type { TGetCharactersProps } from '@/shared/types';
 
 const getCharacters = ({
   page,
@@ -18,8 +9,8 @@ const getCharacters = ({
   gender,
   species,
   signal
-}: TGetAllProps = {}) => {
-  return axios.get(apiConstants.CHARACTERS_ENDPOINT, {
+}: TGetCharactersProps = {}) => {
+  return axios.get(CHARACTERS_ENDPOINT, {
     params: { page, name, status, gender, species },
     signal,
     timeout: 10000

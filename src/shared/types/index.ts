@@ -1,17 +1,16 @@
 import type { Dispatch, KeyboardEvent, ReactNode } from 'react';
 
-export type TStatus = Lowercase<'Alive' | 'Dead' | 'unknown'>;
-export type TGender = Lowercase<'Female' | 'Male' | 'Genderless' | 'unknown'>;
-export type TSpecies = Lowercase<
-  | 'Human'
-  | 'Alien'
-  | 'Humanoid'
-  | 'Animal'
-  | 'Robot'
-  | 'Cronenberg'
-  | 'Disease'
-  | 'unknown'
->;
+export type TStatus = 'alive' | 'dead' | 'unknown';
+export type TGender = 'female' | 'male' | 'genderless' | 'unknown';
+export type TSpecies =
+  | 'human'
+  | 'alien'
+  | 'humanoid'
+  | 'animal'
+  | 'robot'
+  | 'cronenberg'
+  | 'disease'
+  | 'unknown';
 export type TInputTextVariant = 'bordered' | 'underlined';
 export type TCharacter = {
   id: number;
@@ -52,4 +51,12 @@ export type TServerCharacter = {
   episode: string[];
   url: string;
   created: string;
+};
+export type TGetCharactersProps = {
+  page?: number;
+  name?: string;
+  status?: Lowercase<TStatus>;
+  gender?: Lowercase<TGender>;
+  species?: Lowercase<TSpecies>;
+  signal?: AbortSignal;
 };

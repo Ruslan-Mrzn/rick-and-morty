@@ -1,12 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import axios from 'axios';
+import axios, { HttpStatusCode } from 'axios';
 
 import { getCharacters } from '@/api';
-import type { TGetAllProps } from '@/api/getCharacters';
 import { charactersAdapter } from '@/pages/HomePage/utils';
-import { NO_CHARACTERS_FOUND } from '@/shared/constants/errorTextConstants';
-import type { TCharacter } from '@/shared/types';
+import { getErrorMessage } from '@/shared/helpers';
+import type { TCharacter, TGetCharactersProps } from '@/shared/types';
 
 interface IUseCharactersState {
   characters: TCharacter[];
@@ -20,7 +19,7 @@ const RETRY_CONFIG = {
   baseDelay: 1000
 };
 
-const useCharacters = (params: TGetAllProps = {}) => {
+const useCharacters = (params: TGetCharactersProps = {}) => {
   const [state, setState] = useState<IUseCharactersState>({
     characters: [],
     pages: 0,
@@ -37,73 +36,53 @@ const useCharacters = (params: TGetAllProps = {}) => {
       while (attempt < RETRY_CONFIG.maxRetries) {
         attempt++;
         try {
-          if (signal?.aborted) {
-            throw new DOMException('Aborted', 'AbortError');
-          }
+          if (signal?.aborted) return;
 
           const response = await getCharacters({ ...params, signal });
+
+          if (signal?.aborted) return;
+
           const results = response.data.results;
           const availablePagesCount = response.data.info.pages;
           const parsedCharacters = charactersAdapter(results);
 
-          if (!signal?.aborted) {
-            setState({
-              characters: parsedCharacters,
-              pages: availablePagesCount,
-              isLoading: false,
-              error: null
-            });
-          }
+          setState({
+            characters: parsedCharacters,
+            pages: availablePagesCount,
+            isLoading: false,
+            error: null
+          });
 
           return;
         } catch (error) {
+          if (axios.isCancel(error)) return;
+
           if (
-            axios.isCancel(error) ||
-            (error instanceof DOMException && error.name === 'AbortError')
+            axios.isAxiosError(error) &&
+            error.response?.status === HttpStatusCode.NotFound
           ) {
-            throw error;
-          }
+            setState((prev) => ({
+              ...prev,
+              isLoading: false,
+              error: getErrorMessage(error)
+            }));
 
-          if (axios.isAxiosError(error) && error.response?.status === 404) {
-            if (!signal?.aborted) {
-              setState((prev) => ({
-                ...prev,
-                isLoading: false,
-                error: NO_CHARACTERS_FOUND
-              }));
-            }
-
-            throw error;
+            return;
           }
 
           if (attempt >= RETRY_CONFIG.maxRetries) {
-            if (!signal?.aborted) {
-              let errorMessage = 'Failed to fetch characters';
+            setState((prev) => ({
+              ...prev,
+              isLoading: false,
+              error: getErrorMessage(error)
+            }));
 
-              if (axios.isAxiosError(error)) {
-                errorMessage =
-                  error.response?.data?.error || error.message || errorMessage;
-              } else if (error instanceof Error) {
-                errorMessage = error.message;
-              }
-
-              setState((prev) => ({
-                ...prev,
-                isLoading: false,
-                error: errorMessage
-              }));
-            }
-
-            throw error;
+            return;
           }
 
           const delay = RETRY_CONFIG.baseDelay * Math.pow(2, attempt - 1);
 
           await new Promise((resolve) => setTimeout(resolve, delay));
-
-          if (signal?.aborted) {
-            throw new DOMException('Aborted', 'AbortError');
-          }
         }
       }
     },
@@ -114,15 +93,7 @@ const useCharacters = (params: TGetAllProps = {}) => {
     const controller = new AbortController();
     const signal = controller.signal;
 
-    fetchCharacters(signal).catch((error) => {
-      if (
-        !axios.isCancel(error) &&
-        !(error instanceof DOMException && error.name === 'AbortError')
-      ) {
-        // eslint-disable-next-line no-console
-        console.error('Fetch characters failed:', error);
-      }
-    });
+    fetchCharacters(signal);
 
     return () => controller.abort();
   }, [fetchCharacters]);
