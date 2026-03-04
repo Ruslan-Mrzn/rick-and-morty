@@ -1,1 +1,2 @@
-export * as apiConstants from './apiConstants';
+export * from './apiConstants';
+export * from './errorTextConstants';

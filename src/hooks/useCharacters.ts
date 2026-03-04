@@ -1,103 +1,106 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import axios from 'axios';
+import axios, { HttpStatusCode } from 'axios';
 
 import { getCharacters } from '@/api';
-import type { TGetAllProps } from '@/api/getCharacters';
 import { charactersAdapter } from '@/pages/HomePage/utils';
-import type { TCharacter } from '@/shared/types';
+import { getErrorMessage } from '@/shared/helpers';
+import type { TCharacter, TGetCharactersProps } from '@/shared/types';
 
 interface IUseCharactersState {
   characters: TCharacter[];
+  pages: number;
   isLoading: boolean;
   error: string | null;
 }
 
-const useCharacters = () => {
+const RETRY_CONFIG = {
+  maxRetries: 5,
+  baseDelay: 1000
+};
+
+const useCharacters = (params: TGetCharactersProps = {}) => {
   const [state, setState] = useState<IUseCharactersState>({
     characters: [],
+    pages: 0,
     isLoading: true,
     error: null
   });
 
-  const fetchCharacters = useCallback(async (params: TGetAllProps) => {
-    setState((prev) => ({
-      ...prev,
-      isLoading: true,
-      error: null
-    }));
+  const fetchCharacters = useCallback(
+    async (signal?: AbortSignal) => {
+      setState((prev) => ({ ...prev, isLoading: true, error: null }));
 
-    const { signal } = params;
+      let attempt = 0;
 
-    try {
-      const response = await getCharacters({ ...params, signal });
-      const results = response.data.results;
-      const parsedCharacters = charactersAdapter(results);
+      while (attempt < RETRY_CONFIG.maxRetries) {
+        attempt++;
+        try {
+          if (signal?.aborted) return;
 
-      if (!signal?.aborted) {
-        setState({
-          characters: parsedCharacters,
-          isLoading: false,
-          error: null
-        });
+          const response = await getCharacters({ ...params, signal });
+
+          if (signal?.aborted) return;
+
+          const results = response.data.results;
+          const availablePagesCount = response.data.info.pages;
+          const parsedCharacters = charactersAdapter(results);
+
+          setState({
+            characters: parsedCharacters,
+            pages: availablePagesCount,
+            isLoading: false,
+            error: null
+          });
+
+          return;
+        } catch (error) {
+          if (axios.isCancel(error)) return;
+
+          if (
+            axios.isAxiosError(error) &&
+            error.response?.status === HttpStatusCode.NotFound
+          ) {
+            setState((prev) => ({
+              ...prev,
+              isLoading: false,
+              error: getErrorMessage(error)
+            }));
+
+            return;
+          }
+
+          if (attempt >= RETRY_CONFIG.maxRetries) {
+            setState((prev) => ({
+              ...prev,
+              isLoading: false,
+              error: getErrorMessage(error)
+            }));
+
+            return;
+          }
+
+          const delay = RETRY_CONFIG.baseDelay * Math.pow(2, attempt - 1);
+
+          await new Promise((resolve) => setTimeout(resolve, delay));
+        }
       }
-    } catch (error) {
-      if (signal?.aborted) return;
-
-      if (axios.isAxiosError(error)) {
-        const errorMessage =
-          error.response?.data?.error ||
-          error.message ||
-          'Failed to fetch characters';
-
-        setState((prev) => ({
-          ...prev,
-          isLoading: false,
-          error: errorMessage
-        }));
-
-        return Promise.reject(error);
-      }
-
-      const errorMessage =
-        error instanceof Error ? error.message : 'Unknown error occurred';
-
-      setState((prev) => ({
-        ...prev,
-        isLoading: false,
-        error: errorMessage
-      }));
-
-      return Promise.reject(error);
-    }
-  }, []);
+    },
+    [params]
+  );
 
   useEffect(() => {
-    const abortController = new AbortController();
-    const signal = abortController.signal;
+    const controller = new AbortController();
+    const signal = controller.signal;
 
-    (async () => {
-      try {
-        await fetchCharacters({ signal });
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error(error);
-      }
-    })();
+    fetchCharacters(signal);
 
-    return () => {
-      abortController.abort();
-    };
+    return () => controller.abort();
   }, [fetchCharacters]);
 
   return {
     ...state,
-    refetchCharacters: (params: TGetAllProps) => {
-      const abortController = new AbortController();
-      const signal = abortController.signal;
-
-      return fetchCharacters({ ...params, signal });
-    }
+    refetchCharacters: fetchCharacters
   };
 };
 

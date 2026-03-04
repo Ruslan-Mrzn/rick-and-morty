@@ -1,0 +1,17 @@
+.infiniteScroll__infoText {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 5rem;
+
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: #000;
+  text-align: center;
+
+  &_error {
+    font-weight: 700;
+    color: red;
+  }
+}
