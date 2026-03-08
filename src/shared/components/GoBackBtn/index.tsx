@@ -1,8 +1,10 @@
-import { LeftArrowIcon } from '@/assets/icons';
+import { memo } from 'react';
+
+import { MemoizedLeftArrowIcon as LeftArrowIcon } from '@/assets/icons';
 
 import styles from './GoBackBtn.module.scss';
 
-const GoBackBtn = () => {
+const GoBackBtn = memo(() => {
   return (
     <button
       className={styles.btn}
@@ -15,6 +17,6 @@ const GoBackBtn = () => {
       <span className={styles.btn__text}>Go Back</span>
     </button>
   );
-};
+});
 
 export default GoBackBtn;

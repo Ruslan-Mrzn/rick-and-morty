@@ -1,4 +1,10 @@
-import { useEffect, useMemo, useState } from 'react';
+import {
+  type SetStateAction,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState
+} from 'react';
 
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -17,6 +23,21 @@ const HomePage = () => {
   const [page, setPage] = useState(1);
   const [loadedCharacters, setLoadedCharacters] = useState<TCharacter[]>([]);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
+
+  const updateCharacter = useCallback((updatedCharacter: TCharacter) => {
+    setLoadedCharacters((prev) =>
+      prev.map((char) =>
+        char.id === updatedCharacter.id ? updatedCharacter : char
+      )
+    );
+  }, []);
+
+  const setFiltersCallback = useCallback(
+    (updates: SetStateAction<Omit<TGetCharactersProps, 'page'>>) => {
+      setFilters(updates);
+    },
+    []
+  );
 
   const params = useMemo(() => ({ ...filters, page }), [filters, page]);
   const { characters, pages, isLoading, error, refetchCharacters } =
@@ -59,7 +80,7 @@ const HomePage = () => {
         <BigLogo />
       </div>
       <div className={styles.homePage__filters}>
-        <FiltersPanel setFilters={setFilters} />
+        <FiltersPanel setFilters={setFiltersCallback} />
       </div>
 
       {isLoading && isInitialLoad && (
@@ -83,6 +104,7 @@ const HomePage = () => {
             <CharactersList
               characters={loadedCharacters}
               lastElementRef={lastElementRef}
+              updateCharacter={updateCharacter}
             />
           )}
         </InfiniteScroll>

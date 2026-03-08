@@ -1,11 +1,13 @@
 import {
   type Dispatch,
   type KeyboardEvent,
+  memo,
   type SetStateAction,
+  useCallback,
   useState
 } from 'react';
 
-import { SearchIcon } from '@/assets/icons';
+import { MemoizedSearchIcon as SearchIcon } from '@/assets/icons';
 import { Selector, TextInput } from '@/shared/components';
 import {
   genderOptions,
@@ -21,46 +23,62 @@ type TFiltersPanelProps = {
   setFilters: Dispatch<SetStateAction<Omit<TGetCharactersProps, 'page'>>>;
 };
 
-const FiltersPanel = ({ setFilters }: TFiltersPanelProps) => {
-  const [gender, setGender] = useState<TGender | undefined>();
-  const [status, setStatus] = useState<TStatus | undefined>();
-  const [species, setSpecies] = useState<TSpecies | undefined>();
+const FiltersPanel = memo(({ setFilters }: TFiltersPanelProps) => {
+  const [filters, setFiltersState] = useState<
+    Omit<TGetCharactersProps, 'page'>
+  >({
+    gender: undefined,
+    status: undefined,
+    species: undefined,
+    name: undefined
+  });
   const [nameFilter, setNameFilter] = useState('');
 
-  const updateFilters = (
-    updates: Partial<Omit<TGetCharactersProps, 'page'>>
-  ) => {
-    setFilters((prev) => ({ ...prev, ...updates }));
-  };
+  const updateFilters = useCallback(
+    (updates: Partial<Omit<TGetCharactersProps, 'page'>>) => {
+      setFilters((prev) => ({ ...prev, ...updates }));
+      setFiltersState((prev) => ({ ...prev, ...updates }));
+    },
+    [setFilters]
+  );
 
-  const handleStatusChange = (value: TStatus) => {
-    setStatus(value);
-    updateFilters({ status: value });
-  };
+  const handleStatusChange = useCallback(
+    (value: TStatus) => {
+      updateFilters({ status: value });
+    },
+    [updateFilters]
+  );
 
-  const handleSpeciesChange = (value: TSpecies) => {
-    setSpecies(value);
-    updateFilters({ species: value });
-  };
+  const handleSpeciesChange = useCallback(
+    (value: TSpecies) => {
+      updateFilters({ species: value });
+    },
+    [updateFilters]
+  );
 
-  const handleGenderChange = (value: TGender) => {
-    setGender(value);
-    updateFilters({ gender: value });
-  };
+  const handleGenderChange = useCallback(
+    (value: TGender) => {
+      updateFilters({ gender: value });
+    },
+    [updateFilters]
+  );
 
-  const handleNameChange = (value: string) => {
+  const handleNameChange = useCallback((value: string) => {
     setNameFilter(value);
-  };
+  }, []);
 
-  const applyNameFilter = () => {
+  const applyNameFilter = useCallback(() => {
     updateFilters({ name: nameFilter.toLowerCase() || undefined });
-  };
+  }, [nameFilter, updateFilters]);
 
-  const handleEnterKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      applyNameFilter();
-    }
-  };
+  const handleEnterKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === 'Enter') {
+        applyNameFilter();
+      }
+    },
+    [applyNameFilter]
+  );
 
   return (
     <div className={styles.filtersPanel}>
@@ -79,25 +97,25 @@ const FiltersPanel = ({ setFilters }: TFiltersPanelProps) => {
         }
       />
       <Selector
-        value={status}
+        value={filters.status}
         placeholder='Status'
         options={statusOptions}
         onChange={handleStatusChange}
       />
       <Selector
-        value={gender}
+        value={filters.gender}
         placeholder='Gender'
         options={genderOptions}
         onChange={handleGenderChange}
       />
       <Selector
-        value={species}
+        value={filters.species}
         placeholder='Species'
         options={speciesOptions}
         onChange={handleSpeciesChange}
       />
     </div>
   );
-};
+});
 
 export default FiltersPanel;

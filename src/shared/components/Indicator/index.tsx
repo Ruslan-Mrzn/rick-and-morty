@@ -1,9 +1,11 @@
+import { memo } from 'react';
+
 import { classNames } from '@/shared/helpers';
 import { type TStatus } from '@/shared/types';
 
 import styles from './Indicator.module.scss';
 
-const Indicator = ({ status }: { status: TStatus }) => {
+const Indicator = memo(({ status }: { status: TStatus }) => {
   return (
     <div
       className={classNames(styles.indicator, {
@@ -13,6 +15,6 @@ const Indicator = ({ status }: { status: TStatus }) => {
       })}
     ></div>
   );
-};
+});
 
 export default Indicator;

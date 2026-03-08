@@ -1,4 +1,4 @@
-import { type Dispatch, useState } from 'react';
+import { type Dispatch, memo, useCallback, useEffect } from 'react';
 
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router';
@@ -6,7 +6,10 @@ import { Link } from 'react-router';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z as zod } from 'zod';
 
-import { CheckIcon, CrossIcon } from '@/assets/icons';
+import {
+  MemoizedCheckIcon as CheckIcon,
+  MemoizedCrossIcon as CrossIcon
+} from '@/assets/icons';
 import { FormTextInput, Selector } from '@/shared/components';
 import { Indicator } from '@/shared/components';
 import { classNames } from '@/shared/helpers';
@@ -15,14 +18,14 @@ import type { TCharacter, TStatus } from '@/shared/types';
 
 import styles from './CharacterForm.module.scss';
 
-const OptionStatusComponent = ({ option }: { option: TStatus }) => {
+const OptionStatusComponent = memo(({ option }: { option: TStatus }) => {
   return (
     <>
       {option}
       <Indicator status={option} />
     </>
   );
-};
+});
 
 const characterEditSchema = zod.object({
   name: zod
@@ -47,70 +50,79 @@ type CharacterFormProps = {
   changeImgAlt: Dispatch<string>;
   setIsEditing: Dispatch<boolean>;
   isEditing: boolean;
+  onUpdateCharacter: (_character: TCharacter) => void;
 };
 
-const CharacterForm = ({
-  data,
-  changeImgAlt,
-  setIsEditing,
-  isEditing
-}: CharacterFormProps) => {
-  const [character, setCharacter] = useState({ ...data });
-
-  const {
-    control,
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { errors },
-    reset,
-    trigger
-  } = useForm<TCharacterEditFormData>({
-    resolver: zodResolver(characterEditSchema),
-    defaultValues: {
-      name: character.name,
-      location: character.location,
-      status: character.status
-    },
-    mode: 'onChange'
-  });
-
-  const statusValue = watch('status');
-
-  const handleStatusChange = (value: TStatus) => {
-    setValue('status', value);
-  };
-
-  const handleAcceptChanges = async (formData: TCharacterEditFormData) => {
-    const isValid = await trigger();
-
-    if (isValid) {
-      const fullCharacterData = {
-        ...character,
-        ...formData
-      };
-
-      setCharacter((prev) => {
-        return { ...prev, ...fullCharacterData };
-      });
-      changeImgAlt(fullCharacterData.name);
-      setIsEditing(false);
-    }
-  };
-
-  const handleDiscardChanges = () => {
-    reset({
-      name: character.name,
-      location: character.location,
-      status: character.status
+const CharacterForm = memo(
+  ({
+    data,
+    changeImgAlt,
+    setIsEditing,
+    isEditing,
+    onUpdateCharacter
+  }: CharacterFormProps) => {
+    const {
+      control,
+      handleSubmit,
+      setValue,
+      watch,
+      formState: { errors },
+      reset,
+      trigger
+    } = useForm<TCharacterEditFormData>({
+      resolver: zodResolver(characterEditSchema),
+      defaultValues: {
+        name: data.name,
+        location: data.location,
+        status: data.status
+      },
+      mode: 'onChange'
     });
-    setIsEditing(false);
-  };
 
-  return (
-    <>
+    useEffect(() => {
+      reset({
+        name: data.name,
+        location: data.location,
+        status: data.status
+      });
+    }, [data, reset]);
+
+    const statusValue = watch('status');
+
+    const handleStatusChange = useCallback(
+      (value: TStatus) => {
+        setValue('status', value);
+      },
+      [setValue]
+    );
+
+    const handleAcceptChanges = async (formData: TCharacterEditFormData) => {
+      const isValid = await trigger();
+
+      if (isValid) {
+        const fullCharacterData = {
+          ...data,
+          ...formData
+        };
+
+        changeImgAlt(fullCharacterData.name);
+        onUpdateCharacter(fullCharacterData);
+        setIsEditing(false);
+      }
+    };
+
+    const handleDiscardChanges = useCallback(() => {
+      reset({
+        name: data.name,
+        location: data.location,
+        status: data.status
+      });
+      setIsEditing(false);
+    }, [data.name, data.location, data.status, reset, setIsEditing]);
+
+    return (
       <form
-        id={`character-form-${character.id}`}
+        id={`character-form-${data.id}`}
         className={styles.characterForm}
         onSubmit={handleSubmit(handleAcceptChanges)}
       >
@@ -119,34 +131,34 @@ const CharacterForm = ({
             <FormTextInput
               control={control}
               name='name'
-              value={character.name}
+              value={watch('name')}
               variant='underlined'
               placeholder='Enter name'
             />
           ) : (
             <Link
               className={styles.characterForm__name}
-              to={`/character/${character.id}`}
+              to={`/character/${data.id}`}
             >
-              {character.name}
+              {data.name}
             </Link>
           )}
-          {errors.name && (
-            <span className={styles.characterForm__nameError}>
-              {errors.name?.message}
-            </span>
-          )}
         </div>
+        {errors.name && (
+          <span className={styles.characterForm__nameError}>
+            {errors.name?.message}
+          </span>
+        )}
         <div className={styles.characterForm__field}>
           <span className={styles.characterForm__fieldTitle}>Gender</span>
           <span className={styles.characterForm__fieldValue}>
-            {character.gender}
+            {data.gender}
           </span>
         </div>
         <div className={styles.characterForm__field}>
           <span className={styles.characterForm__fieldTitle}>Species</span>
           <span className={styles.characterForm__fieldValue}>
-            {character.species}
+            {data.species}
           </span>
         </div>
         <div className={styles.characterForm__field}>
@@ -161,13 +173,13 @@ const CharacterForm = ({
             <FormTextInput
               control={control}
               name='location'
-              value={character.name}
+              value={watch('location')}
               variant='underlined'
               placeholder='Enter location'
             />
           ) : (
             <span className={styles.characterForm__fieldValue}>
-              {character.location}
+              {data.location}
             </span>
           )}
         </div>
@@ -188,8 +200,8 @@ const CharacterForm = ({
                 styles.characterForm__status
               )}
             >
-              {character.status}
-              <Indicator status={character.status} />
+              {data.status}
+              <Indicator status={data.status} />
             </div>
           )}
         </div>
@@ -208,8 +220,8 @@ const CharacterForm = ({
           </div>
         )}
       </form>
-    </>
-  );
-};
+    );
+  }
+);
 
 export default CharacterForm;

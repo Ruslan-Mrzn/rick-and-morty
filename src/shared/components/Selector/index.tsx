@@ -6,7 +6,7 @@ import {
   useState
 } from 'react';
 
-import { SelectorArrowIcon } from '@/assets/icons';
+import { MemoizedSelectorArrowIcon as SelectorArrowIcon } from '@/assets/icons';
 import { classNames } from '@/shared/helpers';
 
 import styles from './Selector.module.scss';
