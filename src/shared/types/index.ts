@@ -54,7 +54,7 @@ export type TServerCharacter = {
   url: string;
   created: string;
 };
-export type TGetCharactersProps = {
+export type TGetCharactersParams = {
   page?: number;
   name?: string;
   status?: Lowercase<TStatus>;

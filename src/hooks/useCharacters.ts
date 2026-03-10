@@ -5,7 +5,7 @@ import axios, { HttpStatusCode } from 'axios';
 import { getCharacters } from '@/api';
 import { charactersAdapter } from '@/pages/HomePage/utils';
 import { getErrorMessage } from '@/shared/helpers';
-import type { TCharacter, TGetCharactersProps } from '@/shared/types';
+import type { TCharacter, TGetCharactersParams } from '@/shared/types';
 
 interface IUseCharactersState {
   characters: TCharacter[];
@@ -19,7 +19,7 @@ const RETRY_CONFIG = {
   baseDelay: 1000
 };
 
-const useCharacters = (params: TGetCharactersProps = {}) => {
+const useCharacters = (params: TGetCharactersParams = {}) => {
   const [state, setState] = useState<IUseCharactersState>({
     characters: [],
     pages: 0,

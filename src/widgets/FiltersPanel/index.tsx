@@ -14,18 +14,18 @@ import {
   speciesOptions,
   statusOptions
 } from '@/shared/helpers/mocks';
-import type { TGetCharactersProps } from '@/shared/types';
+import type { TGetCharactersParams } from '@/shared/types';
 import type { TGender, TSpecies, TStatus } from '@/shared/types';
 
 import styles from './FiltersPanel.module.scss';
 
 type TFiltersPanelProps = {
-  setFilters: Dispatch<SetStateAction<Omit<TGetCharactersProps, 'page'>>>;
+  setFilters: Dispatch<SetStateAction<Omit<TGetCharactersParams, 'page'>>>;
 };
 
 const FiltersPanel = memo(({ setFilters }: TFiltersPanelProps) => {
   const [filters, setFiltersState] = useState<
-    Omit<TGetCharactersProps, 'page'>
+    Omit<TGetCharactersParams, 'page'>
   >({
     gender: undefined,
     status: undefined,
@@ -35,7 +35,7 @@ const FiltersPanel = memo(({ setFilters }: TFiltersPanelProps) => {
   const [nameFilter, setNameFilter] = useState('');
 
   const updateFilters = useCallback(
-    (updates: Partial<Omit<TGetCharactersProps, 'page'>>) => {
+    (updates: Partial<Omit<TGetCharactersParams, 'page'>>) => {
       setFilters((prev) => ({ ...prev, ...updates }));
       setFiltersState((prev) => ({ ...prev, ...updates }));
     },

@@ -11,15 +11,17 @@ import toast, { Toaster } from 'react-hot-toast';
 import useCharacters from '@/hooks/useCharacters';
 
 import { BigLogo, InfiniteScroll, Loader } from '@/shared/components';
-import { CharactersList } from '@/shared/components';
-import type { TGetCharactersProps } from '@/shared/types';
+import type { TGetCharactersParams } from '@/shared/types';
 import type { TCharacter } from '@/shared/types';
 import { FiltersPanel } from '@/widgets';
 
+import { CharactersList } from './components';
 import styles from './HomePage.module.scss';
 
 const HomePage = () => {
-  const [filters, setFilters] = useState<Omit<TGetCharactersProps, 'page'>>({});
+  const [filters, setFilters] = useState<Omit<TGetCharactersParams, 'page'>>(
+    {}
+  );
   const [page, setPage] = useState(1);
   const [loadedCharacters, setLoadedCharacters] = useState<TCharacter[]>([]);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
@@ -33,7 +35,7 @@ const HomePage = () => {
   }, []);
 
   const setFiltersCallback = useCallback(
-    (updates: SetStateAction<Omit<TGetCharactersProps, 'page'>>) => {
+    (updates: SetStateAction<Omit<TGetCharactersParams, 'page'>>) => {
       setFilters(updates);
     },
     []

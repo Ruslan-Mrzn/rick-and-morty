@@ -1,6 +1,6 @@
 import { CHARACTERS_ENDPOINT } from '@/shared/constants';
 import { axios } from '@/shared/helpers';
-import type { TGetCharactersProps } from '@/shared/types';
+import type { TGetCharactersParams } from '@/shared/types';
 
 const getCharacters = ({
   page,
@@ -9,7 +9,7 @@ const getCharacters = ({
   gender,
   species,
   signal
-}: TGetCharactersProps = {}) => {
+}: TGetCharactersParams = {}) => {
   return axios.get(CHARACTERS_ENDPOINT, {
     params: { page, name, status, gender, species },
     signal,
