@@ -10,8 +10,8 @@
     "lint:fix": "eslint . --fix",
     "lint:css": "stylelint \"**/*.{css,scss}\"",
     "lint:css:fix": "stylelint \"**/*.{css,scss}\" --fix",
-    "prettier:check": "prettier --check .",
     "prettier:fix": "prettier --write .",
+    "prettier:check": "prettier --check .",
     "preview": "vite preview",
     "prepare": "husky",
     "generate-api": "orval"
