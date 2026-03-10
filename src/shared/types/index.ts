@@ -20,6 +20,8 @@ export type TCharacter = {
   image: string;
   gender: TGender;
   location: string;
+  origin: string;
+  type?: string;
 };
 
 export type TextInputProps = {

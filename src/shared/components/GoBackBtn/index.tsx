@@ -1,21 +1,23 @@
 import { memo } from 'react';
 
+import { Link } from 'react-router';
+
 import { MemoizedLeftArrowIcon as LeftArrowIcon } from '@/assets/icons';
 
 import styles from './GoBackBtn.module.scss';
 
 const GoBackBtn = memo(() => {
   return (
-    <button
+    <Link
       className={styles.btn}
-      onClick={() => window.history.back()}
+      to={'/'}
     >
       <LeftArrowIcon
         width={16}
         height={16}
       />
-      <span className={styles.btn__text}>Go Back</span>
-    </button>
+      Go Back
+    </Link>
   );
 });
 
