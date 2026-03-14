@@ -7,12 +7,12 @@ import styles from './CharactersList.module.scss';
 
 interface CharactersListProps {
   characters: TCharacter[];
-  lastElementRef?: (_node: Element | null) => void;
   updateCharacter: (_character: TCharacter) => void;
+  lastElementRef?: (_node: Element | null) => void;
 }
 
 const CharactersList = memo(
-  ({ characters, lastElementRef, updateCharacter }: CharactersListProps) => {
+  ({ characters, updateCharacter, lastElementRef }: CharactersListProps) => {
     return (
       <ul className={styles.charactersList}>
         {characters.map((character, index) => {

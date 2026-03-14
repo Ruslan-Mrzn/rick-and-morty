@@ -15,7 +15,6 @@ import {
   statusOptions
 } from '@/shared/helpers/mocks';
 import type { TGetCharactersParams } from '@/shared/types';
-import type { TGender, TSpecies, TStatus } from '@/shared/types';
 
 import styles from './FiltersPanel.module.scss';
 
@@ -42,23 +41,9 @@ const FiltersPanel = memo(({ setFilters }: TFiltersPanelProps) => {
     [setFilters]
   );
 
-  const handleStatusChange = useCallback(
-    (value: TStatus) => {
-      updateFilters({ status: value });
-    },
-    [updateFilters]
-  );
-
-  const handleSpeciesChange = useCallback(
-    (value: TSpecies) => {
-      updateFilters({ species: value });
-    },
-    [updateFilters]
-  );
-
-  const handleGenderChange = useCallback(
-    (value: TGender) => {
-      updateFilters({ gender: value });
+  const createFilterHandler = useCallback(
+    (field: keyof Omit<TGetCharactersParams, 'page'>) => (value: string) => {
+      updateFilters({ [field]: value });
     },
     [updateFilters]
   );
@@ -100,19 +85,19 @@ const FiltersPanel = memo(({ setFilters }: TFiltersPanelProps) => {
         value={filters.status}
         placeholder='Status'
         options={statusOptions}
-        onChange={handleStatusChange}
+        onChange={createFilterHandler('status')}
       />
       <Selector
         value={filters.gender}
         placeholder='Gender'
         options={genderOptions}
-        onChange={handleGenderChange}
+        onChange={createFilterHandler('gender')}
       />
       <Selector
         value={filters.species}
         placeholder='Species'
         options={speciesOptions}
-        onChange={handleSpeciesChange}
+        onChange={createFilterHandler('species')}
       />
     </div>
   );

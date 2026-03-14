@@ -1,10 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import axios, { HttpStatusCode } from 'axios';
-
 import { getCharacters } from '@/api';
 import { charactersAdapter } from '@/pages/HomePage/utils';
-import { getErrorMessage } from '@/shared/helpers';
+import { fetchWithRetry } from '@/shared/helpers';
 import type { TCharacter, TGetCharactersParams } from '@/shared/types';
 
 interface IUseCharactersState {
@@ -13,11 +11,6 @@ interface IUseCharactersState {
   isLoading: boolean;
   error: string | null;
 }
-
-const RETRY_CONFIG = {
-  maxRetries: 5,
-  baseDelay: 1000
-};
 
 const useCharacters = (params: TGetCharactersParams = {}) => {
   const [state, setState] = useState<IUseCharactersState>({
@@ -31,17 +24,17 @@ const useCharacters = (params: TGetCharactersParams = {}) => {
     async (signal?: AbortSignal) => {
       setState((prev) => ({ ...prev, isLoading: true, error: null }));
 
-      let attempt = 0;
-
-      while (attempt < RETRY_CONFIG.maxRetries) {
-        attempt++;
-        try {
-          if (signal?.aborted) return;
-
-          const response = await getCharacters({ ...params, signal });
-
-          if (signal?.aborted) return;
-
+      const response = await fetchWithRetry({
+        requestFn: () => getCharacters({ ...params, signal }),
+        signal,
+        onError: (error) => {
+          setState((prev) => ({
+            ...prev,
+            isLoading: false,
+            error
+          }));
+        },
+        onSuccess: (response) => {
           const results = response.data.results;
           const availablePagesCount = response.data.info.pages;
           const parsedCharacters = charactersAdapter(results);
@@ -52,39 +45,10 @@ const useCharacters = (params: TGetCharactersParams = {}) => {
             isLoading: false,
             error: null
           });
-
-          return;
-        } catch (error) {
-          if (axios.isCancel(error)) return;
-
-          if (
-            axios.isAxiosError(error) &&
-            error.response?.status === HttpStatusCode.NotFound
-          ) {
-            setState((prev) => ({
-              ...prev,
-              isLoading: false,
-              error: getErrorMessage(error)
-            }));
-
-            return;
-          }
-
-          if (attempt >= RETRY_CONFIG.maxRetries) {
-            setState((prev) => ({
-              ...prev,
-              isLoading: false,
-              error: getErrorMessage(error)
-            }));
-
-            return;
-          }
-
-          const delay = RETRY_CONFIG.baseDelay * Math.pow(2, attempt - 1);
-
-          await new Promise((resolve) => setTimeout(resolve, delay));
         }
-      }
+      });
+
+      return response;
     },
     [params]
   );

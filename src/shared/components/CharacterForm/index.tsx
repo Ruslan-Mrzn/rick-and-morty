@@ -55,7 +55,16 @@ type CharacterFormProps = {
 
 const CharacterForm = memo(
   ({
-    data,
+    data: {
+      id,
+      name: initialName,
+      location: initialLocation,
+      status: initialStatus,
+      gender,
+      species,
+      image,
+      origin
+    },
     changeImgAlt,
     setIsEditing,
     isEditing,
@@ -72,20 +81,24 @@ const CharacterForm = memo(
     } = useForm<TCharacterEditFormData>({
       resolver: zodResolver(characterEditSchema),
       defaultValues: {
-        name: data.name,
-        location: data.location,
-        status: data.status
+        name: initialName,
+        location: initialLocation,
+        status: initialStatus
       },
       mode: 'onChange'
     });
 
-    useEffect(() => {
+    const resetFormToInitialValues = useCallback(() => {
       reset({
-        name: data.name,
-        location: data.location,
-        status: data.status
+        name: initialName,
+        location: initialLocation,
+        status: initialStatus
       });
-    }, [data, reset]);
+    }, [initialName, initialLocation, initialStatus, reset]);
+
+    useEffect(() => {
+      resetFormToInitialValues();
+    }, [resetFormToInitialValues]);
 
     const statusValue = watch('status');
 
@@ -101,8 +114,14 @@ const CharacterForm = memo(
 
       if (isValid) {
         const fullCharacterData = {
-          ...data,
-          ...formData
+          id,
+          name: formData.name,
+          location: formData.location,
+          status: formData.status,
+          gender,
+          species,
+          image,
+          origin
         };
 
         changeImgAlt(fullCharacterData.name);
@@ -112,17 +131,13 @@ const CharacterForm = memo(
     };
 
     const handleDiscardChanges = useCallback(() => {
-      reset({
-        name: data.name,
-        location: data.location,
-        status: data.status
-      });
+      resetFormToInitialValues();
       setIsEditing(false);
-    }, [data.name, data.location, data.status, reset, setIsEditing]);
+    }, [resetFormToInitialValues, setIsEditing]);
 
     return (
       <form
-        id={`character-form-${data.id}`}
+        id={`character-form-${id}`}
         className={styles.characterForm}
         onSubmit={handleSubmit(handleAcceptChanges)}
       >
@@ -138,9 +153,9 @@ const CharacterForm = memo(
           ) : (
             <Link
               className={styles.characterForm__name}
-              to={`/character/${data.id}`}
+              to={`/character/${id}`}
             >
-              {data.name}
+              {initialName}
             </Link>
           )}
         </div>
@@ -151,15 +166,11 @@ const CharacterForm = memo(
         )}
         <div className={styles.characterForm__field}>
           <span className={styles.characterForm__fieldTitle}>Gender</span>
-          <span className={styles.characterForm__fieldValue}>
-            {data.gender}
-          </span>
+          <span className={styles.characterForm__fieldValue}>{gender}</span>
         </div>
         <div className={styles.characterForm__field}>
           <span className={styles.characterForm__fieldTitle}>Species</span>
-          <span className={styles.characterForm__fieldValue}>
-            {data.species}
-          </span>
+          <span className={styles.characterForm__fieldValue}>{species}</span>
         </div>
         <div className={styles.characterForm__field}>
           <span
@@ -179,7 +190,7 @@ const CharacterForm = memo(
             />
           ) : (
             <span className={styles.characterForm__fieldValue}>
-              {data.location}
+              {initialLocation}
             </span>
           )}
         </div>
@@ -200,8 +211,8 @@ const CharacterForm = memo(
                 styles.characterForm__status
               )}
             >
-              {data.status}
-              <Indicator status={data.status} />
+              {initialStatus}
+              <Indicator status={initialStatus} />
             </div>
           )}
         </div>

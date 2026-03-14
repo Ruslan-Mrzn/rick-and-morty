@@ -16,10 +16,10 @@ interface OptionComponentProps<T> {
 }
 
 export type SelectorProps<T> = {
-  size?: 'big' | 'small';
   options: T[];
-  OptionComponent?: ComponentType<OptionComponentProps<T>>;
   onChange: Dispatch<T>;
+  size?: 'big' | 'small';
+  OptionComponent?: ComponentType<OptionComponentProps<T>>;
   placeholder?: string;
   value?: T;
 };
@@ -29,12 +29,12 @@ const valueComponent = <T,>({ option }: OptionComponentProps<T>) => {
 };
 
 const Selector = <T extends string | undefined>({
-  size = 'big',
   options,
+  onChange,
+  size = 'big',
   placeholder,
   value,
-  OptionComponent = valueComponent,
-  onChange
+  OptionComponent = valueComponent
 }: SelectorProps<T>) => {
   const [isOpen, setIsOpen] = useState(false);
 
