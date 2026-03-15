@@ -6,26 +6,27 @@ import { Link } from 'react-router';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z as zod } from 'zod';
 
-import {
-  MemoizedCheckIcon as CheckIcon,
-  MemoizedCrossIcon as CrossIcon
-} from '@/assets/icons';
-import { FormTextInput, Selector } from '@/shared/components';
-import { Indicator } from '@/shared/components';
-import { classNames } from '@/shared/helpers';
-import { statusOptions } from '@/shared/helpers/mocks';
+import { CheckIcon, CrossIcon } from '@/assets/icons';
+import { FormTextInput, Indicator, Selector } from '@/shared/components';
+import { classNames, statusOptions } from '@/shared/helpers';
 import type { TCharacter, TStatus } from '@/shared/types';
 
 import styles from './CharacterForm.module.scss';
 
-const OptionStatusComponent = memo(({ option }: { option: TStatus }) => {
-  return (
-    <>
-      {option}
-      <Indicator status={option} />
-    </>
-  );
-});
+type TOptionStatusComponentProps = {
+  option: TStatus;
+};
+
+const OptionStatusComponent = memo(
+  ({ option }: TOptionStatusComponentProps) => {
+    return (
+      <>
+        {option}
+        <Indicator status={option} />
+      </>
+    );
+  }
+);
 
 const characterEditSchema = zod.object({
   name: zod
@@ -47,7 +48,6 @@ type TCharacterEditFormData = zod.infer<typeof characterEditSchema>;
 
 type CharacterFormProps = {
   data: TCharacter;
-  changeImgAlt: Dispatch<string>;
   setIsEditing: Dispatch<boolean>;
   isEditing: boolean;
   onUpdateCharacter: (_character: TCharacter) => void;
@@ -65,7 +65,6 @@ const CharacterForm = memo(
       image,
       origin
     },
-    changeImgAlt,
     setIsEditing,
     isEditing,
     onUpdateCharacter
@@ -124,7 +123,6 @@ const CharacterForm = memo(
           origin
         };
 
-        changeImgAlt(fullCharacterData.name);
         onUpdateCharacter(fullCharacterData);
         setIsEditing(false);
       }

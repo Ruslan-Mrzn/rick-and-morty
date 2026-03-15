@@ -2,7 +2,7 @@ import { memo } from 'react';
 
 import { Link } from 'react-router';
 
-import { MemoizedLeftArrowIcon as LeftArrowIcon } from '@/assets/icons';
+import { LeftArrowIcon } from '@/assets/icons';
 
 import styles from './GoBackBtn.module.scss';
 

@@ -5,14 +5,14 @@ import { CharacterCard } from '@/widgets';
 
 import styles from './CharactersList.module.scss';
 
-interface CharactersListProps {
+type TCharactersListProps = {
   characters: TCharacter[];
   updateCharacter: (_character: TCharacter) => void;
   lastElementRef?: (_node: Element | null) => void;
-}
+};
 
 const CharactersList = memo(
-  ({ characters, updateCharacter, lastElementRef }: CharactersListProps) => {
+  ({ characters, updateCharacter, lastElementRef }: TCharactersListProps) => {
     return (
       <ul className={styles.charactersList}>
         {characters.map((character, index) => {

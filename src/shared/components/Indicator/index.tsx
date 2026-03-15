@@ -1,11 +1,15 @@
 import { memo } from 'react';
 
 import { classNames } from '@/shared/helpers';
-import { type TStatus } from '@/shared/types';
+import type { TStatus } from '@/shared/types';
 
 import styles from './Indicator.module.scss';
 
-const Indicator = memo(({ status }: { status: TStatus }) => {
+type TIndicatorProps = {
+  status: TStatus;
+};
+
+const Indicator = memo(({ status }: TIndicatorProps) => {
   return (
     <div
       className={classNames(styles.indicator, {

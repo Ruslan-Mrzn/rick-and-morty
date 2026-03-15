@@ -7,30 +7,26 @@ import {
   useState
 } from 'react';
 
-import { MemoizedSearchIcon as SearchIcon } from '@/assets/icons';
+import { SearchIcon } from '@/assets/icons';
 import { Selector, TextInput } from '@/shared/components';
-import {
-  genderOptions,
-  speciesOptions,
-  statusOptions
-} from '@/shared/helpers/mocks';
+import { genderOptions, speciesOptions, statusOptions } from '@/shared/helpers';
 import type { TGetCharactersParams } from '@/shared/types';
 
 import styles from './FiltersPanel.module.scss';
+
+const INITIAL_FILTERS: Omit<TGetCharactersParams, 'page'> = {
+  gender: undefined,
+  status: undefined,
+  species: undefined,
+  name: undefined
+};
 
 type TFiltersPanelProps = {
   setFilters: Dispatch<SetStateAction<Omit<TGetCharactersParams, 'page'>>>;
 };
 
 const FiltersPanel = memo(({ setFilters }: TFiltersPanelProps) => {
-  const [filters, setFiltersState] = useState<
-    Omit<TGetCharactersParams, 'page'>
-  >({
-    gender: undefined,
-    status: undefined,
-    species: undefined,
-    name: undefined
-  });
+  const [filters, setFiltersState] = useState(INITIAL_FILTERS);
   const [nameFilter, setNameFilter] = useState('');
 
   const updateFilters = useCallback(
@@ -41,7 +37,7 @@ const FiltersPanel = memo(({ setFilters }: TFiltersPanelProps) => {
     [setFilters]
   );
 
-  const createFilterHandler = useCallback(
+  const handleFilterChange = useCallback(
     (field: keyof Omit<TGetCharactersParams, 'page'>) => (value: string) => {
       updateFilters({ [field]: value });
     },
@@ -85,19 +81,19 @@ const FiltersPanel = memo(({ setFilters }: TFiltersPanelProps) => {
         value={filters.status}
         placeholder='Status'
         options={statusOptions}
-        onChange={createFilterHandler('status')}
+        onChange={handleFilterChange('status')}
       />
       <Selector
         value={filters.gender}
         placeholder='Gender'
         options={genderOptions}
-        onChange={createFilterHandler('gender')}
+        onChange={handleFilterChange('gender')}
       />
       <Selector
         value={filters.species}
         placeholder='Species'
         options={speciesOptions}
-        onChange={createFilterHandler('species')}
+        onChange={handleFilterChange('species')}
       />
     </div>
   );

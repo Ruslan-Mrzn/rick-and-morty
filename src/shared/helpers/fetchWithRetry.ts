@@ -1,6 +1,6 @@
 import axios, { HttpStatusCode } from 'axios';
 
-import getErrorMessage from '@/shared/helpers/getErrorMessage';
+import { getErrorMessage } from '@/shared/helpers';
 
 export type TRetryConfig = {
   maxRetries: number;

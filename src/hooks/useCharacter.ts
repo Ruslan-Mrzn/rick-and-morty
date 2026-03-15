@@ -1,18 +1,18 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { getCharacterById } from '@/api';
-import { characterAdapter } from '@/pages/CharacterPage/utils';
+import { getCharacter } from '@/api';
+import { characterAdapter } from '@/pages';
 import { fetchWithRetry } from '@/shared/helpers';
 import type { TCharacter } from '@/shared/types';
 
-interface IUseCharacterByIdState {
+type TUseCharacterState = {
   character: TCharacter | null;
   isLoading: boolean;
   error: string | null;
-}
+};
 
-const useCharacterById = (id: number) => {
-  const [state, setState] = useState<IUseCharacterByIdState>({
+const useCharacter = (id: number) => {
+  const [state, setState] = useState<TUseCharacterState>({
     character: null,
     isLoading: true,
     error: null
@@ -23,7 +23,7 @@ const useCharacterById = (id: number) => {
       setState((prev) => ({ ...prev, isLoading: true, error: null }));
 
       const response = await fetchWithRetry({
-        requestFn: () => getCharacterById(id, signal),
+        requestFn: () => getCharacter(id, signal),
         signal,
         onError: (error) => {
           setState((prev) => ({
@@ -62,4 +62,4 @@ const useCharacterById = (id: number) => {
   };
 };
 
-export default useCharacterById;
+export default useCharacter;

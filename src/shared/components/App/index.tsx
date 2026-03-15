@@ -10,7 +10,7 @@ const App = () => {
   return (
     <ErrorBoundary>
       <Routes>
-        <Route element={<MainLayout customClassName='wrapper' />}>
+        <Route element={<MainLayout className='wrapper' />}>
           <Route
             path='/'
             element={<HomePage />}

@@ -1,19 +1,21 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { getCharacters } from '@/api';
-import { charactersAdapter } from '@/pages/HomePage/utils';
+import { charactersAdapter } from '@/pages';
 import { fetchWithRetry } from '@/shared/helpers';
 import type { TCharacter, TGetCharactersParams } from '@/shared/types';
 
-interface IUseCharactersState {
+const DEFAULT_QUERY_PARAMS: TGetCharactersParams = {};
+
+type TUseCharactersState = {
   characters: TCharacter[];
   pages: number;
   isLoading: boolean;
   error: string | null;
-}
+};
 
-const useCharacters = (params: TGetCharactersParams = {}) => {
-  const [state, setState] = useState<IUseCharactersState>({
+const useCharacters = (params: TGetCharactersParams = DEFAULT_QUERY_PARAMS) => {
+  const [state, setState] = useState<TUseCharactersState>({
     characters: [],
     pages: 0,
     isLoading: true,

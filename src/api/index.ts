@@ -1,2 +1,2 @@
 export { default as getCharacters } from './getCharacters';
-export { default as getCharacterById } from './getCharacterById';
+export { default as getCharacter } from './getCharacter';

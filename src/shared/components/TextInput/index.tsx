@@ -1,7 +1,7 @@
 import type { ChangeEvent } from 'react';
 
 import { classNames } from '@/shared/helpers';
-import { type TextInputProps } from '@/shared/types';
+import type { TextInputProps } from '@/shared/types';
 
 import styles from './TextInput.module.scss';
 

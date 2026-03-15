@@ -10,8 +10,7 @@ import { Toaster } from 'react-hot-toast';
 
 import { useCharacters, useErrorToast } from '@/hooks';
 import { BigLogo, InfiniteScroll, Loader } from '@/shared/components';
-import type { TGetCharactersParams } from '@/shared/types';
-import type { TCharacter } from '@/shared/types';
+import type { TCharacter, TGetCharactersParams } from '@/shared/types';
 import { FiltersPanel } from '@/widgets';
 
 import { CharactersList } from './components';

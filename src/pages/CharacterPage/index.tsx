@@ -1,14 +1,24 @@
 import { Toaster } from 'react-hot-toast';
 import { useParams } from 'react-router';
 
-import { useCharacterById, useErrorToast } from '@/hooks';
+import { useCharacter, useErrorToast } from '@/hooks';
 import { GoBackBtn, Loader } from '@/shared/components';
+import type { TCharacter } from '@/shared/types';
 
 import styles from './CharacterPage.module.scss';
 
+const CHARACTER_FIELDS: { key: keyof TCharacter; label: string }[] = [
+  { key: 'gender', label: 'Gender' },
+  { key: 'status', label: 'Status' },
+  { key: 'species', label: 'Specie' },
+  { key: 'origin', label: 'Origin' },
+  { key: 'type', label: 'Type' },
+  { key: 'location', label: 'Location' }
+];
+
 const CharacterPage = () => {
   const { id } = useParams<{ id: string }>();
-  const { character, isLoading, error } = useCharacterById(Number(id));
+  const { character, isLoading, error } = useCharacter(Number(id));
 
   useErrorToast(error);
 
@@ -38,20 +48,15 @@ const CharacterPage = () => {
             <section className={styles.charPage__info}>
               <h2 className={styles.charPage__infoTitle}>Information</h2>
               <dl className={styles.charPage__infoGrid}>
-                {[
-                  { label: 'Gender', value: character.gender },
-                  { label: 'Status', value: character.status },
-                  { label: 'Specie', value: character.species },
-                  { label: 'Origin', value: character.origin },
-                  { label: 'Type', value: character.type },
-                  { label: 'Location', value: character.location }
-                ].map(({ label, value }) => (
+                {CHARACTER_FIELDS.map(({ key, label }) => (
                   <div
-                    key={label}
+                    key={key}
                     className={styles.charPage__infoItem}
                   >
                     <dt className={styles.charPage__infoLabel}>{label}</dt>
-                    <dd className={styles.charPage__infoValue}>{value}</dd>
+                    <dd className={styles.charPage__infoValue}>
+                      {character[key]}
+                    </dd>
                   </div>
                 ))}
               </dl>

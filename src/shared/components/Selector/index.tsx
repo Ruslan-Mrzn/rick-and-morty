@@ -6,25 +6,25 @@ import {
   useState
 } from 'react';
 
-import { MemoizedSelectorArrowIcon as SelectorArrowIcon } from '@/assets/icons';
+import { SelectorArrowIcon } from '@/assets/icons';
 import { classNames } from '@/shared/helpers';
 
 import styles from './Selector.module.scss';
 
-interface OptionComponentProps<T> {
+type TSelectorOptionProps<T> = {
   option: T;
-}
+};
 
-export type SelectorProps<T> = {
+export type TSelectorProps<T> = {
   options: T[];
   onChange: Dispatch<T>;
   size?: 'big' | 'small';
-  OptionComponent?: ComponentType<OptionComponentProps<T>>;
+  OptionComponent?: ComponentType<TSelectorOptionProps<T>>;
   placeholder?: string;
   value?: T;
 };
 
-const valueComponent = <T,>({ option }: OptionComponentProps<T>) => {
+const valueComponent = <T,>({ option }: TSelectorOptionProps<T>) => {
   return <>{option}</>;
 };
 
@@ -35,7 +35,7 @@ const Selector = <T extends string | undefined>({
   placeholder,
   value,
   OptionComponent = valueComponent
-}: SelectorProps<T>) => {
+}: TSelectorProps<T>) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const optionsListRef = useRef<HTMLDivElement>(null);
@@ -89,7 +89,9 @@ const Selector = <T extends string | undefined>({
         {value ? <OptionComponent option={value} /> : placeholder}
 
         <SelectorArrowIcon
-          className={`${styles.selector__arrow} ${isOpen && styles.selector__arrow_open}`}
+          className={classNames(styles.selector__arrow, {
+            [styles.selector__arrow_open]: isOpen
+          })}
           width={size === 'big' ? 10 : 4}
           height={size === 'big' ? 5 : 2}
         />

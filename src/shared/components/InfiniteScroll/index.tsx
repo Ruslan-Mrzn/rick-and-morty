@@ -11,7 +11,7 @@ import { classNames } from '@/shared/helpers';
 
 import styles from './InfiniteScroll.module.scss';
 
-interface InfiniteScrollProps {
+type TInfiniteScrollProps = {
   pages: number;
   isLoading: boolean;
   error: null | string;
@@ -20,7 +20,7 @@ interface InfiniteScrollProps {
   children: (_props: {
     lastElementRef: (_node: Element | null) => void;
   }) => ReactNode;
-}
+};
 
 const InfiniteScroll = ({
   pages,
@@ -29,7 +29,7 @@ const InfiniteScroll = ({
   page,
   setPage,
   children
-}: InfiniteScrollProps) => {
+}: TInfiniteScrollProps) => {
   const hasMore = page < pages;
 
   const handleInView = useCallback(
