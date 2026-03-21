@@ -3,12 +3,12 @@ import { classNames } from '@/shared/helpers';
 
 import styles from './Loader.module.scss';
 
-interface LoaderProps {
+type TLoaderProps = {
   size: 'big' | 'small';
   text?: string;
-}
+};
 
-const Loader = ({ size, text }: LoaderProps) => {
+const Loader = ({ size, text }: TLoaderProps) => {
   return (
     <div
       className={classNames(styles.loader, {

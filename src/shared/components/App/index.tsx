@@ -10,13 +10,13 @@ const App = () => {
   return (
     <ErrorBoundary>
       <Routes>
-        <Route element={<MainLayout customClassName='wrapper' />}>
+        <Route element={<MainLayout className='wrapper' />}>
           <Route
             path='/'
             element={<HomePage />}
           />
           <Route
-            path='/character'
+            path='/character/:id'
             element={<CharacterPage />}
           />
         </Route>

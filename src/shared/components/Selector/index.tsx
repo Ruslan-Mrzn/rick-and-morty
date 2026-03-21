@@ -11,31 +11,31 @@ import { classNames } from '@/shared/helpers';
 
 import styles from './Selector.module.scss';
 
-interface OptionComponentProps<T> {
+type TSelectorOptionProps<T> = {
   option: T;
-}
+};
 
-export type SelectorProps<T> = {
-  size?: 'big' | 'small';
+export type TSelectorProps<T> = {
   options: T[];
-  OptionComponent?: ComponentType<OptionComponentProps<T>>;
   onChange: Dispatch<T>;
+  size?: 'big' | 'small';
+  OptionComponent?: ComponentType<TSelectorOptionProps<T>>;
   placeholder?: string;
   value?: T;
 };
 
-const valueComponent = <T,>({ option }: OptionComponentProps<T>) => {
+const valueComponent = <T,>({ option }: TSelectorOptionProps<T>) => {
   return <>{option}</>;
 };
 
 const Selector = <T extends string | undefined>({
-  size = 'big',
   options,
+  onChange,
+  size = 'big',
   placeholder,
   value,
-  OptionComponent = valueComponent,
-  onChange
-}: SelectorProps<T>) => {
+  OptionComponent = valueComponent
+}: TSelectorProps<T>) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const optionsListRef = useRef<HTMLDivElement>(null);
@@ -89,7 +89,9 @@ const Selector = <T extends string | undefined>({
         {value ? <OptionComponent option={value} /> : placeholder}
 
         <SelectorArrowIcon
-          className={`${styles.selector__arrow} ${isOpen && styles.selector__arrow_open}`}
+          className={classNames(styles.selector__arrow, {
+            [styles.selector__arrow_open]: isOpen
+          })}
           width={size === 'big' ? 10 : 4}
           height={size === 'big' ? 5 : 2}
         />

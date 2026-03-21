@@ -1,66 +1,65 @@
 import {
   type Dispatch,
   type KeyboardEvent,
+  memo,
   type SetStateAction,
+  useCallback,
   useState
 } from 'react';
 
 import { SearchIcon } from '@/assets/icons';
 import { Selector, TextInput } from '@/shared/components';
-import {
-  genderOptions,
-  speciesOptions,
-  statusOptions
-} from '@/shared/helpers/mocks';
-import type { TGetCharactersProps } from '@/shared/types';
-import type { TGender, TSpecies, TStatus } from '@/shared/types';
+import { genderOptions, speciesOptions, statusOptions } from '@/shared/helpers';
+import type { TGetCharactersParams } from '@/shared/types';
 
 import styles from './FiltersPanel.module.scss';
 
-type TFiltersPanelProps = {
-  setFilters: Dispatch<SetStateAction<Omit<TGetCharactersProps, 'page'>>>;
+const INITIAL_FILTERS: Omit<TGetCharactersParams, 'page'> = {
+  gender: undefined,
+  status: undefined,
+  species: undefined,
+  name: undefined
 };
 
-const FiltersPanel = ({ setFilters }: TFiltersPanelProps) => {
-  const [gender, setGender] = useState<TGender | undefined>();
-  const [status, setStatus] = useState<TStatus | undefined>();
-  const [species, setSpecies] = useState<TSpecies | undefined>();
+type TFiltersPanelProps = {
+  setFilters: Dispatch<SetStateAction<Omit<TGetCharactersParams, 'page'>>>;
+};
+
+const FiltersPanel = memo(({ setFilters }: TFiltersPanelProps) => {
+  const [filters, setFiltersState] = useState(INITIAL_FILTERS);
   const [nameFilter, setNameFilter] = useState('');
 
-  const updateFilters = (
-    updates: Partial<Omit<TGetCharactersProps, 'page'>>
-  ) => {
-    setFilters((prev) => ({ ...prev, ...updates }));
-  };
+  const updateFilters = useCallback(
+    (updates: Partial<Omit<TGetCharactersParams, 'page'>>) => {
+      setFilters((prev) => ({ ...prev, ...updates }));
+      setFiltersState((prev) => ({ ...prev, ...updates }));
+    },
+    [setFilters]
+  );
 
-  const handleStatusChange = (value: TStatus) => {
-    setStatus(value);
-    updateFilters({ status: value });
-  };
+  const handleFilterChange = useCallback(
+    (field: keyof Omit<TGetCharactersParams, 'page'>) => (value: string) => {
+      updateFilters({ [field]: value });
+    },
+    [updateFilters]
+  );
 
-  const handleSpeciesChange = (value: TSpecies) => {
-    setSpecies(value);
-    updateFilters({ species: value });
-  };
-
-  const handleGenderChange = (value: TGender) => {
-    setGender(value);
-    updateFilters({ gender: value });
-  };
-
-  const handleNameChange = (value: string) => {
+  const handleNameChange = useCallback((value: string) => {
     setNameFilter(value);
-  };
+  }, []);
 
-  const applyNameFilter = () => {
+  const applyNameFilter = useCallback(() => {
     updateFilters({ name: nameFilter.toLowerCase() || undefined });
-  };
+  }, [nameFilter, updateFilters]);
 
-  const handleEnterKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      applyNameFilter();
-    }
-  };
+  const handleEnterKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === 'Enter') {
+        applyNameFilter();
+      }
+    },
+    [applyNameFilter]
+  );
 
   return (
     <div className={styles.filtersPanel}>
@@ -79,25 +78,25 @@ const FiltersPanel = ({ setFilters }: TFiltersPanelProps) => {
         }
       />
       <Selector
-        value={status}
+        value={filters.status}
         placeholder='Status'
         options={statusOptions}
-        onChange={handleStatusChange}
+        onChange={handleFilterChange('status')}
       />
       <Selector
-        value={gender}
+        value={filters.gender}
         placeholder='Gender'
         options={genderOptions}
-        onChange={handleGenderChange}
+        onChange={handleFilterChange('gender')}
       />
       <Selector
-        value={species}
+        value={filters.species}
         placeholder='Species'
         options={speciesOptions}
-        onChange={handleSpeciesChange}
+        onChange={handleFilterChange('species')}
       />
     </div>
   );
-};
+});
 
 export default FiltersPanel;

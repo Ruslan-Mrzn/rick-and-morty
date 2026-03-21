@@ -4,17 +4,20 @@ import { Link } from 'react-router';
 
 import styles from './ErrorBoundary.module.scss';
 
-interface Props {
+type TErrorBoundaryProps = {
   children: ReactNode;
-}
+};
 
-interface State {
+type TErrorBoundaryState = {
   hasError: boolean;
   error: Error | null;
-}
+};
 
-class ErrorBoundary extends Component<Props, State> {
-  constructor(props: Props) {
+class ErrorBoundary extends Component<
+  TErrorBoundaryProps,
+  TErrorBoundaryState
+> {
+  constructor(props: TErrorBoundaryProps) {
     super(props);
     this.state = {
       hasError: false,
@@ -22,7 +25,7 @@ class ErrorBoundary extends Component<Props, State> {
     };
   }
 
-  static getDerivedStateFromError(error: Error): State {
+  static getDerivedStateFromError(error: Error): TErrorBoundaryState {
     return { hasError: true, error };
   }
 
