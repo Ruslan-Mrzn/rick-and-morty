@@ -6,7 +6,7 @@ import RouterWrapper from '@/shared/components/RouterWrapper';
 
 import './global.scss';
 
-const basename = import.meta.env.PROD ? '/rick-and-morty' : '/';
+const basename = import.meta.env.VITE_BASE_PATH || '/';
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter basename={basename}>

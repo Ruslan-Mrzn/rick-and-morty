@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 
 import { App } from '@/shared/components';
 
-const basename = import.meta.env.PROD ? '/rick-and-morty' : '/';
+const basename = import.meta.env.VITE_BASE_PATH || '/';
 
 const RouterWrapper = () => {
   const navigate = useNavigate();
