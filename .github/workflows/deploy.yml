@@ -35,7 +35,9 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: VITE_BASE_PATH=/rick-and-morty/ npm run build
+        run: npm run build
+        env:
+          VITE_BASE_PATH: /rick-and-morty/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
