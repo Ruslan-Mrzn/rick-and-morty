@@ -3,10 +3,10 @@ name: Deploy to GitHub Pages
 on:
   pull_request:
     branches:
-      - master
+      - feature/page404
   push:
     branches:
-      - master
+      - feature/page404
   workflow_dispatch:
 
 permissions:
