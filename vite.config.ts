@@ -3,8 +3,9 @@ import path from 'path';
 import { defineConfig } from 'vite';
 import svgr from 'vite-plugin-svgr';
 
-export default defineConfig(({ mode }) => ({
-  base: mode === 'production' ? '/rick-and-morty/' : '/',
+export default defineConfig(() => ({
+  // eslint-disable-next-line no-undef
+  base: process.env.VITE_BASE_PATH || '/',
   plugins: [
     react(),
     svgr({
