@@ -1,8 +1,7 @@
 import { Route, Routes } from 'react-router';
 
-import { CharacterPage, HomePage } from '@/pages';
-import { ErrorBoundary } from '@/shared/components';
-import { MainLayout } from '@/shared/components';
+import { CharacterPage, HomePage, NotFoundPage } from '@/pages';
+import { ErrorBoundary, MainLayout } from '@/shared/components';
 
 import './App.module.scss';
 
@@ -18,6 +17,10 @@ const App = () => {
           <Route
             path='/character/:id'
             element={<CharacterPage />}
+          />
+          <Route
+            path='*'
+            element={<NotFoundPage />}
           />
         </Route>
       </Routes>
