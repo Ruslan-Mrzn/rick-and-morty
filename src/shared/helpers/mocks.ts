@@ -13,4 +13,15 @@ const speciesOptions: TSpecies[] = [
   'unknown'
 ];
 
-export { genderOptions, statusOptions, speciesOptions };
+const genderOptionsWithAll: (TGender | 'all')[] = ['all', ...genderOptions];
+const statusOptionsWithAll: (TStatus | 'all')[] = ['all', ...statusOptions];
+const speciesOptionsWithAll: (TSpecies | 'all')[] = ['all', ...speciesOptions];
+
+export {
+  genderOptions,
+  statusOptions,
+  speciesOptions,
+  genderOptionsWithAll,
+  statusOptionsWithAll,
+  speciesOptionsWithAll
+};

@@ -9,7 +9,11 @@ import {
 
 import { SearchIcon } from '@/assets/icons';
 import { Selector, TextInput } from '@/shared/components';
-import { genderOptions, speciesOptions, statusOptions } from '@/shared/helpers';
+import {
+  genderOptionsWithAll,
+  speciesOptionsWithAll,
+  statusOptionsWithAll
+} from '@/shared/helpers';
 import type { TGetCharactersParams } from '@/shared/types';
 
 import styles from './FiltersPanel.module.scss';
@@ -39,7 +43,7 @@ const FiltersPanel = memo(({ setFilters }: TFiltersPanelProps) => {
 
   const handleFilterChange = useCallback(
     (field: keyof Omit<TGetCharactersParams, 'page'>) => (value: string) => {
-      updateFilters({ [field]: value });
+      updateFilters({ [field]: value === 'all' ? undefined : value });
     },
     [updateFilters]
   );
@@ -80,19 +84,19 @@ const FiltersPanel = memo(({ setFilters }: TFiltersPanelProps) => {
       <Selector
         value={filters.status}
         placeholder='Status'
-        options={statusOptions}
+        options={statusOptionsWithAll}
         onChange={handleFilterChange('status')}
       />
       <Selector
         value={filters.gender}
         placeholder='Gender'
-        options={genderOptions}
+        options={genderOptionsWithAll}
         onChange={handleFilterChange('gender')}
       />
       <Selector
         value={filters.species}
         placeholder='Species'
-        options={speciesOptions}
+        options={speciesOptionsWithAll}
         onChange={handleFilterChange('species')}
       />
     </div>
