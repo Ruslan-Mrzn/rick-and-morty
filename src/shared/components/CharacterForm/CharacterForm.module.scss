@@ -36,6 +36,15 @@
   color: inherit;
   text-decoration: inherit;
   letter-spacing: inherit;
+
+  transition:
+    color 0.1s,
+    text-shadow 0.1s;
+
+  &:hover {
+    color: #008ba3;
+    text-shadow: 0 0 4px rgba(0, 255, 0, 1);
+  }
 }
 
 .characterForm__nameError {
