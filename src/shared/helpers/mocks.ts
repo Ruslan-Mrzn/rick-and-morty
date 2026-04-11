@@ -1,4 +1,3 @@
-import mockCardImage from '../../assets/images/card-image.jpg';
 import type { TGender, TSpecies, TStatus } from '../types';
 
 const genderOptions: TGender[] = ['female', 'male', 'genderless', 'unknown'];
@@ -14,4 +13,15 @@ const speciesOptions: TSpecies[] = [
   'unknown'
 ];
 
-export { genderOptions, statusOptions, speciesOptions, mockCardImage };
+const genderOptionsWithAll: (TGender | 'all')[] = ['all', ...genderOptions];
+const statusOptionsWithAll: (TStatus | 'all')[] = ['all', ...statusOptions];
+const speciesOptionsWithAll: (TSpecies | 'all')[] = ['all', ...speciesOptions];
+
+export {
+  genderOptions,
+  statusOptions,
+  speciesOptions,
+  genderOptionsWithAll,
+  statusOptionsWithAll,
+  speciesOptionsWithAll
+};

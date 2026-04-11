@@ -17,7 +17,7 @@ export type TRetryOptions<T> = {
 
 const DEFAULT_RETRY_CONFIG: TRetryConfig = {
   maxRetries: 5,
-  baseDelay: 1000
+  baseDelay: 5000
 };
 
 export const fetchWithRetry = async <T>({
@@ -70,9 +70,7 @@ export const fetchWithRetry = async <T>({
         return null;
       }
 
-      const delay = baseDelay * Math.pow(2, attempt - 1);
-
-      await new Promise((resolve) => setTimeout(resolve, delay));
+      await new Promise((resolve) => setTimeout(resolve, baseDelay));
     }
   }
 
