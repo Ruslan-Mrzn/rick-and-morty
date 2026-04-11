@@ -192,7 +192,11 @@ const CharacterForm = memo(
             </span>
           )}
         </div>
-        <div className={styles.characterForm__field}>
+        <div
+          className={classNames(styles.characterForm__field, {
+            [styles.characterForm__field_editing]: Boolean(isEditing)
+          })}
+        >
           <span className={styles.characterForm__fieldTitle}>Status</span>
           {isEditing ? (
             <Selector
