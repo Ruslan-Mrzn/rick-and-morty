@@ -74,6 +74,9 @@
   color: rgba(0, 0, 0, 0.6);
   text-transform: capitalize;
   letter-spacing: 0.02rem;
+  &_editing {
+    overflow: visible;
+  }
 }
 
 .characterForm__fieldTitle {
