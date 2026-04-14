@@ -27,6 +27,10 @@
   text-overflow: ellipsis;
   letter-spacing: 0.01rem;
   white-space: nowrap;
+
+  &_editing {
+    overflow: visible;
+  }
 }
 
 .characterForm__name {
