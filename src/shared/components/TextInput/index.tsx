@@ -11,8 +11,7 @@ const TextInput = ({
   icon,
   value,
   name,
-  onChange,
-  onKeyDown
+  onChange
 }: TextInputProps) => {
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     onChange?.(event.target.value);
@@ -37,7 +36,6 @@ const TextInput = ({
           placeholder={placeholder}
           value={value}
           onChange={handleNameChange}
-          onKeyDown={onKeyDown}
           name={name}
         />
         {value && (

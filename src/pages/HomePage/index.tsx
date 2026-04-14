@@ -3,7 +3,8 @@ import {
   useCallback,
   useEffect,
   useMemo,
-  useState
+  useState,
+  useTransition
 } from 'react';
 
 import { Toaster } from 'react-hot-toast';
@@ -22,6 +23,7 @@ const HomePage = () => {
   );
   const [page, setPage] = useState(1);
   const [loadedCharacters, setLoadedCharacters] = useState<TCharacter[]>([]);
+  const [isPending, startTransition] = useTransition();
 
   const updateCharacter = useCallback((updatedCharacter: TCharacter) => {
     setLoadedCharacters((prev) =>
@@ -58,7 +60,9 @@ const HomePage = () => {
 
   useEffect(() => {
     if (characters.length) {
-      setLoadedCharacters((prev) => [...prev, ...characters]);
+      startTransition(() => {
+        setLoadedCharacters((prev) => [...prev, ...characters]);
+      });
     }
   }, [characters]);
 
@@ -71,7 +75,7 @@ const HomePage = () => {
         <FiltersPanel setFilters={setFiltersCallback} />
       </div>
 
-      {isLoading && loadedCharacters.length === 0 && (
+      {(isLoading || isPending) && loadedCharacters.length === 0 && (
         <div className={styles.homePage__loader}>
           <Loader
             size='big'
@@ -98,7 +102,7 @@ const HomePage = () => {
         </InfiniteScroll>
       </div>
 
-      {isLoading && loadedCharacters.length > 0 && (
+      {(isLoading || isPending) && loadedCharacters.length > 0 && (
         <div className={styles.homePage__loader}>
           <Loader size='small' />
         </div>

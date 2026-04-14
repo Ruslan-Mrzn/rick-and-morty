@@ -1,4 +1,4 @@
-import type { Dispatch, KeyboardEvent, ReactNode } from 'react';
+import type { Dispatch, ReactNode } from 'react';
 
 export type TStatus = 'alive' | 'dead' | 'unknown';
 export type TGender = 'female' | 'male' | 'genderless' | 'unknown';
@@ -31,7 +31,6 @@ export type TextInputProps = {
   icon?: ReactNode;
   value?: string;
   onChange?: Dispatch<string>;
-  onKeyDown?: (_e: KeyboardEvent<HTMLInputElement>) => void;
 };
 
 export type TServerCharacter = {
