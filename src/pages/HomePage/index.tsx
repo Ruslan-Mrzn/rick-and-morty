@@ -1,5 +1,4 @@
 import {
-  type SetStateAction,
   useCallback,
   useEffect,
   useMemo,
@@ -11,16 +10,15 @@ import { Toaster } from 'react-hot-toast';
 
 import { useCharacters, useErrorToast } from '@/hooks';
 import { BigLogo, InfiniteScroll, Loader } from '@/shared/components';
-import type { TCharacter, TGetCharactersParams } from '@/shared/types';
+import type { TCharacter } from '@/shared/types';
+import { useCharactersFiltersStore } from '@/stores';
 import { FiltersPanel } from '@/widgets';
 
 import { CharactersList } from './components';
 import styles from './HomePage.module.scss';
 
 const HomePage = () => {
-  const [filters, setFilters] = useState<Omit<TGetCharactersParams, 'page'>>(
-    {}
-  );
+  const filters = useCharactersFiltersStore((state) => state.filters);
   const [page, setPage] = useState(1);
   const [loadedCharacters, setLoadedCharacters] = useState<TCharacter[]>([]);
   const [isPending, startTransition] = useTransition();
@@ -32,13 +30,6 @@ const HomePage = () => {
       )
     );
   }, []);
-
-  const setFiltersCallback = useCallback(
-    (updates: SetStateAction<Omit<TGetCharactersParams, 'page'>>) => {
-      setFilters(updates);
-    },
-    []
-  );
 
   const params = useMemo(() => ({ ...filters, page }), [filters, page]);
   const { characters, pages, isLoading, error, refetchCharacters } =
@@ -72,7 +63,7 @@ const HomePage = () => {
         <BigLogo />
       </div>
       <div className={styles.homePage__filters}>
-        <FiltersPanel setFilters={setFiltersCallback} />
+        <FiltersPanel />
       </div>
 
       {(isLoading || isPending) && loadedCharacters.length === 0 && (

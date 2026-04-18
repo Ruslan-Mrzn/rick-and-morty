@@ -1,10 +1,4 @@
-import {
-  type Dispatch,
-  memo,
-  type SetStateAction,
-  useCallback,
-  useState
-} from 'react';
+import { memo, useCallback } from 'react';
 
 import { SearchIcon } from '@/assets/icons';
 import { Selector, TextInput } from '@/shared/components';
@@ -14,45 +8,32 @@ import {
   statusOptionsWithAll
 } from '@/shared/helpers';
 import type { TGetCharactersParams } from '@/shared/types';
+import { useCharactersFiltersStore } from '@/stores';
 
 import styles from './FiltersPanel.module.scss';
 
-const INITIAL_FILTERS: Omit<TGetCharactersParams, 'page'> = {
-  gender: undefined,
-  status: undefined,
-  species: undefined,
-  name: undefined
-};
+type TCharacterFilters = Omit<TGetCharactersParams, 'page' | 'signal'>;
 
-type TFiltersPanelProps = {
-  setFilters: Dispatch<SetStateAction<Omit<TGetCharactersParams, 'page'>>>;
-};
-
-const FiltersPanel = memo(({ setFilters }: TFiltersPanelProps) => {
-  const [filters, setFiltersState] = useState(INITIAL_FILTERS);
-  const [nameFilter, setNameFilter] = useState('');
-
-  const updateFilters = useCallback(
-    (updates: Partial<Omit<TGetCharactersParams, 'page'>>) => {
-      setFilters((prev) => ({ ...prev, ...updates }));
-      setFiltersState((prev) => ({ ...prev, ...updates }));
-    },
-    [setFilters]
+const FiltersPanel = memo(() => {
+  const filters = useCharactersFiltersStore((state) => state.filters);
+  const nameInput = useCharactersFiltersStore((state) => state.nameInput);
+  const setFilter = useCharactersFiltersStore((state) => state.setFilter);
+  const setNameFilter = useCharactersFiltersStore(
+    (state) => state.setNameFilter
   );
 
   const handleFilterChange = useCallback(
-    (field: keyof Omit<TGetCharactersParams, 'page'>) => (value: string) => {
-      updateFilters({ [field]: value === 'all' ? undefined : value });
+    (field: keyof TCharacterFilters) => (value: string) => {
+      setFilter(field, value === 'all' ? undefined : value);
     },
-    [updateFilters]
+    [setFilter]
   );
 
   const handleNameChange = useCallback(
     (value: string) => {
       setNameFilter(value);
-      updateFilters({ name: value.toLowerCase() || undefined });
     },
-    [updateFilters]
+    [setNameFilter]
   );
 
   return (
@@ -60,7 +41,7 @@ const FiltersPanel = memo(({ setFilters }: TFiltersPanelProps) => {
       <TextInput
         variant='bordered'
         placeholder='Filter by name...'
-        value={nameFilter}
+        value={nameInput}
         onChange={handleNameChange}
         name='nameFilter'
         icon={<SearchIcon className={styles.searchIcon} />}
