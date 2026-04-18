@@ -1,14 +1,23 @@
+.infiniteScroll__successIcon {
+  flex-shrink: 0;
+  width: 2.4rem;
+  height: 2.4rem;
+  margin-right: 0.8rem;
+}
+
 .infiniteScroll__infoText {
   display: flex;
   align-items: center;
   justify-content: center;
 
   min-height: 5rem;
+  margin-top: 0.8rem;
 
   font-size: 1.8rem;
-  font-weight: 400;
-  color: #000;
+  font-weight: 700;
+  color: #008ba3;
   text-align: center;
+  text-shadow: 0 0 4px rgba(0, 255, 0, 1);
 
   &_error {
     font-weight: 700;

@@ -141,7 +141,7 @@ const CharacterForm = memo(
       >
         <div
           className={classNames(styles.characterForm__nameContainer, {
-            [styles.characterForm__nameContainer_editing]: isEditing
+            [styles.characterForm__nameContainer_editing]: Boolean(isEditing)
           })}
         >
           {isEditing ? (
