@@ -7,6 +7,7 @@ import {
 
 import { useOnInView } from 'react-intersection-observer';
 
+import { SuccessLoadedIcon } from '@/assets/icons';
 import { classNames } from '@/shared/helpers';
 
 import styles from './InfiniteScroll.module.scss';
@@ -48,6 +49,7 @@ const InfiniteScroll = ({
       {children({ lastElementRef })}
       {!isLoading && !hasMore && !error && (
         <span className={styles.infiniteScroll__infoText}>
+          <SuccessLoadedIcon className={styles.infiniteScroll__successIcon} />
           Аll data has been loaded
         </span>
       )}

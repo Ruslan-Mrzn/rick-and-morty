@@ -139,7 +139,11 @@ const CharacterForm = memo(
         className={styles.characterForm}
         onSubmit={handleSubmit(handleAcceptChanges)}
       >
-        <div className={styles.characterForm__nameContainer}>
+        <div
+          className={classNames(styles.characterForm__nameContainer, {
+            [styles.characterForm__nameContainer_editing]: Boolean(isEditing)
+          })}
+        >
           {isEditing ? (
             <FormTextInput
               control={control}
@@ -170,7 +174,11 @@ const CharacterForm = memo(
           <span className={styles.characterForm__fieldTitle}>Species</span>
           <span className={styles.characterForm__fieldValue}>{species}</span>
         </div>
-        <div className={styles.characterForm__field}>
+        <div
+          className={classNames(styles.characterForm__field, {
+            [styles.characterForm__field_editing]: Boolean(isEditing)
+          })}
+        >
           <span
             className={classNames(styles.characterForm__fieldTitle, {
               [styles.characterForm__fieldTitle_error]: Boolean(errors.location)

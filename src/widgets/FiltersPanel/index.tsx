@@ -1,6 +1,5 @@
 import {
   type Dispatch,
-  type KeyboardEvent,
   memo,
   type SetStateAction,
   useCallback,
@@ -48,21 +47,12 @@ const FiltersPanel = memo(({ setFilters }: TFiltersPanelProps) => {
     [updateFilters]
   );
 
-  const handleNameChange = useCallback((value: string) => {
-    setNameFilter(value);
-  }, []);
-
-  const applyNameFilter = useCallback(() => {
-    updateFilters({ name: nameFilter.toLowerCase() || undefined });
-  }, [nameFilter, updateFilters]);
-
-  const handleEnterKeyDown = useCallback(
-    (event: KeyboardEvent<HTMLInputElement>) => {
-      if (event.key === 'Enter') {
-        applyNameFilter();
-      }
+  const handleNameChange = useCallback(
+    (value: string) => {
+      setNameFilter(value);
+      updateFilters({ name: value.toLowerCase() || undefined });
     },
-    [applyNameFilter]
+    [updateFilters]
   );
 
   return (
@@ -72,14 +62,8 @@ const FiltersPanel = memo(({ setFilters }: TFiltersPanelProps) => {
         placeholder='Filter by name...'
         value={nameFilter}
         onChange={handleNameChange}
-        onKeyDown={handleEnterKeyDown}
         name='nameFilter'
-        icon={
-          <SearchIcon
-            className={styles.searchIcon}
-            onClick={applyNameFilter}
-          />
-        }
+        icon={<SearchIcon className={styles.searchIcon} />}
       />
       <Selector
         value={filters.status}
