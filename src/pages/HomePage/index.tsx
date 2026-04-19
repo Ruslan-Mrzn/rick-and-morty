@@ -19,7 +19,7 @@ import styles from './HomePage.module.scss';
 
 const HomePage = () => {
   const filters = useCharactersFiltersStore((state) => state.filters);
-  const [page, setPage] = useState(1);
+  const page = useCharactersFiltersStore((state) => state.page);
   const [loadedCharacters, setLoadedCharacters] = useState<TCharacter[]>([]);
   const [isPending, startTransition] = useTransition();
 
@@ -45,8 +45,9 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    setPage(1);
-    setLoadedCharacters([]);
+    startTransition(() => {
+      setLoadedCharacters([]);
+    });
   }, [filters]);
 
   useEffect(() => {
@@ -79,8 +80,6 @@ const HomePage = () => {
         <InfiniteScroll
           pages={pages}
           isLoading={isLoading}
-          page={page}
-          setPage={setPage}
           error={error}
         >
           {({ lastElementRef }) => (
