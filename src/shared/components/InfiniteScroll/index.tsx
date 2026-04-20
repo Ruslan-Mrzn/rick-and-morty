@@ -4,11 +4,12 @@ import { useOnInView } from 'react-intersection-observer';
 
 import { SuccessLoadedIcon } from '@/assets/icons';
 import { classNames } from '@/shared/helpers';
-import { useCharactersFiltersStore } from '@/stores';
 
 import styles from './InfiniteScroll.module.scss';
 
 type TInfiniteScrollProps = {
+  currentPage: number;
+  incrementPage: () => void;
   pages: number;
   isLoading: boolean;
   error: null | string;
@@ -18,16 +19,14 @@ type TInfiniteScrollProps = {
 };
 
 const InfiniteScroll = ({
+  currentPage,
+  incrementPage,
   pages,
   isLoading,
   error,
   children
 }: TInfiniteScrollProps) => {
-  const page = useCharactersFiltersStore((state) => state.page);
-  const incrementPage = useCharactersFiltersStore(
-    (state) => state.incrementPage
-  );
-  const hasMore = page < pages;
+  const hasMore = currentPage < pages;
 
   const handleInView = useCallback(
     (inView: boolean) => {

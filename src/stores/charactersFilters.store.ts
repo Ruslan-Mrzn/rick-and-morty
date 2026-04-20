@@ -1,31 +1,22 @@
 import { create } from 'zustand';
 
-import type { TGetCharactersParams } from '@/shared/types';
-
-type TCharactersFilters = Omit<TGetCharactersParams, 'page' | 'signal'>;
+import type { TCharactersFilters } from '@/shared/types';
 
 type TCharactersFiltersStore = {
   filters: TCharactersFilters;
   nameInput: string;
   page: number;
-  setFilter: (
-    _field: keyof TCharactersFilters,
-    _value: TCharactersFilters[keyof TCharactersFilters]
+  setFilter: <K extends keyof TCharactersFilters>(
+    _field: K,
+    _value: TCharactersFilters[K]
   ) => void;
   setNameFilter: (_value: string) => void;
   incrementPage: () => void;
 };
 
-const INITIAL_FILTERS: TCharactersFilters = {
-  gender: undefined,
-  status: undefined,
-  species: undefined,
-  name: undefined
-};
-
 export const useCharactersFiltersStore = create<TCharactersFiltersStore>(
   (set) => ({
-    filters: INITIAL_FILTERS,
+    filters: {},
     nameInput: '',
     page: 1,
     setFilter: (field, value) =>
@@ -38,7 +29,7 @@ export const useCharactersFiltersStore = create<TCharactersFiltersStore>(
         nameInput: value,
         filters: {
           ...state.filters,
-          name: value.toLowerCase() || undefined
+          name: value.toLowerCase().trim() || undefined
         },
         page: 1
       })),

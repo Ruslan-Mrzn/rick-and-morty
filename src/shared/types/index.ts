@@ -61,3 +61,5 @@ export type TGetCharactersParams = {
   species?: Lowercase<TSpecies>;
   signal?: AbortSignal;
 };
+
+export type TCharactersFilters = Omit<TGetCharactersParams, 'page' | 'signal'>;

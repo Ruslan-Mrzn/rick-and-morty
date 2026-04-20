@@ -8,6 +8,8 @@ import {
 
 import { Toaster } from 'react-hot-toast';
 
+import { useShallow } from 'zustand/react/shallow';
+
 import { useCharacters, useErrorToast } from '@/hooks';
 import { BigLogo, InfiniteScroll, Loader } from '@/shared/components';
 import type { TCharacter } from '@/shared/types';
@@ -18,8 +20,13 @@ import { CharactersList } from './components';
 import styles from './HomePage.module.scss';
 
 const HomePage = () => {
-  const filters = useCharactersFiltersStore((state) => state.filters);
-  const page = useCharactersFiltersStore((state) => state.page);
+  const { filters, page, incrementPage } = useCharactersFiltersStore(
+    useShallow((state) => ({
+      filters: state.filters,
+      page: state.page,
+      incrementPage: state.incrementPage
+    }))
+  );
   const [loadedCharacters, setLoadedCharacters] = useState<TCharacter[]>([]);
   const [isPending, startTransition] = useTransition();
 
@@ -78,6 +85,8 @@ const HomePage = () => {
 
       <div className={styles.homePage__charactersList}>
         <InfiniteScroll
+          currentPage={page}
+          incrementPage={incrementPage}
           pages={pages}
           isLoading={isLoading}
           error={error}

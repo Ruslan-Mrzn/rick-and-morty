@@ -1,5 +1,7 @@
 import { memo, useCallback } from 'react';
 
+import { useShallow } from 'zustand/react/shallow';
+
 import { SearchIcon } from '@/assets/icons';
 import { Selector, TextInput } from '@/shared/components';
 import {
@@ -7,23 +9,24 @@ import {
   speciesOptionsWithAll,
   statusOptionsWithAll
 } from '@/shared/helpers';
-import type { TGetCharactersParams } from '@/shared/types';
+import type { TCharactersFilters } from '@/shared/types';
 import { useCharactersFiltersStore } from '@/stores';
 
 import styles from './FiltersPanel.module.scss';
 
-type TCharacterFilters = Omit<TGetCharactersParams, 'page' | 'signal'>;
-
 const FiltersPanel = memo(() => {
-  const filters = useCharactersFiltersStore((state) => state.filters);
-  const nameInput = useCharactersFiltersStore((state) => state.nameInput);
-  const setFilter = useCharactersFiltersStore((state) => state.setFilter);
-  const setNameFilter = useCharactersFiltersStore(
-    (state) => state.setNameFilter
-  );
+  const { filters, nameInput, setFilter, setNameFilter } =
+    useCharactersFiltersStore(
+      useShallow((state) => ({
+        filters: state.filters,
+        nameInput: state.nameInput,
+        setFilter: state.setFilter,
+        setNameFilter: state.setNameFilter
+      }))
+    );
 
   const handleFilterChange = useCallback(
-    (field: keyof TCharacterFilters) => (value: string) => {
+    (field: keyof TCharactersFilters) => (value: string) => {
       setFilter(field, value === 'all' ? undefined : value);
     },
     [setFilter]
