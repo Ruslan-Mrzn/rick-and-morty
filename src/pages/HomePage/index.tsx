@@ -1,5 +1,4 @@
 import {
-  type SetStateAction,
   useCallback,
   useEffect,
   useMemo,
@@ -9,19 +8,25 @@ import {
 
 import { Toaster } from 'react-hot-toast';
 
+import { useShallow } from 'zustand/react/shallow';
+
 import { useCharacters, useErrorToast } from '@/hooks';
 import { BigLogo, InfiniteScroll, Loader } from '@/shared/components';
-import type { TCharacter, TGetCharactersParams } from '@/shared/types';
+import type { TCharacter } from '@/shared/types';
+import { useCharactersFiltersStore } from '@/stores';
 import { FiltersPanel } from '@/widgets';
 
 import { CharactersList } from './components';
 import styles from './HomePage.module.scss';
 
 const HomePage = () => {
-  const [filters, setFilters] = useState<Omit<TGetCharactersParams, 'page'>>(
-    {}
+  const { filters, page, incrementPage } = useCharactersFiltersStore(
+    useShallow((state) => ({
+      filters: state.filters,
+      page: state.page,
+      incrementPage: state.incrementPage
+    }))
   );
-  const [page, setPage] = useState(1);
   const [loadedCharacters, setLoadedCharacters] = useState<TCharacter[]>([]);
   const [isPending, startTransition] = useTransition();
 
@@ -32,13 +37,6 @@ const HomePage = () => {
       )
     );
   }, []);
-
-  const setFiltersCallback = useCallback(
-    (updates: SetStateAction<Omit<TGetCharactersParams, 'page'>>) => {
-      setFilters(updates);
-    },
-    []
-  );
 
   const params = useMemo(() => ({ ...filters, page }), [filters, page]);
   const { characters, pages, isLoading, error, refetchCharacters } =
@@ -54,8 +52,9 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    setPage(1);
-    setLoadedCharacters([]);
+    startTransition(() => {
+      setLoadedCharacters([]);
+    });
   }, [filters]);
 
   useEffect(() => {
@@ -72,7 +71,7 @@ const HomePage = () => {
         <BigLogo />
       </div>
       <div className={styles.homePage__filters}>
-        <FiltersPanel setFilters={setFiltersCallback} />
+        <FiltersPanel />
       </div>
 
       {(isLoading || isPending) && loadedCharacters.length === 0 && (
@@ -86,10 +85,10 @@ const HomePage = () => {
 
       <div className={styles.homePage__charactersList}>
         <InfiniteScroll
+          currentPage={page}
+          incrementPage={incrementPage}
           pages={pages}
           isLoading={isLoading}
-          page={page}
-          setPage={setPage}
           error={error}
         >
           {({ lastElementRef }) => (

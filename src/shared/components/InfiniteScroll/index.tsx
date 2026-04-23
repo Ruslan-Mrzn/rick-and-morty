@@ -1,9 +1,4 @@
-import {
-  type Dispatch,
-  type ReactNode,
-  type SetStateAction,
-  useCallback
-} from 'react';
+import { type ReactNode, useCallback } from 'react';
 
 import { useOnInView } from 'react-intersection-observer';
 
@@ -13,33 +8,33 @@ import { classNames } from '@/shared/helpers';
 import styles from './InfiniteScroll.module.scss';
 
 type TInfiniteScrollProps = {
+  currentPage: number;
+  incrementPage: () => void;
   pages: number;
   isLoading: boolean;
   error: null | string;
-  page: number;
-  setPage: Dispatch<SetStateAction<number>>;
   children: (_props: {
     lastElementRef: (_node: Element | null) => void;
   }) => ReactNode;
 };
 
 const InfiniteScroll = ({
+  currentPage,
+  incrementPage,
   pages,
   isLoading,
   error,
-  page,
-  setPage,
   children
 }: TInfiniteScrollProps) => {
-  const hasMore = page < pages;
+  const hasMore = currentPage < pages;
 
   const handleInView = useCallback(
     (inView: boolean) => {
       if (inView && hasMore && !isLoading && !error) {
-        setPage((prev) => prev + 1);
+        incrementPage();
       }
     },
-    [hasMore, isLoading, setPage, error]
+    [error, hasMore, incrementPage, isLoading]
   );
 
   const lastElementRef = useOnInView(handleInView);
