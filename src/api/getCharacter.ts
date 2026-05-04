@@ -1,5 +1,5 @@
 import { CHARACTERS_ENDPOINT } from '@/shared/constants';
-import { axios } from '@/shared/helpers';
+import { axios } from '@/shared/lib';
 import type { TServerCharacter } from '@/shared/types';
 
 const getCharacter = (id: number, signal?: AbortSignal) => {

@@ -1,72 +1,45 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
-import { getCharacters } from '@/api';
+import { charactersKeys, getCharacters } from '@/api';
 import { charactersAdapter } from '@/pages';
-import { fetchWithRetry } from '@/shared/helpers';
-import type { TCharacter, TGetCharactersParams } from '@/shared/types';
+import { getErrorMessage } from '@/shared/helpers';
+import type { TGetCharactersParams } from '@/shared/types';
 
 const DEFAULT_QUERY_PARAMS: TGetCharactersParams = {};
 
-type TUseCharactersState = {
-  characters: TCharacter[];
-  pages: number;
-  isLoading: boolean;
-  error: string | null;
-};
-
 const useCharacters = (params: TGetCharactersParams = DEFAULT_QUERY_PARAMS) => {
-  const [state, setState] = useState<TUseCharactersState>({
-    characters: [],
-    pages: 0,
-    isLoading: true,
-    error: null
+  const queryKeyParams = {
+    page: params.page,
+    name: params.name,
+    status: params.status,
+    gender: params.gender,
+    species: params.species
+  };
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: charactersKeys.list(queryKeyParams),
+    queryFn: async ({ signal }) => {
+      const response = await getCharacters({ ...queryKeyParams, signal });
+      const results = response.data.results;
+      const availablePagesCount = response.data.info.pages;
+      const parsedCharacters = charactersAdapter(results);
+
+      return {
+        characters: parsedCharacters,
+        pages: availablePagesCount
+      };
+    }
   });
 
-  const fetchCharacters = useCallback(
-    async (signal?: AbortSignal) => {
-      setState((prev) => ({ ...prev, isLoading: true, error: null }));
-
-      const response = await fetchWithRetry({
-        requestFn: () => getCharacters({ ...params, signal }),
-        signal,
-        onError: (error) => {
-          setState((prev) => ({
-            ...prev,
-            isLoading: false,
-            error
-          }));
-        },
-        onSuccess: (response) => {
-          const results = response.data.results;
-          const availablePagesCount = response.data.info.pages;
-          const parsedCharacters = charactersAdapter(results);
-
-          setState({
-            characters: parsedCharacters,
-            pages: availablePagesCount,
-            isLoading: false,
-            error: null
-          });
-        }
-      });
-
-      return response;
-    },
-    [params]
-  );
-
-  useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
-
-    fetchCharacters(signal);
-
-    return () => controller.abort();
-  }, [fetchCharacters]);
-
   return {
-    ...state,
-    refetchCharacters: fetchCharacters
+    characters: data?.characters ?? [],
+    pages: data?.pages ?? 0,
+    isLoading,
+    error: error ? getErrorMessage(error) : null,
+    refetchCharacters: async (signal?: AbortSignal) => {
+      void signal;
+
+      return refetch();
+    }
   };
 };
 

@@ -1,64 +1,23 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
-import { getCharacter } from '@/api';
+import { charactersKeys, getCharacter } from '@/api';
 import { characterAdapter } from '@/pages';
-import { fetchWithRetry } from '@/shared/helpers';
-import type { TCharacter } from '@/shared/types';
-
-type TUseCharacterState = {
-  character: TCharacter | null;
-  isLoading: boolean;
-  error: string | null;
-};
+import { getErrorMessage } from '@/shared/helpers';
 
 const useCharacter = (id: number) => {
-  const [state, setState] = useState<TUseCharacterState>({
-    character: null,
-    isLoading: true,
-    error: null
+  const { data, isLoading, error } = useQuery({
+    queryKey: charactersKeys.detail(id),
+    queryFn: async ({ signal }) => {
+      const response = await getCharacter(id, signal);
+
+      return characterAdapter(response.data);
+    }
   });
 
-  const fetchCharacter = useCallback(
-    async (signal?: AbortSignal) => {
-      setState((prev) => ({ ...prev, isLoading: true, error: null }));
-
-      const response = await fetchWithRetry({
-        requestFn: () => getCharacter(id, signal),
-        signal,
-        onError: (error) => {
-          setState((prev) => ({
-            ...prev,
-            isLoading: false,
-            error
-          }));
-        },
-        onSuccess: (response) => {
-          const parsedCharacter = characterAdapter(response.data);
-
-          setState({
-            character: parsedCharacter,
-            isLoading: false,
-            error: null
-          });
-        }
-      });
-
-      return response;
-    },
-    [id]
-  );
-
-  useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
-
-    fetchCharacter(signal);
-
-    return () => controller.abort();
-  }, [fetchCharacter]);
-
   return {
-    ...state
+    character: data ?? null,
+    isLoading,
+    error: error ? getErrorMessage(error) : null
   };
 };
 
