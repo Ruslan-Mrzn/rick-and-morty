@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import { Toaster } from 'react-hot-toast';
 
@@ -10,6 +10,7 @@ import { useShallow } from 'zustand/react/shallow';
 import { charactersKeys } from '@/api';
 import { useCharacters, useErrorToast } from '@/hooks';
 import { BigLogo, InfiniteScroll, Loader } from '@/shared/components';
+import { LAST_VIEWED_CHARACTER_STORAGE_KEY } from '@/shared/constants';
 import type { TCharacter } from '@/shared/types';
 import { useCharactersFiltersStore } from '@/stores';
 import { FiltersPanel } from '@/widgets';
@@ -61,6 +62,7 @@ const HomePage = () => {
     error,
     refetchCharacters
   } = useCharacters(params);
+  const hasRestoredScrollRef = useRef(false);
 
   useErrorToast(error);
 
@@ -70,6 +72,35 @@ const HomePage = () => {
 
     await refetchCharacters(signal);
   };
+
+  useEffect(() => {
+    if (hasRestoredScrollRef.current || characters.length === 0) {
+      return;
+    }
+
+    const lastViewedCharacterId = sessionStorage.getItem(
+      LAST_VIEWED_CHARACTER_STORAGE_KEY
+    );
+
+    if (!lastViewedCharacterId) {
+      return;
+    }
+
+    const lastViewedCharacter = document.getElementById(
+      `character-form-${lastViewedCharacterId}`
+    );
+
+    if (!lastViewedCharacter) {
+      return;
+    }
+
+    lastViewedCharacter.scrollIntoView({
+      block: 'center',
+      behavior: 'auto'
+    });
+    hasRestoredScrollRef.current = true;
+    sessionStorage.removeItem(LAST_VIEWED_CHARACTER_STORAGE_KEY);
+  }, [characters]);
 
   return (
     <div className={styles.homePage}>
