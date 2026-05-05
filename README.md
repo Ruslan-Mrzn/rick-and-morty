@@ -16,6 +16,7 @@
 - React Hook Form + Zod
 - SCSS Modules
 - Zustand state manager
+- TanStack React Query
 
 ## Установка
 
@@ -66,4 +67,6 @@ src/
 - Оптимизация изображений при сборке
 - Динамический `base` путь для деплоя на Vercel и GitHub Pages
 - **404 страница:** `public/404.html` перехватывает прямые ссылки и сохраняет путь в `sessionStorage`, затем `src/app/RouterWrapper.tsx` перенаправляет на нужный маршрут внутри приложения
+- **TanStack React Query:** `useInfiniteQuery` для списка персонажей (постраничная подгрузка через `pageParam`)
+- **Поиск по имени:** submit-модель (Enter/клик по иконке), чтобы не создавать кэш на каждое недопечатанное значение
 - Автоматический деплой через GitHub Actions
