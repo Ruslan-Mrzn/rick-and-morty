@@ -1,15 +1,13 @@
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-  useTransition
-} from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { Toaster } from 'react-hot-toast';
 
+import type { InfiniteData } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
+
 import { useShallow } from 'zustand/react/shallow';
 
+import { charactersKeys } from '@/api';
 import { useCharacters, useErrorToast } from '@/hooks';
 import { BigLogo, InfiniteScroll, Loader } from '@/shared/components';
 import type { TCharacter } from '@/shared/types';
@@ -27,20 +25,42 @@ const HomePage = () => {
       incrementPage: state.incrementPage
     }))
   );
-  const [loadedCharacters, setLoadedCharacters] = useState<TCharacter[]>([]);
-  const [isPending, startTransition] = useTransition();
+  const queryClient = useQueryClient();
 
-  const updateCharacter = useCallback((updatedCharacter: TCharacter) => {
-    setLoadedCharacters((prev) =>
-      prev.map((char) =>
-        char.id === updatedCharacter.id ? updatedCharacter : char
-      )
-    );
-  }, []);
+  const updateCharacter = useCallback(
+    (updatedCharacter: TCharacter) => {
+      queryClient.setQueryData<
+        InfiniteData<{ characters: TCharacter[]; pages: number }>
+      >(charactersKeys.list(filters), (cachedData) => {
+        if (!cachedData) {
+          return cachedData;
+        }
+
+        return {
+          ...cachedData,
+          pages: cachedData.pages.map((pageData) => ({
+            ...pageData,
+            characters: pageData.characters.map((character) =>
+              character.id === updatedCharacter.id
+                ? updatedCharacter
+                : character
+            )
+          }))
+        };
+      });
+    },
+    [filters, queryClient]
+  );
 
   const params = useMemo(() => ({ ...filters, page }), [filters, page]);
-  const { characters, pages, isLoading, error, refetchCharacters } =
-    useCharacters(params);
+  const {
+    characters,
+    isLoading,
+    isFetchingNextPage,
+    hasNextPage,
+    error,
+    refetchCharacters
+  } = useCharacters(params);
 
   useErrorToast(error);
 
@@ -51,20 +71,6 @@ const HomePage = () => {
     await refetchCharacters(signal);
   };
 
-  useEffect(() => {
-    startTransition(() => {
-      setLoadedCharacters([]);
-    });
-  }, [filters]);
-
-  useEffect(() => {
-    if (characters.length) {
-      startTransition(() => {
-        setLoadedCharacters((prev) => [...prev, ...characters]);
-      });
-    }
-  }, [characters]);
-
   return (
     <div className={styles.homePage}>
       <div className={styles.homePage__logo}>
@@ -74,7 +80,7 @@ const HomePage = () => {
         <FiltersPanel />
       </div>
 
-      {(isLoading || isPending) && loadedCharacters.length === 0 && (
+      {isLoading && characters.length === 0 && (
         <div className={styles.homePage__loader}>
           <Loader
             size='big'
@@ -85,15 +91,15 @@ const HomePage = () => {
 
       <div className={styles.homePage__charactersList}>
         <InfiniteScroll
-          currentPage={page}
           incrementPage={incrementPage}
-          pages={pages}
+          hasNextPage={hasNextPage}
           isLoading={isLoading}
+          isFetchingNextPage={isFetchingNextPage}
           error={error}
         >
           {({ lastElementRef }) => (
             <CharactersList
-              characters={loadedCharacters}
+              characters={characters}
               lastElementRef={lastElementRef}
               updateCharacter={updateCharacter}
             />
@@ -101,13 +107,13 @@ const HomePage = () => {
         </InfiniteScroll>
       </div>
 
-      {(isLoading || isPending) && loadedCharacters.length > 0 && (
+      {isFetchingNextPage && characters.length > 0 && (
         <div className={styles.homePage__loader}>
           <Loader size='small' />
         </div>
       )}
 
-      {!isLoading && error && (
+      {!isLoading && !isFetchingNextPage && error && (
         <div className={styles.homePage__tryAgainContainer}>
           <button
             className={styles.homePage__tryAgain}

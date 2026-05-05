@@ -1,4 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
+
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { charactersKeys, getCharacters } from '@/api';
 import { charactersAdapter } from '@/pages';
@@ -8,17 +10,29 @@ import type { TGetCharactersParams } from '@/shared/types';
 const DEFAULT_QUERY_PARAMS: TGetCharactersParams = {};
 
 const useCharacters = (params: TGetCharactersParams = DEFAULT_QUERY_PARAMS) => {
-  const queryKeyParams = {
-    page: params.page,
+  const listFilters = {
     name: params.name,
     status: params.status,
     gender: params.gender,
     species: params.species
   };
-  const { data, isLoading, error, refetch } = useQuery({
-    queryKey: charactersKeys.list(queryKeyParams),
-    queryFn: async ({ signal }) => {
-      const response = await getCharacters({ ...queryKeyParams, signal });
+  const {
+    data,
+    isLoading,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
+    error,
+    refetch
+  } = useInfiniteQuery({
+    queryKey: charactersKeys.list(listFilters),
+    initialPageParam: 1,
+    queryFn: async ({ signal, pageParam }) => {
+      const response = await getCharacters({
+        ...listFilters,
+        page: pageParam,
+        signal
+      });
       const results = response.data.results;
       const availablePagesCount = response.data.info.pages;
       const parsedCharacters = charactersAdapter(results);
@@ -27,13 +41,45 @@ const useCharacters = (params: TGetCharactersParams = DEFAULT_QUERY_PARAMS) => {
         characters: parsedCharacters,
         pages: availablePagesCount
       };
+    },
+    getNextPageParam: (lastPage, allPages) => {
+      const nextPage = allPages.length + 1;
+
+      return nextPage <= lastPage.pages ? nextPage : undefined;
     }
   });
 
-  return {
-    characters: data?.characters ?? [],
-    pages: data?.pages ?? 0,
+  useEffect(() => {
+    const requestedPage = params.page ?? 1;
+    const loadedPages = data?.pages.length ?? 0;
+
+    if (
+      requestedPage > loadedPages &&
+      hasNextPage &&
+      !isFetchingNextPage &&
+      !isLoading
+    ) {
+      void fetchNextPage();
+    }
+  }, [
+    params.page,
+    data?.pages.length,
+    hasNextPage,
+    isFetchingNextPage,
     isLoading,
+    fetchNextPage
+  ]);
+
+  const allCharacters =
+    data?.pages.flatMap((pageData) => pageData.characters) ?? [];
+  const availablePagesCount = data?.pages[0]?.pages ?? 0;
+
+  return {
+    characters: allCharacters,
+    pages: availablePagesCount,
+    isLoading,
+    isFetchingNextPage,
+    hasNextPage,
     error: error ? getErrorMessage(error) : null,
     refetchCharacters: async (signal?: AbortSignal) => {
       void signal;

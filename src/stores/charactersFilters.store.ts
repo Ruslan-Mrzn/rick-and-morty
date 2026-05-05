@@ -10,7 +10,8 @@ type TCharactersFiltersStore = {
     _field: K,
     _value: TCharactersFilters[K]
   ) => void;
-  setNameFilter: (_value: string) => void;
+  setNameInput: (_value: string) => void;
+  applyNameFilter: () => void;
   incrementPage: () => void;
 };
 
@@ -24,12 +25,12 @@ export const useCharactersFiltersStore = create<TCharactersFiltersStore>(
         filters: { ...state.filters, [field]: value },
         page: 1
       })),
-    setNameFilter: (value) =>
+    setNameInput: (value) => set({ nameInput: value }),
+    applyNameFilter: () =>
       set((state) => ({
-        nameInput: value,
         filters: {
           ...state.filters,
-          name: value.toLowerCase().trim() || undefined
+          name: state.nameInput.toLowerCase().trim() || undefined
         },
         page: 1
       })),

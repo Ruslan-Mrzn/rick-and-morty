@@ -8,10 +8,10 @@ import { classNames } from '@/shared/helpers';
 import styles from './InfiniteScroll.module.scss';
 
 type TInfiniteScrollProps = {
-  currentPage: number;
   incrementPage: () => void;
-  pages: number;
+  hasNextPage: boolean;
   isLoading: boolean;
+  isFetchingNextPage: boolean;
   error: null | string;
   children: (_props: {
     lastElementRef: (_node: Element | null) => void;
@@ -19,22 +19,26 @@ type TInfiniteScrollProps = {
 };
 
 const InfiniteScroll = ({
-  currentPage,
   incrementPage,
-  pages,
+  hasNextPage,
   isLoading,
+  isFetchingNextPage,
   error,
   children
 }: TInfiniteScrollProps) => {
-  const hasMore = currentPage < pages;
-
   const handleInView = useCallback(
     (inView: boolean) => {
-      if (inView && hasMore && !isLoading && !error) {
+      if (
+        inView &&
+        hasNextPage &&
+        !isFetchingNextPage &&
+        !isLoading &&
+        !error
+      ) {
         incrementPage();
       }
     },
-    [error, hasMore, incrementPage, isLoading]
+    [error, hasNextPage, incrementPage, isFetchingNextPage, isLoading]
   );
 
   const lastElementRef = useOnInView(handleInView);
@@ -42,7 +46,7 @@ const InfiniteScroll = ({
   return (
     <>
       {children({ lastElementRef })}
-      {!isLoading && !hasMore && !error && (
+      {!isLoading && !isFetchingNextPage && !hasNextPage && !error && (
         <span className={styles.infiniteScroll__infoText}>
           <SuccessLoadedIcon className={styles.infiniteScroll__successIcon} />
           Аll data has been loaded
