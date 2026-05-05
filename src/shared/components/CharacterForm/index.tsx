@@ -239,7 +239,6 @@ const CharacterForm = memo(
             </div>
             <button
               type='submit'
-              onClick={handleSubmit(handleAcceptChanges)}
               className={styles.characterForm__acceptChanges}
             >
               <CheckIcon />

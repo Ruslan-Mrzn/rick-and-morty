@@ -28,7 +28,7 @@ const HomePage = () => {
   );
   const queryClient = useQueryClient();
 
-  const updateCharacter = useCallback(
+  const updateCharacterInCache = useCallback(
     (updatedCharacter: TCharacter) => {
       queryClient.setQueryData<
         InfiniteData<{ characters: TCharacter[]; pages: number }>
@@ -66,12 +66,17 @@ const HomePage = () => {
 
   useErrorToast(error);
 
-  const tryToFetchCharactersAgain = async () => {
-    const abortController = new AbortController();
-    const signal = abortController.signal;
+  const tryToFetchCharactersAgain = useCallback(() => {
+    void refetchCharacters();
+  }, [refetchCharacters]);
 
-    await refetchCharacters(signal);
-  };
+  useEffect(() => {
+    return () => {
+      void queryClient.cancelQueries({
+        queryKey: charactersKeys.lists()
+      });
+    };
+  }, [queryClient]);
 
   useEffect(() => {
     if (hasRestoredScrollRef.current || characters.length === 0) {
@@ -132,7 +137,7 @@ const HomePage = () => {
             <CharactersList
               characters={characters}
               lastElementRef={lastElementRef}
-              updateCharacter={updateCharacter}
+              updateCharacter={updateCharacterInCache}
             />
           )}
         </InfiniteScroll>

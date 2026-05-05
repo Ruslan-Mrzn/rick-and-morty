@@ -81,11 +81,7 @@ const useCharacters = (params: TGetCharactersParams = DEFAULT_QUERY_PARAMS) => {
     isFetchingNextPage,
     hasNextPage,
     error: error ? getErrorMessage(error) : null,
-    refetchCharacters: async (signal?: AbortSignal) => {
-      void signal;
-
-      return refetch();
-    }
+    refetchCharacters: () => refetch()
   };
 };
 
