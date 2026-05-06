@@ -8,6 +8,7 @@ import { z as zod } from 'zod';
 
 import { CheckIcon, CrossIcon } from '@/assets/icons';
 import { FormTextInput, Indicator, Selector } from '@/shared/components';
+import { LAST_VIEWED_CHARACTER_STORAGE_KEY } from '@/shared/constants';
 import { classNames, statusOptions } from '@/shared/helpers';
 import type { TCharacter, TStatus } from '@/shared/types';
 
@@ -32,12 +33,12 @@ const characterEditSchema = zod.object({
   name: zod
     .string()
     .min(1, 'Name is required')
-    .max(25, 'Name is too long')
+    .max(40, 'Name is too long')
     .trim(),
   location: zod
     .string()
     .min(1, 'Location is required')
-    .max(30, 'Location is too long')
+    .max(50, 'Location is too long')
     .trim(),
   status: zod
     .union([zod.literal('alive'), zod.literal('dead'), zod.literal('unknown')])
@@ -133,6 +134,10 @@ const CharacterForm = memo(
       setIsEditing(false);
     }, [resetFormToInitialValues, setIsEditing]);
 
+    const handleOpenCharacterPage = useCallback(() => {
+      sessionStorage.setItem(LAST_VIEWED_CHARACTER_STORAGE_KEY, String(id));
+    }, [id]);
+
     return (
       <form
         id={`character-form-${id}`}
@@ -156,6 +161,7 @@ const CharacterForm = memo(
             <Link
               className={styles.characterForm__name}
               to={`/character/${id}`}
+              onClick={handleOpenCharacterPage}
             >
               {initialName}
             </Link>
@@ -233,7 +239,6 @@ const CharacterForm = memo(
             </div>
             <button
               type='submit'
-              onClick={handleSubmit(handleAcceptChanges)}
               className={styles.characterForm__acceptChanges}
             >
               <CheckIcon />

@@ -31,6 +31,9 @@ export type TextInputProps = {
   icon?: ReactNode;
   value?: string;
   onChange?: Dispatch<string>;
+  onEnter?: () => void;
+  onClear?: () => void;
+  onIconClick?: () => void;
 };
 
 export type TServerCharacter = {

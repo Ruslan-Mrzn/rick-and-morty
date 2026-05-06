@@ -1,17 +1,16 @@
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-  useTransition
-} from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import { Toaster } from 'react-hot-toast';
 
+import type { InfiniteData } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
+
 import { useShallow } from 'zustand/react/shallow';
 
+import { charactersKeys } from '@/api';
 import { useCharacters, useErrorToast } from '@/hooks';
 import { BigLogo, InfiniteScroll, Loader } from '@/shared/components';
+import { LAST_VIEWED_CHARACTER_STORAGE_KEY } from '@/shared/constants';
 import type { TCharacter } from '@/shared/types';
 import { useCharactersFiltersStore } from '@/stores';
 import { FiltersPanel } from '@/widgets';
@@ -27,42 +26,85 @@ const HomePage = () => {
       incrementPage: state.incrementPage
     }))
   );
-  const [loadedCharacters, setLoadedCharacters] = useState<TCharacter[]>([]);
-  const [isPending, startTransition] = useTransition();
+  const queryClient = useQueryClient();
 
-  const updateCharacter = useCallback((updatedCharacter: TCharacter) => {
-    setLoadedCharacters((prev) =>
-      prev.map((char) =>
-        char.id === updatedCharacter.id ? updatedCharacter : char
-      )
-    );
-  }, []);
+  const updateCharacterInCache = useCallback(
+    (updatedCharacter: TCharacter) => {
+      queryClient.setQueryData<
+        InfiniteData<{ characters: TCharacter[]; pages: number }>
+      >(charactersKeys.list(filters), (cachedData) => {
+        if (!cachedData) {
+          return cachedData;
+        }
+
+        return {
+          ...cachedData,
+          pages: cachedData.pages.map((pageData) => ({
+            ...pageData,
+            characters: pageData.characters.map((character) =>
+              character.id === updatedCharacter.id
+                ? updatedCharacter
+                : character
+            )
+          }))
+        };
+      });
+    },
+    [filters, queryClient]
+  );
 
   const params = useMemo(() => ({ ...filters, page }), [filters, page]);
-  const { characters, pages, isLoading, error, refetchCharacters } =
-    useCharacters(params);
+  const {
+    characters,
+    isLoading,
+    isFetchingNextPage,
+    hasNextPage,
+    error,
+    refetchCharacters
+  } = useCharacters(params);
+  const hasRestoredScrollRef = useRef(false);
 
   useErrorToast(error);
 
-  const tryToFetchCharactersAgain = async () => {
-    const abortController = new AbortController();
-    const signal = abortController.signal;
-
-    await refetchCharacters(signal);
-  };
+  const tryToFetchCharactersAgain = useCallback(() => {
+    void refetchCharacters();
+  }, [refetchCharacters]);
 
   useEffect(() => {
-    startTransition(() => {
-      setLoadedCharacters([]);
-    });
-  }, [filters]);
-
-  useEffect(() => {
-    if (characters.length) {
-      startTransition(() => {
-        setLoadedCharacters((prev) => [...prev, ...characters]);
+    return () => {
+      void queryClient.cancelQueries({
+        queryKey: charactersKeys.lists()
       });
+    };
+  }, [queryClient]);
+
+  useEffect(() => {
+    if (hasRestoredScrollRef.current || characters.length === 0) {
+      return;
     }
+
+    const lastViewedCharacterId = sessionStorage.getItem(
+      LAST_VIEWED_CHARACTER_STORAGE_KEY
+    );
+
+    if (!lastViewedCharacterId) {
+      return;
+    }
+
+    const lastViewedCharacter = document.getElementById(
+      `character-form-${lastViewedCharacterId}`
+    );
+
+    if (!lastViewedCharacter) {
+      return;
+    }
+
+    lastViewedCharacter.scrollIntoView({
+      block: 'center',
+      behavior: 'auto'
+    });
+    hasRestoredScrollRef.current = true;
+    sessionStorage.removeItem(LAST_VIEWED_CHARACTER_STORAGE_KEY);
   }, [characters]);
 
   return (
@@ -74,7 +116,7 @@ const HomePage = () => {
         <FiltersPanel />
       </div>
 
-      {(isLoading || isPending) && loadedCharacters.length === 0 && (
+      {isLoading && characters.length === 0 && (
         <div className={styles.homePage__loader}>
           <Loader
             size='big'
@@ -85,29 +127,29 @@ const HomePage = () => {
 
       <div className={styles.homePage__charactersList}>
         <InfiniteScroll
-          currentPage={page}
           incrementPage={incrementPage}
-          pages={pages}
+          hasNextPage={hasNextPage}
           isLoading={isLoading}
+          isFetchingNextPage={isFetchingNextPage}
           error={error}
         >
           {({ lastElementRef }) => (
             <CharactersList
-              characters={loadedCharacters}
+              characters={characters}
               lastElementRef={lastElementRef}
-              updateCharacter={updateCharacter}
+              updateCharacter={updateCharacterInCache}
             />
           )}
         </InfiniteScroll>
       </div>
 
-      {(isLoading || isPending) && loadedCharacters.length > 0 && (
+      {isFetchingNextPage && characters.length > 0 && (
         <div className={styles.homePage__loader}>
           <Loader size='small' />
         </div>
       )}
 
-      {!isLoading && error && (
+      {!isLoading && !isFetchingNextPage && error && (
         <div className={styles.homePage__tryAgainContainer}>
           <button
             className={styles.homePage__tryAgain}

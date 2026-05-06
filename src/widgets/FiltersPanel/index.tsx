@@ -15,13 +15,14 @@ import { useCharactersFiltersStore } from '@/stores';
 import styles from './FiltersPanel.module.scss';
 
 const FiltersPanel = memo(() => {
-  const { filters, nameInput, setFilter, setNameFilter } =
+  const { filters, nameInput, setFilter, setNameInput, applyNameFilter } =
     useCharactersFiltersStore(
       useShallow((state) => ({
         filters: state.filters,
         nameInput: state.nameInput,
         setFilter: state.setFilter,
-        setNameFilter: state.setNameFilter
+        setNameInput: state.setNameInput,
+        applyNameFilter: state.applyNameFilter
       }))
     );
 
@@ -32,11 +33,20 @@ const FiltersPanel = memo(() => {
     [setFilter]
   );
 
-  const handleNameChange = useCallback(
+  const handleNameSubmit = useCallback(() => {
+    applyNameFilter();
+  }, [applyNameFilter]);
+
+  const handleNameClear = useCallback(() => {
+    setNameInput('');
+    applyNameFilter();
+  }, [applyNameFilter, setNameInput]);
+
+  const handleNameInputChange = useCallback(
     (value: string) => {
-      setNameFilter(value);
+      setNameInput(value);
     },
-    [setNameFilter]
+    [setNameInput]
   );
 
   return (
@@ -45,7 +55,10 @@ const FiltersPanel = memo(() => {
         variant='bordered'
         placeholder='Filter by name...'
         value={nameInput}
-        onChange={handleNameChange}
+        onChange={handleNameInputChange}
+        onEnter={handleNameSubmit}
+        onClear={handleNameClear}
+        onIconClick={handleNameSubmit}
         name='nameFilter'
         icon={<SearchIcon className={styles.searchIcon} />}
       />
