@@ -5,10 +5,12 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import { appQueryClient } from './appQueryClient';
 
+const isDev = import.meta.env.DEV;
+
 export const ReactQueryRootProvider = ({ children }: PropsWithChildren) => (
   <QueryClientProvider client={appQueryClient}>
     {children}
-    {import.meta.env.DEV ? (
+    {isDev ? (
       <ReactQueryDevtools
         buttonPosition='bottom-left'
         initialIsOpen={false}
