@@ -17,6 +17,7 @@
 - SCSS Modules
 - Zustand state manager
 - TanStack React Query
+- Vitest + React Testing Library (unit tests)
 
 ## Установка
 
@@ -34,7 +35,15 @@ npm run dev     # запуск dev-сервера
 npm run build   # сборка продакшн-версии
 npm run preview # предпросмотр сборки
 npm run bundle:size    # сборка + анализ бандла (открывает в браузере)
+npm test        # запуск unit-тестов
+npm run test:watch     # запуск тестов в watch-режиме
+npm run test:coverage  # запуск тестов с coverage
 ```
+
+## Unit-тесты
+
+- В проекте настроены unit-тесты.
+- Используется стек: **Vitest**, **React Testing Library**, **jsdom**.
 
 ## Функционал
 

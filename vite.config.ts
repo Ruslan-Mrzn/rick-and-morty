@@ -2,9 +2,9 @@ import react from '@vitejs/plugin-react';
 import fs from 'fs';
 import path from 'path';
 import { visualizer } from 'rollup-plugin-visualizer';
-import { defineConfig } from 'vite';
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 import svgr from 'vite-plugin-svgr';
+import { defineConfig } from 'vitest/config';
 
 const isVisualizer = process.env.BUILD_VISUALIZER === 'true';
 
@@ -40,5 +40,11 @@ export default defineConfig(() => ({
     alias: {
       '@': path.resolve(__dirname, './src')
     }
+  },
+  test: {
+    environment: 'jsdom',
+    setupFiles: ['./vitest.setup.ts'],
+    include: ['src/**/*.test.{js,jsx,ts,tsx}'],
+    passWithNoTests: true
   }
 }));
