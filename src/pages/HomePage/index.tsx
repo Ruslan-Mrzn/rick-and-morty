@@ -17,6 +17,8 @@ import { FiltersPanel } from '@/widgets';
 
 import { CharactersList } from './components';
 import styles from './HomePage.module.scss';
+import { updateCharacterInInfiniteCache } from './utils';
+import type { TCharactersPage } from './utils/updateCharacterInInfiniteCache';
 
 const HomePage = () => {
   const { filters, page, incrementPage } = useCharactersFiltersStore(
@@ -30,25 +32,11 @@ const HomePage = () => {
 
   const updateCharacterInCache = useCallback(
     (updatedCharacter: TCharacter) => {
-      queryClient.setQueryData<
-        InfiniteData<{ characters: TCharacter[]; pages: number }>
-      >(charactersKeys.list(filters), (cachedData) => {
-        if (!cachedData) {
-          return cachedData;
-        }
-
-        return {
-          ...cachedData,
-          pages: cachedData.pages.map((pageData) => ({
-            ...pageData,
-            characters: pageData.characters.map((character) =>
-              character.id === updatedCharacter.id
-                ? updatedCharacter
-                : character
-            )
-          }))
-        };
-      });
+      queryClient.setQueryData<InfiniteData<TCharactersPage>>(
+        charactersKeys.list(filters),
+        (cachedData) =>
+          updateCharacterInInfiniteCache(cachedData, updatedCharacter)
+      );
     },
     [filters, queryClient]
   );
