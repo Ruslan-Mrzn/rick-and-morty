@@ -83,7 +83,7 @@ export default defineConfig([
     }
   },
   {
-    files: ['vite.config.ts'],
+    files: ['vite.config.ts', 'playwright.config.ts'],
     languageOptions: {
       globals: globals.node
     }
