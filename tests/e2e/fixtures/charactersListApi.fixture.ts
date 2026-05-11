@@ -17,20 +17,15 @@ export const test = base.extend<CharactersApiFixtures>({
         const requestUrl = new URL(route.request().url());
         const nameFilter = requestUrl.searchParams.get('name')?.toLowerCase();
 
-        if (nameFilter === 'hunter') {
-          await route.fulfill({
-            status: 200,
-            contentType: 'application/json',
-            body: JSON.stringify(charactersByNameHunterResponseMock)
-          });
-
-          return;
-        }
+        const body =
+          nameFilter === 'hunter'
+            ? JSON.stringify(charactersByNameHunterResponseMock)
+            : JSON.stringify(charactersListResponseMock);
 
         await route.fulfill({
           status: 200,
           contentType: 'application/json',
-          body: JSON.stringify(charactersListResponseMock)
+          body
         });
       });
 
