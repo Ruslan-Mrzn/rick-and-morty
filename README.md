@@ -18,6 +18,7 @@
 - Zustand state manager
 - TanStack React Query
 - Vitest + React Testing Library (unit tests)
+- Playwright (e2e tests)
 
 ## Установка
 
@@ -38,12 +39,22 @@ npm run bundle:size    # сборка + анализ бандла (открыв�
 npm test        # запуск unit-тестов
 npm run test:watch     # запуск тестов в watch-режиме
 npm run test:coverage  # запуск тестов с coverage
+npm run test:e2e       # запуск e2e-тестов (Playwright)
 ```
 
 ## Unit-тесты
 
 - В проекте настроены unit-тесты.
 - Используется стек: **Vitest**, **React Testing Library**, **jsdom**.
+
+## E2E-тесты
+
+- Для e2e используется **Playwright**.
+- Запуск e2e-тестов:
+
+```bash
+npm run test:e2e
+```
 
 ## Функционал
 
