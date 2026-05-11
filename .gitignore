@@ -29,3 +29,8 @@ dist-ssr
 # Bundle analysis reports
 reports/*
 !reports/.gitkeep
+
+# Playwright reports and artifacts
+playwright-report/
+test-results/
+blob-report/
