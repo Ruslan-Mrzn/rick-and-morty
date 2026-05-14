@@ -20,13 +20,13 @@
 
   min-width: 24rem;
   min-height: 5.6rem;
-  border: 1px solid rgba(0, 0, 0, 0.38);
+  border: 1px solid var(--color-border-muted);
   border-radius: 8px;
 
   font-size: 1.8rem;
   font-weight: 700;
   line-height: 1;
-  color: #000;
+  color: var(--color-text-primary);
   text-decoration: none;
 
   background-color: transparent;

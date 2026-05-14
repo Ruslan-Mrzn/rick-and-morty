@@ -22,7 +22,7 @@
   font-size: 2rem;
   font-weight: 500;
   line-height: 1.5;
-  color: rgba(0, 0, 0, 0.87);
+  color: var(--color-text-soft);
   text-decoration: none;
   text-overflow: ellipsis;
   letter-spacing: 0.01rem;
@@ -46,8 +46,8 @@
     text-shadow 0.1s;
 
   &:hover {
-    color: #008ba3;
-    text-shadow: 0 0 4px rgba(0, 255, 0, 1);
+    color: var(--color-accent-portal);
+    text-shadow: 0 0 4px var(--color-accent-portal-glow);
   }
 }
 
@@ -58,7 +58,7 @@
 
   font-size: 1.4rem;
   font-weight: 500;
-  color: red;
+  color: var(--color-danger);
   text-transform: none;
 }
 
@@ -75,7 +75,7 @@
   font-size: 1.4rem;
   font-weight: 400;
   line-height: 1.5;
-  color: rgba(0, 0, 0, 0.6);
+  color: var(--color-text-muted);
   text-transform: capitalize;
   letter-spacing: 0.02rem;
   &_editing {
@@ -87,10 +87,10 @@
   font-size: 1.6rem;
   font-weight: 500;
   line-height: 1.31;
-  color: #3f3f3f;
+  color: var(--color-text-label);
   letter-spacing: 0.02rem;
   &_error {
-    color: red;
+    color: var(--color-danger);
     text-transform: none;
   }
 }
@@ -124,7 +124,11 @@
 .characterForm__acceptChanges,
 .characterForm__discardChanges {
   cursor: pointer;
+
   border: none;
+
   font-size: 0;
+  color: var(--color-text-primary);
+
   background-color: transparent;
 }

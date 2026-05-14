@@ -11,7 +11,8 @@
   padding-right: 1.3rem;
   border-radius: 6px;
 
-  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.25);
+  background-color: var(--color-bg-character-card);
+  box-shadow: var(--shadow-character-card);
   &:hover > .characterCard__edit {
     display: block;
   }
@@ -51,4 +52,5 @@
   height: 1.3rem;
 
   font-size: 0;
+  color: var(--color-text-primary);
 }

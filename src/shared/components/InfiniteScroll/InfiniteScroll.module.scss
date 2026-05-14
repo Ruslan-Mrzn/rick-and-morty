@@ -15,12 +15,12 @@
 
   font-size: 1.8rem;
   font-weight: 700;
-  color: #008ba3;
+  color: var(--color-accent-portal);
   text-align: center;
-  text-shadow: 0 0 4px rgba(0, 255, 0, 1);
+  text-shadow: 0 0 4px var(--color-accent-portal-glow);
 
   &_error {
     font-weight: 700;
-    color: red;
+    color: var(--color-danger);
   }
 }

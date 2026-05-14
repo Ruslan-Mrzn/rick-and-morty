@@ -10,7 +10,7 @@
     -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
     Arial, sans-serif;
 
-  background-color: #f5f5f5;
+  background-color: var(--color-fallback-surface);
 }
 
 .content {
@@ -21,15 +21,15 @@
 
   text-align: center;
 
-  background-color: #ffffff;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: var(--color-fallback-card);
+  box-shadow: var(--color-fallback-card-shadow);
 }
 
 .title {
   margin-bottom: 20px;
   font-size: 2rem;
   font-weight: 500;
-  color: #d32f2f;
+  color: var(--color-fallback-title);
 }
 
 .errorContainer {
@@ -40,7 +40,7 @@
   margin-bottom: 15px;
   font-size: 1.1rem;
   line-height: 1.5;
-  color: #666666;
+  color: var(--color-fallback-text);
 }
 
 .errorDetails {
@@ -48,14 +48,14 @@
 
   margin-top: 10px;
   padding: 15px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--color-fallback-border);
   border-radius: 6px;
 
   font-size: 0.9rem;
-  color: #666666;
+  color: var(--color-fallback-text);
   text-align: left;
 
-  background-color: #f8f8f8;
+  background-color: var(--color-fallback-code-bg);
 }
 
 .button {
@@ -70,15 +70,15 @@
 
   font-size: 1rem;
   font-weight: 500;
-  color: #ffffff;
+  color: var(--color-text-on-primary);
   text-decoration: none;
 
-  background-color: #1976d2;
+  background-color: var(--color-fallback-btn);
 
   transition: background-color 0.2s ease;
 
   &:hover {
-    background-color: #1565c0;
+    background-color: var(--color-fallback-btn-hover);
   }
 
   &:active {
@@ -86,7 +86,7 @@
   }
 
   &:focus {
-    outline: 2px solid #90caf9;
+    outline: 2px solid var(--color-fallback-btn-focus);
     outline-offset: 2px;
   }
 }
@@ -94,17 +94,17 @@
 .buttonSecondary {
   composes: button;
   margin-left: 10px;
-  background-color: #9e9e9e;
+  background-color: var(--color-fallback-btn-secondary);
 
   &:hover {
-    background-color: #757575;
+    background-color: var(--color-fallback-btn-secondary-hover);
   }
 }
 
 .helpText {
   margin-top: 10px;
   font-size: 0.9rem;
-  color: #999999;
+  color: var(--color-fallback-help);
 }
 
 .buttonGroup {
