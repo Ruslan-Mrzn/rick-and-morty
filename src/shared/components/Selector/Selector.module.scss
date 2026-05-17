@@ -11,7 +11,7 @@
 
   font-size: 1.6rem;
   font-weight: 400;
-  color: rgba(0, 0, 0, 0.6);
+  color: var(--color-selector-text);
 }
 
 .selector_small {
@@ -55,7 +55,7 @@
 
   min-height: 5.5rem;
   padding: 0.8rem 3rem 0.8rem 1.4rem;
-  border: 1px solid #393939;
+  border: 1px solid var(--color-selector-outline);
   border-radius: 0.8rem;
 
   font-size: inherit;
@@ -65,7 +65,7 @@
   text-align: left;
   text-transform: capitalize;
 
-  background-color: transparent;
+  background-color: var(--color-bg-main);
   &:focus-visible {
     outline: none;
   }
@@ -90,12 +90,12 @@
   left: 0;
 
   padding: 0.8rem 3rem 0.8rem 1.4rem;
-  border: 1px solid #393939;
+  border: 1px solid var(--color-selector-outline);
   border-radius: 0.8rem;
 
   list-style: none;
 
-  background-color: #fff;
+  background-color: var(--color-bg-main);
 }
 
 .selector__option {

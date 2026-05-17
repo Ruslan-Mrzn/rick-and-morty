@@ -1,13 +1,14 @@
+@use './theme';
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-weight: 400;
   font-synthesis: none;
   line-height: 1.5;
-  color: #000;
+  color: var(--color-text-primary);
   text-rendering: optimizelegibility;
 
-  color-scheme: light dark;
-  background-color: #fff;
+  background-color: var(--color-bg-main);
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

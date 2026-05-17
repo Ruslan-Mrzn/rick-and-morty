@@ -5,13 +5,13 @@
 }
 
 .indicator_alive {
-  background-color: #12b800;
+  background-color: var(--color-status-alive);
 }
 
 .indicator_dead {
-  background-color: #df0000;
+  background-color: var(--color-status-dead);
 }
 
 .indicator_unknown {
-  background-color: #f90;
+  background-color: var(--color-status-unknown);
 }
