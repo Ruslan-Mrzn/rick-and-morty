@@ -9,7 +9,6 @@ export const ERROR_CODE = {
   SERVER_MESSAGE: 'serverMessage'
 } as const satisfies Record<string, TErrorCode>;
 
-/** Не показывать toast (сообщение остаётся в UI списка) */
 export const SILENT_ERROR_CODES: readonly TErrorCode[] = [
   ERROR_CODE.NO_CHARACTERS_FOUND
 ];

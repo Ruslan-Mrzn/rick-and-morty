@@ -14,6 +14,7 @@ type TClassName = {
 };
 
 const ThemeToggle = memo(() => {
+  const { t } = useTranslation();
   const { theme, toggleTheme } = useThemeStore();
   const isDark = theme === 'dark';
 
@@ -21,7 +22,11 @@ const ThemeToggle = memo(() => {
     <button
       type='button'
       className={styles.header__btn}
-      aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+      aria-label={
+        isDark
+          ? t((s) => s.layout.themeSwitchToLight)
+          : t((s) => s.layout.themeSwitchToDark)
+      }
       aria-pressed={isDark}
       onClick={toggleTheme}
     >
@@ -86,13 +91,17 @@ const Header = memo(({ className }: TClassName) => (
   </header>
 ));
 
-const Footer = memo(({ className }: TClassName) => (
-  <footer className={styles.footer}>
-    <div className={classNames(styles.footer__inner, className)}>
-      <p className={styles.footer__text}>Made with love by Russel_Mrzn</p>
-    </div>
-  </footer>
-));
+const Footer = memo(({ className }: TClassName) => {
+  const { t } = useTranslation();
+
+  return (
+    <footer className={styles.footer}>
+      <div className={classNames(styles.footer__inner, className)}>
+        <p className={styles.footer__text}>{t((s) => s.layout.footer)}</p>
+      </div>
+    </footer>
+  );
+});
 
 const MainLayout = ({ className }: TClassName) => {
   return (

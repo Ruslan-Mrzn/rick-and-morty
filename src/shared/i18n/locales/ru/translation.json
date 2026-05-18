@@ -2,7 +2,6 @@
   "common": {
     "tryAgain": "Попробовать снова",
     "goBack": "Назад",
-    "goBackHome": "На главную",
     "goToHomepage": "На главную",
     "loadingCharacters": "Загрузка персонажей...",
     "loadingCharacter": "Загрузка карточки персонажа...",
@@ -11,7 +10,7 @@
   "layout": {
     "themeSwitchToLight": "Переключить на светлую тему",
     "themeSwitchToDark": "Переключить на тёмную тему",
-    "footer": "Made with love by Russel_Mrzn",
+    "footer": "Сделано с любовью - Russel_Mrzn",
     "langSwitchToRu": "РУ",
     "langSwitchToEn": "EN"
   },

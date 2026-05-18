@@ -1,9 +1,17 @@
 import { memo, useCallback } from 'react';
 
+import { useTranslation } from 'react-i18next';
+
 import { useShallow } from 'zustand/react/shallow';
 
 import { SearchIcon } from '@/assets/icons';
-import { Selector, TextInput } from '@/shared/components';
+import {
+  GenderEnumLabel,
+  Selector,
+  SpeciesEnumLabel,
+  StatusEnumLabel,
+  TextInput
+} from '@/shared/components';
 import {
   genderOptionsWithAll,
   speciesOptionsWithAll,
@@ -15,6 +23,7 @@ import { useCharactersFiltersStore } from '@/stores';
 import styles from './FiltersPanel.module.scss';
 
 const FiltersPanel = memo(() => {
+  const { t } = useTranslation();
   const { filters, nameInput, setFilter, setNameInput, applyNameFilter } =
     useCharactersFiltersStore(
       useShallow((state) => ({
@@ -53,7 +62,7 @@ const FiltersPanel = memo(() => {
     <div className={styles.filtersPanel}>
       <TextInput
         variant='bordered'
-        placeholder='Filter by name...'
+        placeholder={t((s) => s.filters.namePlaceholder)}
         value={nameInput}
         onChange={handleNameInputChange}
         onEnter={handleNameSubmit}
@@ -64,20 +73,23 @@ const FiltersPanel = memo(() => {
       />
       <Selector
         value={filters.status}
-        placeholder='Status'
+        placeholder={t((s) => s.filters.status)}
         options={statusOptionsWithAll}
+        OptionComponent={StatusEnumLabel}
         onChange={handleFilterChange('status')}
       />
       <Selector
         value={filters.gender}
-        placeholder='Gender'
+        placeholder={t((s) => s.filters.gender)}
         options={genderOptionsWithAll}
+        OptionComponent={GenderEnumLabel}
         onChange={handleFilterChange('gender')}
       />
       <Selector
         value={filters.species}
-        placeholder='Species'
+        placeholder={t((s) => s.filters.species)}
         options={speciesOptionsWithAll}
+        OptionComponent={SpeciesEnumLabel}
         onChange={handleFilterChange('species')}
       />
     </div>

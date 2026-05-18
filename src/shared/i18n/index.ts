@@ -5,5 +5,3 @@ export const localeResources = {
   en: { translation: en },
   ru: { translation: ru satisfies typeof en }
 } as const;
-
-export type TranslationResources = typeof en;

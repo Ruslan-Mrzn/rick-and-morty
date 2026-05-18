@@ -1,22 +1,25 @@
 import { Toaster } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
 
 import { useAppErrorMessage, useCharacter, useErrorToast } from '@/hooks';
 import { GoBackBtn, Loader } from '@/shared/components';
+import { formatCharacterFieldValue } from '@/shared/helpers';
 import type { TCharacter } from '@/shared/types';
 
 import styles from './CharacterPage.module.scss';
 
-const CHARACTER_FIELDS: { key: keyof TCharacter; label: string }[] = [
-  { key: 'gender', label: 'Gender' },
-  { key: 'status', label: 'Status' },
-  { key: 'species', label: 'Specie' },
-  { key: 'origin', label: 'Origin' },
-  { key: 'type', label: 'Type' },
-  { key: 'location', label: 'Location' }
-];
+const CHARACTER_FIELD_KEYS = [
+  'gender',
+  'status',
+  'species',
+  'origin',
+  'type',
+  'location'
+] as const satisfies readonly (keyof TCharacter)[];
 
 const CharacterPage = () => {
+  const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const { character, isLoading, error } = useCharacter(Number(id));
   const errorMessage = useAppErrorMessage(error);
@@ -32,7 +35,7 @@ const CharacterPage = () => {
         {isLoading && (
           <Loader
             size='big'
-            text='Loading character card...'
+            text={t((s) => s.common.loadingCharacter)}
           />
         )}
         {errorMessage && (
@@ -49,16 +52,20 @@ const CharacterPage = () => {
               <h1 className={styles.charPage__name}>{character.name}</h1>
             </div>
             <section className={styles.charPage__info}>
-              <h2 className={styles.charPage__infoTitle}>Information</h2>
+              <h2 className={styles.charPage__infoTitle}>
+                {t((s) => s.characterPage.information)}
+              </h2>
               <dl className={styles.charPage__infoGrid}>
-                {CHARACTER_FIELDS.map(({ key, label }) => (
+                {CHARACTER_FIELD_KEYS.map((key) => (
                   <div
                     key={key}
                     className={styles.charPage__infoItem}
                   >
-                    <dt className={styles.charPage__infoLabel}>{label}</dt>
+                    <dt className={styles.charPage__infoLabel}>
+                      {t((s) => s.characterPage.fields[key])}
+                    </dt>
                     <dd className={styles.charPage__infoValue}>
-                      {character[key]}
+                      {formatCharacterFieldValue(t, key, character)}
                     </dd>
                   </div>
                 ))}

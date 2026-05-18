@@ -1,5 +1,6 @@
 import { type ReactNode, useCallback } from 'react';
 
+import { useTranslation } from 'react-i18next';
 import { useOnInView } from 'react-intersection-observer';
 
 import { SuccessLoadedIcon } from '@/assets/icons';
@@ -28,6 +29,7 @@ const InfiniteScroll = ({
   error,
   children
 }: TInfiniteScrollProps) => {
+  const { t } = useTranslation();
   const errorMessage = useAppErrorMessage(error);
 
   const handleInView = useCallback(
@@ -53,7 +55,7 @@ const InfiniteScroll = ({
       {!isLoading && !isFetchingNextPage && !hasNextPage && !error && (
         <span className={styles.infiniteScroll__infoText}>
           <SuccessLoadedIcon className={styles.infiniteScroll__successIcon} />
-          Аll data has been loaded
+          {t((s) => s.common.allDataLoaded)}
         </span>
       )}
       {!isLoading && errorMessage && (

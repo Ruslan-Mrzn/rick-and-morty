@@ -9,6 +9,5 @@ export type TErrorCode = TKnownErrorCode | 'serverMessage';
 
 export type TAppError = {
   code: TErrorCode;
-  /** Только для `serverMessage` — текст с API, не переводится */
   serverMessage?: string;
 };

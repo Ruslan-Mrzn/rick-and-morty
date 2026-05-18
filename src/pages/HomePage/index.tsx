@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import { Toaster } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 import type { InfiniteData } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
@@ -21,6 +22,7 @@ import { updateCharacterInInfiniteCache } from './utils';
 import type { TCharactersPage } from './utils/updateCharacterInInfiniteCache';
 
 const HomePage = () => {
+  const { t } = useTranslation();
   const { filters, page, incrementPage } = useCharactersFiltersStore(
     useShallow((state) => ({
       filters: state.filters,
@@ -108,7 +110,7 @@ const HomePage = () => {
         <div className={styles.homePage__loader}>
           <Loader
             size='big'
-            text='Loading characters...'
+            text={t((s) => s.common.loadingCharacters)}
           />
         </div>
       )}
@@ -143,7 +145,7 @@ const HomePage = () => {
             className={styles.homePage__tryAgain}
             onClick={tryToFetchCharactersAgain}
           >
-            Try again
+            {t((s) => s.common.tryAgain)}
           </button>
         </div>
       )}

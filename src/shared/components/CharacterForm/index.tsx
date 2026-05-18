@@ -1,17 +1,32 @@
-import { type Dispatch, memo, useCallback, useEffect } from 'react';
+import { type Dispatch, memo, useCallback, useEffect, useMemo } from 'react';
 
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z as zod } from 'zod';
 
 import { CheckIcon, CrossIcon } from '@/assets/icons';
-import { FormTextInput, Indicator, Selector } from '@/shared/components';
+import {
+  FormTextInput,
+  Indicator,
+  Selector,
+  StatusEnumLabel
+} from '@/shared/components';
 import { LAST_VIEWED_CHARACTER_STORAGE_KEY } from '@/shared/constants';
-import { classNames, statusOptions } from '@/shared/helpers';
+import {
+  classNames,
+  statusOptions,
+  translateGender,
+  translateSpecies,
+  translateStatus
+} from '@/shared/helpers';
 import type { TCharacter, TStatus } from '@/shared/types';
 
+import {
+  createCharacterEditSchema,
+  type TCharacterEditFormData
+} from './characterEditSchema';
 import styles from './CharacterForm.module.scss';
 
 type TOptionStatusComponentProps = {
@@ -22,30 +37,12 @@ const OptionStatusComponent = memo(
   ({ option }: TOptionStatusComponentProps) => {
     return (
       <>
-        {option}
+        <StatusEnumLabel option={option} />
         <Indicator status={option} />
       </>
     );
   }
 );
-
-const characterEditSchema = zod.object({
-  name: zod
-    .string()
-    .min(1, 'Name is required')
-    .max(40, 'Name is too long')
-    .trim(),
-  location: zod
-    .string()
-    .min(1, 'Location is required')
-    .max(50, 'Location is too long')
-    .trim(),
-  status: zod
-    .union([zod.literal('alive'), zod.literal('dead'), zod.literal('unknown')])
-    .catch('unknown')
-});
-
-type TCharacterEditFormData = zod.infer<typeof characterEditSchema>;
 
 type CharacterFormProps = {
   data: TCharacter;
@@ -70,6 +67,16 @@ const CharacterForm = memo(
     isEditing,
     onUpdateCharacter
   }: CharacterFormProps) => {
+    const { t, i18n } = useTranslation();
+    const characterEditSchema = useMemo(
+      () => createCharacterEditSchema(t),
+      [t]
+    );
+    const resolver = useMemo(
+      () => zodResolver(characterEditSchema),
+      [characterEditSchema]
+    );
+
     const {
       control,
       handleSubmit,
@@ -79,7 +86,7 @@ const CharacterForm = memo(
       reset,
       trigger
     } = useForm<TCharacterEditFormData>({
-      resolver: zodResolver(characterEditSchema),
+      resolver,
       defaultValues: {
         name: initialName,
         location: initialLocation,
@@ -87,6 +94,10 @@ const CharacterForm = memo(
       },
       mode: 'onChange'
     });
+
+    useEffect(() => {
+      void trigger();
+    }, [i18n.language, trigger]);
 
     const resetFormToInitialValues = useCallback(() => {
       reset({
@@ -155,7 +166,7 @@ const CharacterForm = memo(
               name='name'
               value={watch('name')}
               variant='underlined'
-              placeholder='Enter name'
+              placeholder={t((s) => s.characterForm.namePlaceholder)}
             />
           ) : (
             <Link
@@ -173,12 +184,20 @@ const CharacterForm = memo(
           </span>
         )}
         <div className={styles.characterForm__field}>
-          <span className={styles.characterForm__fieldTitle}>Gender</span>
-          <span className={styles.characterForm__fieldValue}>{gender}</span>
+          <span className={styles.characterForm__fieldTitle}>
+            {t((s) => s.characterForm.gender)}
+          </span>
+          <span className={styles.characterForm__fieldValue}>
+            {translateGender(t, gender)}
+          </span>
         </div>
         <div className={styles.characterForm__field}>
-          <span className={styles.characterForm__fieldTitle}>Species</span>
-          <span className={styles.characterForm__fieldValue}>{species}</span>
+          <span className={styles.characterForm__fieldTitle}>
+            {t((s) => s.characterForm.species)}
+          </span>
+          <span className={styles.characterForm__fieldValue}>
+            {translateSpecies(t, species)}
+          </span>
         </div>
         <div
           className={classNames(styles.characterForm__field, {
@@ -190,7 +209,9 @@ const CharacterForm = memo(
               [styles.characterForm__fieldTitle_error]: Boolean(errors.location)
             })}
           >
-            {errors.location ? errors.location.message : 'Location'}
+            {errors.location
+              ? errors.location.message
+              : t((s) => s.characterForm.location)}
           </span>
           {isEditing ? (
             <FormTextInput
@@ -198,7 +219,7 @@ const CharacterForm = memo(
               name='location'
               value={watch('location')}
               variant='underlined'
-              placeholder='Enter location'
+              placeholder={t((s) => s.characterForm.locationPlaceholder)}
             />
           ) : (
             <span className={styles.characterForm__fieldValue}>
@@ -211,7 +232,9 @@ const CharacterForm = memo(
             [styles.characterForm__field_editing]: Boolean(isEditing)
           })}
         >
-          <span className={styles.characterForm__fieldTitle}>Status</span>
+          <span className={styles.characterForm__fieldTitle}>
+            {t((s) => s.characterForm.status)}
+          </span>
           {isEditing ? (
             <Selector
               size='small'
@@ -227,7 +250,7 @@ const CharacterForm = memo(
                 styles.characterForm__status
               )}
             >
-              {initialStatus}
+              {translateStatus(t, initialStatus)}
               <Indicator status={initialStatus} />
             </div>
           )}
