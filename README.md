@@ -7,6 +7,7 @@
 ### 1.1.0
 
 - Добавлена тёмная тема: переключатель в шапке, сохранение выбора в `localStorage`, учёт системной темы при первом заходе
+- Локализация интерфейса (en/ru): переключатель EN/РУ в шапке, сохранение выбора в `localStorage` (`rick-morty-lang`)
 
 ### 1.0.0
 
@@ -26,6 +27,7 @@
 - React Hook Form + Zod
 - SCSS Modules
 - Zustand state manager
+- i18next + react-i18next
 - TanStack React Query
 - Vitest + React Testing Library (unit tests)
 - Playwright (e2e tests)
@@ -74,6 +76,7 @@ npm run test:e2e
 - **Страница персонажа** — детальная информация
 - **404 страница** — с редиректом на главную
 - **Тёмная тема** — переключение светлой/тёмной темы в шапке, выбор сохраняется в `localStorage`
+- **Локализация (en/ru)** — переключение языка EN/РУ в шапке, выбор сохраняется в `localStorage`
 
 ## Структура проекта
 
@@ -99,6 +102,7 @@ src/
 - Динамический `base` путь для деплоя на Vercel и GitHub Pages
 - **404 страница:** `public/404.html` перехватывает прямые ссылки и сохраняет путь в `sessionStorage`, затем `src/app/RouterWrapper.tsx` перенаправляет на нужный маршрут внутри приложения
 - **Тёмная тема:** CSS-переменные в `src/styles/theme.scss`, переключение через Zustand (`theme.store`), учёт системных настроек при первом заходе
+- **i18n (en/ru):** переводы в `src/shared/i18n/locales/`, инициализация в `src/shared/lib/i18n.ts` (подключается в `main.tsx`), переключатель в `MainLayout`; для неизвестных видов с API — fallback на `speciesLabel`
 - **TanStack React Query:** `useInfiniteQuery` для списка персонажей (постраничная подгрузка через `pageParam`)
 - **Поиск по имени:** submit-модель (Enter/клик по иконке), чтобы не создавать кэш на каждое недопечатанное значение
 - Автоматический деплой через GitHub Actions
