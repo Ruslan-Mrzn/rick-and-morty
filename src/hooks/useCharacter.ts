@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { charactersKeys, getCharacter } from '@/api';
 import { characterAdapter } from '@/pages';
-import { getErrorMessage } from '@/shared/helpers';
+import { parseAppError } from '@/shared/helpers';
 
 const useCharacter = (id: number) => {
   const { data, isLoading, error } = useQuery({
@@ -17,7 +17,7 @@ const useCharacter = (id: number) => {
   return {
     character: data ?? null,
     isLoading,
-    error: error ? getErrorMessage(error) : null
+    error: error ? parseAppError(error) : null
   };
 };
 

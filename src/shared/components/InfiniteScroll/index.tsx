@@ -3,7 +3,9 @@ import { type ReactNode, useCallback } from 'react';
 import { useOnInView } from 'react-intersection-observer';
 
 import { SuccessLoadedIcon } from '@/assets/icons';
+import { useAppErrorMessage } from '@/hooks';
 import { classNames } from '@/shared/helpers';
+import type { TAppError } from '@/shared/types';
 
 import styles from './InfiniteScroll.module.scss';
 
@@ -12,7 +14,7 @@ type TInfiniteScrollProps = {
   hasNextPage: boolean;
   isLoading: boolean;
   isFetchingNextPage: boolean;
-  error: null | string;
+  error: TAppError | null;
   children: (_props: {
     lastElementRef: (_node: Element | null) => void;
   }) => ReactNode;
@@ -26,6 +28,8 @@ const InfiniteScroll = ({
   error,
   children
 }: TInfiniteScrollProps) => {
+  const errorMessage = useAppErrorMessage(error);
+
   const handleInView = useCallback(
     (inView: boolean) => {
       if (
@@ -52,14 +56,14 @@ const InfiniteScroll = ({
           Аll data has been loaded
         </span>
       )}
-      {!isLoading && error && (
+      {!isLoading && errorMessage && (
         <span
           className={classNames(
             styles.infiniteScroll__infoText_error,
             styles.infiniteScroll__infoText
           )}
         >
-          {error}
+          {errorMessage}
         </span>
       )}
     </>

@@ -1,7 +1,7 @@
 import { Toaster } from 'react-hot-toast';
 import { useParams } from 'react-router';
 
-import { useCharacter, useErrorToast } from '@/hooks';
+import { useAppErrorMessage, useCharacter, useErrorToast } from '@/hooks';
 import { GoBackBtn, Loader } from '@/shared/components';
 import type { TCharacter } from '@/shared/types';
 
@@ -19,6 +19,7 @@ const CHARACTER_FIELDS: { key: keyof TCharacter; label: string }[] = [
 const CharacterPage = () => {
   const { id } = useParams<{ id: string }>();
   const { character, isLoading, error } = useCharacter(Number(id));
+  const errorMessage = useAppErrorMessage(error);
 
   useErrorToast(error);
 
@@ -34,7 +35,9 @@ const CharacterPage = () => {
             text='Loading character card...'
           />
         )}
-        {error && <p className={styles.charPage__errorText}>{error}</p>}
+        {errorMessage && (
+          <p className={styles.charPage__errorText}>{errorMessage}</p>
+        )}
         {character && (
           <>
             <div className={styles.charPage__charContainer}>

@@ -1,3 +1,3 @@
 export * from './apiConstants';
-export * from './errorTextConstants';
+export * from './errorCodes';
 export * from './storageConstants';

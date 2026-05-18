@@ -66,3 +66,5 @@ export type TGetCharactersParams = {
 };
 
 export type TCharactersFilters = Omit<TGetCharactersParams, 'page' | 'signal'>;
+
+export type { TAppError, TErrorCode, TKnownErrorCode } from './errors';

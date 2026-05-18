@@ -1,5 +1,6 @@
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 
+import { useTranslation } from 'react-i18next';
 import { Outlet } from 'react-router';
 
 import { DarkThemeIcon, LightThemeIcon, LogoIcon } from '@/assets/icons';
@@ -41,6 +42,34 @@ const ThemeToggle = memo(() => {
   );
 });
 
+const LanguageToggle = memo(() => {
+  const { i18n, t } = useTranslation();
+  const isRussian = i18n.language === 'ru';
+
+  const handleLanguageToggle = useCallback(() => {
+    const languageToSet = isRussian ? 'en' : 'ru';
+
+    void i18n.changeLanguage(languageToSet);
+  }, [i18n, isRussian]);
+
+  return (
+    <button
+      type='button'
+      className={styles.header__btn}
+      onClick={handleLanguageToggle}
+      aria-label={
+        isRussian
+          ? t((s) => s.layout.langSwitchToRu)
+          : t((s) => s.layout.langSwitchToEn)
+      }
+    >
+      {isRussian
+        ? t((s) => s.layout.langSwitchToRu)
+        : t((s) => s.layout.langSwitchToEn)}
+    </button>
+  );
+});
+
 const Header = memo(({ className }: TClassName) => (
   <header className={styles.header}>
     <div className={classNames(styles.header__inner, className)}>
@@ -51,12 +80,7 @@ const Header = memo(({ className }: TClassName) => (
       />
       <div className={styles.header__controls}>
         <ThemeToggle />
-        <button
-          type='button'
-          className={styles.header__btn}
-        >
-          РУ
-        </button>
+        <LanguageToggle />
       </div>
     </div>
   </header>

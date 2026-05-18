@@ -4,7 +4,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { charactersKeys, getCharacters } from '@/api';
 import { charactersAdapter } from '@/pages';
-import { getErrorMessage } from '@/shared/helpers';
+import { parseAppError } from '@/shared/helpers';
 import type { TGetCharactersParams } from '@/shared/types';
 
 const DEFAULT_QUERY_PARAMS: TGetCharactersParams = {};
@@ -80,7 +80,7 @@ const useCharacters = (params: TGetCharactersParams = DEFAULT_QUERY_PARAMS) => {
     isLoading,
     isFetchingNextPage,
     hasNextPage,
-    error: error ? getErrorMessage(error) : null,
+    error: error ? parseAppError(error) : null,
     refetchCharacters: () => refetch()
   };
 };

@@ -1,0 +1,92 @@
+{
+  "common": {
+    "tryAgain": "Try again",
+    "goBack": "Go Back",
+    "goBackHome": "Go back home",
+    "goToHomepage": "Go to Homepage",
+    "loadingCharacters": "Loading characters...",
+    "loadingCharacter": "Loading character card...",
+    "allDataLoaded": "All data has been loaded"
+  },
+  "layout": {
+    "themeSwitchToLight": "Switch to light theme",
+    "themeSwitchToDark": "Switch to dark theme",
+    "footer": "Made with love by Russel_Mrzn",
+    "langSwitchToRu": "РУ",
+    "langSwitchToEn": "EN"
+  },
+  "filters": {
+    "namePlaceholder": "Filter by name...",
+    "status": "Status",
+    "gender": "Gender",
+    "species": "Species"
+  },
+  "characterPage": {
+    "information": "Information",
+    "fields": {
+      "gender": "Gender",
+      "status": "Status",
+      "species": "Species",
+      "origin": "Origin",
+      "type": "Type",
+      "location": "Location"
+    }
+  },
+  "characterForm": {
+    "gender": "Gender",
+    "species": "Species",
+    "location": "Location",
+    "status": "Status",
+    "namePlaceholder": "Enter name",
+    "locationPlaceholder": "Enter location"
+  },
+  "notFound": {
+    "imageAlt": "not found"
+  },
+  "errorBoundary": {
+    "title": "Oops! Something went wrong",
+    "message": "An unexpected error has occurred. Our team has been notified.",
+    "helpText": "If the problem persists, please contact support"
+  },
+  "errors": {
+    "noCharactersFound": "No characters found.",
+    "tooManyRequests": "Too many requests. Please try again later.",
+    "server": "Server error. Please try again later.",
+    "unknown": "Unknown error occurred.",
+    "fetchFailed": "Failed to fetch."
+  },
+  "validation": {
+    "nameRequired": "Name is required",
+    "nameTooLong": "Name is too long",
+    "locationRequired": "Location is required",
+    "locationTooLong": "Location is too long"
+  },
+  "enums": {
+    "all": "All",
+    "status": {
+      "alive": "Alive",
+      "dead": "Dead",
+      "unknown": "Unknown"
+    },
+    "gender": {
+      "female": "Female",
+      "male": "Male",
+      "genderless": "Genderless",
+      "unknown": "Unknown"
+    },
+    "species": {
+      "human": "Human",
+      "alien": "Alien",
+      "humanoid": "Humanoid",
+      "animal": "Animal",
+      "robot": "Robot",
+      "cronenberg": "Cronenberg",
+      "disease": "Disease",
+      "unknown": "Unknown"
+    }
+  },
+  "a11y": {
+    "logo": "logo",
+    "loader": "loader"
+  }
+}
