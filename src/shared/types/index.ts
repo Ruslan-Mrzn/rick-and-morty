@@ -17,6 +17,7 @@ export type TCharacter = {
   name: string;
   status: TStatus;
   species: TSpecies;
+  speciesLabel: string;
   image: string;
   gender: TGender;
   location: string;

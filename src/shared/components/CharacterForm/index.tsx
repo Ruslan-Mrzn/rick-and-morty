@@ -60,6 +60,7 @@ const CharacterForm = memo(
       status: initialStatus,
       gender,
       species,
+      speciesLabel,
       image,
       origin
     },
@@ -131,6 +132,7 @@ const CharacterForm = memo(
           status: formData.status,
           gender,
           species,
+          speciesLabel,
           image,
           origin
         };
@@ -196,7 +198,7 @@ const CharacterForm = memo(
             {t((s) => s.characterForm.species)}
           </span>
           <span className={styles.characterForm__fieldValue}>
-            {translateSpecies(t, species)}
+            {translateSpecies(t, species, speciesLabel)}
           </span>
         </div>
         <div
