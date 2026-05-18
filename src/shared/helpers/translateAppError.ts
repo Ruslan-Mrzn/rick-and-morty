@@ -1,34 +1,37 @@
+import type { TFunction } from 'i18next';
+
 import { ERROR_CODE } from '@/shared/constants';
-import i18n from '@/shared/lib/i18n';
 import type { TAppError, TKnownErrorCode } from '@/shared/types';
+
+type TTranslate = TFunction<'translation'>;
 
 const assertNever = (unhandledCode: never): never => {
   throw new Error(`Unhandled error code: ${unhandledCode}`);
 };
 
-const translateKnownError = (code: TKnownErrorCode): string => {
+const translateKnownError = (code: TKnownErrorCode, t: TTranslate): string => {
   switch (code) {
     case ERROR_CODE.NO_CHARACTERS_FOUND:
-      return i18n.t(($) => $.errors.noCharactersFound);
+      return t(($) => $.errors.noCharactersFound);
     case ERROR_CODE.TOO_MANY_REQUESTS:
-      return i18n.t(($) => $.errors.tooManyRequests);
+      return t(($) => $.errors.tooManyRequests);
     case ERROR_CODE.SERVER:
-      return i18n.t(($) => $.errors.server);
+      return t(($) => $.errors.server);
     case ERROR_CODE.UNKNOWN:
-      return i18n.t(($) => $.errors.unknown);
+      return t(($) => $.errors.unknown);
     case ERROR_CODE.FETCH_FAILED:
-      return i18n.t(($) => $.errors.fetchFailed);
+      return t(($) => $.errors.fetchFailed);
     default:
       return assertNever(code);
   }
 };
 
-export const translateAppError = (error: TAppError): string => {
+export const translateAppError = (error: TAppError, t: TTranslate): string => {
   if (error.code === ERROR_CODE.SERVER_MESSAGE) {
-    return error.serverMessage ?? translateKnownError(ERROR_CODE.UNKNOWN);
+    return error.serverMessage ?? translateKnownError(ERROR_CODE.UNKNOWN, t);
   }
 
-  return translateKnownError(error.code);
+  return translateKnownError(error.code, t);
 };
 
 export default translateAppError;
