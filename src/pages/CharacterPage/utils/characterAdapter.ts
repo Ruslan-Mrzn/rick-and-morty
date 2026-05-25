@@ -17,7 +17,7 @@ const characterAdapter = (serverCharacter: TServerCharacter): TCharacter => {
     species: serverCharacter.species.toLowerCase() as TSpecies,
     speciesLabel: serverCharacter.species,
     origin: serverCharacter.origin.name,
-    type: serverCharacter.type || 'unknown'
+    type: serverCharacter.type || undefined
   };
 };
 

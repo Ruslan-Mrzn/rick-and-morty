@@ -110,7 +110,7 @@ const HomePage = () => {
         <div className={styles.homePage__loader}>
           <Loader
             size='big'
-            text={t((s) => s.common.loadingCharacters)}
+            text={t('common.loadingCharacters')}
           />
         </div>
       )}
@@ -145,7 +145,7 @@ const HomePage = () => {
             className={styles.homePage__tryAgain}
             onClick={tryToFetchCharactersAgain}
           >
-            {t((s) => s.common.tryAgain)}
+            {t('common.tryAgain')}
           </button>
         </div>
       )}

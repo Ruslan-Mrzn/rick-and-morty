@@ -12,14 +12,14 @@ const NotFoundPage = () => {
     <div className={styles.notFound}>
       <img
         src={notFoundImg}
-        alt={t((s) => s.notFound.imageAlt)}
+        alt={t('notFound.imageAlt')}
         className={styles.logo}
       />
       <Link
         to='/'
         className={styles.notFound__link}
       >
-        {t((s) => s.common.goToHomepage)}
+        {t('common.goToHomepage')}
       </Link>
     </div>
   );

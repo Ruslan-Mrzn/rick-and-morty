@@ -1,6 +1,6 @@
-import { type Dispatch, memo, useCallback, useEffect, useMemo } from 'react';
+import { type Dispatch, useCallback, useEffect, useMemo } from 'react';
 
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 
@@ -11,16 +11,10 @@ import {
   FormTextInput,
   Indicator,
   Selector,
-  StatusEnumLabel
+  StatusOptionLabel
 } from '@/shared/components';
 import { LAST_VIEWED_CHARACTER_STORAGE_KEY } from '@/shared/constants';
-import {
-  classNames,
-  statusOptions,
-  translateGender,
-  translateSpecies,
-  translateStatus
-} from '@/shared/helpers';
+import { classNames, speciesOptions, statusOptions } from '@/shared/helpers';
 import type { TCharacter, TStatus } from '@/shared/types';
 
 import {
@@ -33,16 +27,14 @@ type TOptionStatusComponentProps = {
   option: TStatus;
 };
 
-const OptionStatusComponent = memo(
-  ({ option }: TOptionStatusComponentProps) => {
-    return (
-      <>
-        <StatusEnumLabel option={option} />
-        <Indicator status={option} />
-      </>
-    );
-  }
-);
+const OptionStatusComponent = ({ option }: TOptionStatusComponentProps) => {
+  return (
+    <>
+      <StatusOptionLabel option={option} />
+      <Indicator status={option} />
+    </>
+  );
+};
 
 type CharacterFormProps = {
   data: TCharacter;
@@ -51,228 +43,231 @@ type CharacterFormProps = {
   onUpdateCharacter: (_character: TCharacter) => void;
 };
 
-const CharacterForm = memo(
-  ({
-    data: {
-      id,
+const CharacterForm = ({
+  data: {
+    id,
+    name: initialName,
+    location: initialLocation,
+    status: initialStatus,
+    gender,
+    species,
+    speciesLabel,
+    image,
+    origin
+  },
+  setIsEditing,
+  isEditing,
+  onUpdateCharacter
+}: CharacterFormProps) => {
+  const { t, i18n } = useTranslation();
+  const characterEditSchema = useMemo(() => createCharacterEditSchema(t), [t]);
+  const resolver = useMemo(
+    () => zodResolver(characterEditSchema),
+    [characterEditSchema]
+  );
+
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+    reset,
+    trigger
+  } = useForm<TCharacterEditFormData>({
+    resolver,
+    defaultValues: {
       name: initialName,
       location: initialLocation,
-      status: initialStatus,
-      gender,
-      species,
-      speciesLabel,
-      image,
-      origin
+      status: initialStatus
     },
-    setIsEditing,
-    isEditing,
-    onUpdateCharacter
-  }: CharacterFormProps) => {
-    const { t, i18n } = useTranslation();
-    const characterEditSchema = useMemo(
-      () => createCharacterEditSchema(t),
-      [t]
-    );
-    const resolver = useMemo(
-      () => zodResolver(characterEditSchema),
-      [characterEditSchema]
-    );
+    mode: 'onChange'
+  });
 
-    const {
-      control,
-      handleSubmit,
-      setValue,
-      watch,
-      formState: { errors },
-      reset,
-      trigger
-    } = useForm<TCharacterEditFormData>({
-      resolver,
-      defaultValues: {
-        name: initialName,
-        location: initialLocation,
-        status: initialStatus
-      },
-      mode: 'onChange'
+  useEffect(() => {
+    if (!isEditing) {
+      return;
+    }
+
+    void trigger();
+  }, [i18n.language, isEditing, trigger]);
+
+  const resetFormToInitialValues = useCallback(() => {
+    reset({
+      name: initialName,
+      location: initialLocation,
+      status: initialStatus
     });
+  }, [initialName, initialLocation, initialStatus, reset]);
 
-    useEffect(() => {
-      void trigger();
-    }, [i18n.language, trigger]);
+  useEffect(() => {
+    resetFormToInitialValues();
+  }, [resetFormToInitialValues]);
 
-    const resetFormToInitialValues = useCallback(() => {
-      reset({
-        name: initialName,
-        location: initialLocation,
-        status: initialStatus
-      });
-    }, [initialName, initialLocation, initialStatus, reset]);
+  const statusValue = useWatch({
+    control,
+    name: 'status'
+  });
 
-    useEffect(() => {
-      resetFormToInitialValues();
-    }, [resetFormToInitialValues]);
+  const handleStatusChange = useCallback(
+    (value: TStatus) => {
+      setValue('status', value);
+    },
+    [setValue]
+  );
 
-    const statusValue = watch('status');
+  const handleAcceptChanges = async (formData: TCharacterEditFormData) => {
+    const isValid = await trigger();
 
-    const handleStatusChange = useCallback(
-      (value: TStatus) => {
-        setValue('status', value);
-      },
-      [setValue]
-    );
+    if (isValid) {
+      const fullCharacterData = {
+        id,
+        name: formData.name,
+        location: formData.location,
+        status: formData.status,
+        gender,
+        species,
+        speciesLabel,
+        image,
+        origin
+      };
 
-    const handleAcceptChanges = async (formData: TCharacterEditFormData) => {
-      const isValid = await trigger();
-
-      if (isValid) {
-        const fullCharacterData = {
-          id,
-          name: formData.name,
-          location: formData.location,
-          status: formData.status,
-          gender,
-          species,
-          speciesLabel,
-          image,
-          origin
-        };
-
-        onUpdateCharacter(fullCharacterData);
-        setIsEditing(false);
-      }
-    };
-
-    const handleDiscardChanges = useCallback(() => {
-      resetFormToInitialValues();
+      onUpdateCharacter(fullCharacterData);
       setIsEditing(false);
-    }, [resetFormToInitialValues, setIsEditing]);
+    }
+  };
 
-    const handleOpenCharacterPage = useCallback(() => {
-      sessionStorage.setItem(LAST_VIEWED_CHARACTER_STORAGE_KEY, String(id));
-    }, [id]);
+  const handleDiscardChanges = useCallback(() => {
+    resetFormToInitialValues();
+    setIsEditing(false);
+  }, [resetFormToInitialValues, setIsEditing]);
 
-    return (
-      <form
-        id={`character-form-${id}`}
-        className={styles.characterForm}
-        onSubmit={handleSubmit(handleAcceptChanges)}
+  const handleOpenCharacterPage = useCallback(() => {
+    sessionStorage.setItem(LAST_VIEWED_CHARACTER_STORAGE_KEY, String(id));
+  }, [id]);
+
+  return (
+    <form
+      id={`character-form-${id}`}
+      className={styles.characterForm}
+      onSubmit={handleSubmit(handleAcceptChanges)}
+    >
+      <div
+        className={classNames(styles.characterForm__nameContainer, {
+          [styles.characterForm__nameContainer_editing]: Boolean(isEditing)
+        })}
       >
-        <div
-          className={classNames(styles.characterForm__nameContainer, {
-            [styles.characterForm__nameContainer_editing]: Boolean(isEditing)
+        {isEditing ? (
+          <FormTextInput
+            control={control}
+            name='name'
+            variant='underlined'
+            placeholder={t('characterForm.namePlaceholder')}
+          />
+        ) : (
+          <Link
+            className={styles.characterForm__name}
+            to={`/character/${id}`}
+            onClick={handleOpenCharacterPage}
+          >
+            {initialName}
+          </Link>
+        )}
+      </div>
+      {isEditing && errors.name && (
+        <span className={styles.characterForm__nameError}>
+          {errors.name?.message}
+        </span>
+      )}
+      <div className={styles.characterForm__field}>
+        <span className={styles.characterForm__fieldTitle}>
+          {t('characterForm.gender')}
+        </span>
+        <span className={styles.characterForm__fieldValue}>
+          {t(`genders.${gender}`)}
+        </span>
+      </div>
+      <div className={styles.characterForm__field}>
+        <span className={styles.characterForm__fieldTitle}>
+          {t('characterForm.species')}
+        </span>
+        <span className={styles.characterForm__fieldValue}>
+          {speciesOptions.includes(species)
+            ? t(`species.${species}`)
+            : speciesLabel}
+        </span>
+      </div>
+      <div
+        className={classNames(styles.characterForm__field, {
+          [styles.characterForm__field_editing]: Boolean(isEditing)
+        })}
+      >
+        <span
+          className={classNames(styles.characterForm__fieldTitle, {
+            [styles.characterForm__fieldTitle_error]: Boolean(
+              isEditing && errors.location
+            )
           })}
         >
-          {isEditing ? (
-            <FormTextInput
-              control={control}
-              name='name'
-              value={watch('name')}
-              variant='underlined'
-              placeholder={t((s) => s.characterForm.namePlaceholder)}
-            />
-          ) : (
-            <Link
-              className={styles.characterForm__name}
-              to={`/character/${id}`}
-              onClick={handleOpenCharacterPage}
-            >
-              {initialName}
-            </Link>
-          )}
-        </div>
-        {errors.name && (
-          <span className={styles.characterForm__nameError}>
-            {errors.name?.message}
+          {isEditing && errors.location
+            ? errors.location.message
+            : t('characterForm.location')}
+        </span>
+        {isEditing ? (
+          <FormTextInput
+            control={control}
+            name='location'
+            variant='underlined'
+            placeholder={t('characterForm.locationPlaceholder')}
+          />
+        ) : (
+          <span className={styles.characterForm__fieldValue}>
+            {initialLocation}
           </span>
         )}
-        <div className={styles.characterForm__field}>
-          <span className={styles.characterForm__fieldTitle}>
-            {t((s) => s.characterForm.gender)}
-          </span>
-          <span className={styles.characterForm__fieldValue}>
-            {translateGender(t, gender)}
-          </span>
-        </div>
-        <div className={styles.characterForm__field}>
-          <span className={styles.characterForm__fieldTitle}>
-            {t((s) => s.characterForm.species)}
-          </span>
-          <span className={styles.characterForm__fieldValue}>
-            {translateSpecies(t, species, speciesLabel)}
-          </span>
-        </div>
-        <div
-          className={classNames(styles.characterForm__field, {
-            [styles.characterForm__field_editing]: Boolean(isEditing)
-          })}
-        >
-          <span
-            className={classNames(styles.characterForm__fieldTitle, {
-              [styles.characterForm__fieldTitle_error]: Boolean(errors.location)
-            })}
+      </div>
+      <div
+        className={classNames(styles.characterForm__field, {
+          [styles.characterForm__field_editing]: Boolean(isEditing)
+        })}
+      >
+        <span className={styles.characterForm__fieldTitle}>
+          {t('characterForm.status')}
+        </span>
+        {isEditing ? (
+          <Selector
+            size='small'
+            options={statusOptions}
+            value={statusValue}
+            OptionComponent={OptionStatusComponent}
+            onChange={handleStatusChange}
+          />
+        ) : (
+          <div
+            className={classNames(
+              styles.characterForm__fieldValue,
+              styles.characterForm__status
+            )}
           >
-            {errors.location
-              ? errors.location.message
-              : t((s) => s.characterForm.location)}
-          </span>
-          {isEditing ? (
-            <FormTextInput
-              control={control}
-              name='location'
-              value={watch('location')}
-              variant='underlined'
-              placeholder={t((s) => s.characterForm.locationPlaceholder)}
-            />
-          ) : (
-            <span className={styles.characterForm__fieldValue}>
-              {initialLocation}
-            </span>
-          )}
-        </div>
-        <div
-          className={classNames(styles.characterForm__field, {
-            [styles.characterForm__field_editing]: Boolean(isEditing)
-          })}
-        >
-          <span className={styles.characterForm__fieldTitle}>
-            {t((s) => s.characterForm.status)}
-          </span>
-          {isEditing ? (
-            <Selector
-              size='small'
-              options={statusOptions}
-              value={statusValue}
-              OptionComponent={OptionStatusComponent}
-              onChange={handleStatusChange}
-            />
-          ) : (
-            <div
-              className={classNames(
-                styles.characterForm__fieldValue,
-                styles.characterForm__status
-              )}
-            >
-              {translateStatus(t, initialStatus)}
-              <Indicator status={initialStatus} />
-            </div>
-          )}
-        </div>
-        {isEditing && (
-          <div className={styles.characterForm__controls}>
-            <div className={styles.characterForm__discardChanges}>
-              <CrossIcon onClick={handleDiscardChanges} />
-            </div>
-            <button
-              type='submit'
-              className={styles.characterForm__acceptChanges}
-            >
-              <CheckIcon />
-            </button>
+            {t(`statuses.${initialStatus}`)}
+            <Indicator status={initialStatus} />
           </div>
         )}
-      </form>
-    );
-  }
-);
+      </div>
+      {isEditing && (
+        <div className={styles.characterForm__controls}>
+          <div className={styles.characterForm__discardChanges}>
+            <CrossIcon onClick={handleDiscardChanges} />
+          </div>
+          <button
+            type='submit'
+            className={styles.characterForm__acceptChanges}
+          >
+            <CheckIcon />
+          </button>
+        </div>
+      )}
+    </form>
+  );
+};
 
 export default CharacterForm;
