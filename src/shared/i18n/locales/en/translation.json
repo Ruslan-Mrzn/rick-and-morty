@@ -5,7 +5,8 @@
     "goToHomepage": "Go to Homepage",
     "loadingCharacters": "Loading characters...",
     "loadingCharacter": "Loading character card...",
-    "allDataLoaded": "All data has been loaded"
+    "allDataLoaded": "All data has been loaded",
+    "all": "All"
   },
   "layout": {
     "themeSwitchToLight": "Switch to light theme",
@@ -60,29 +61,26 @@
     "locationRequired": "Location is required",
     "locationTooLong": "Location is too long"
   },
-  "enums": {
-    "all": "All",
-    "status": {
-      "alive": "Alive",
-      "dead": "Dead",
-      "unknown": "Unknown"
-    },
-    "gender": {
-      "female": "Female",
-      "male": "Male",
-      "genderless": "Genderless",
-      "unknown": "Unknown"
-    },
-    "species": {
-      "human": "Human",
-      "alien": "Alien",
-      "humanoid": "Humanoid",
-      "animal": "Animal",
-      "robot": "Robot",
-      "cronenberg": "Cronenberg",
-      "disease": "Disease",
-      "unknown": "Unknown"
-    }
+  "statuses": {
+    "alive": "Alive",
+    "dead": "Dead",
+    "unknown": "Unknown"
+  },
+  "genders": {
+    "female": "Female",
+    "male": "Male",
+    "genderless": "Genderless",
+    "unknown": "Unknown"
+  },
+  "species": {
+    "human": "Human",
+    "alien": "Alien",
+    "humanoid": "Humanoid",
+    "animal": "Animal",
+    "robot": "Robot",
+    "cronenberg": "Cronenberg",
+    "disease": "Disease",
+    "unknown": "Unknown"
   },
   "a11y": {
     "logo": "logo",

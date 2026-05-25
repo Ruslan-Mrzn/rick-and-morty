@@ -23,7 +23,7 @@ const Loader = ({ size, text }: TLoaderProps) => {
       <img
         className={styles.loader__image}
         src={loader}
-        alt={t((s) => s.a11y.loader)}
+        alt={t('a11y.loader')}
       />
       {text && <span className={styles.loader__text}>{text}</span>}
     </div>

@@ -10,7 +10,7 @@ const BigLogo = () => {
   return (
     <img
       src={logo}
-      alt={t((s) => s.a11y.logo)}
+      alt={t('a11y.logo')}
       className={styles.logo}
     />
   );

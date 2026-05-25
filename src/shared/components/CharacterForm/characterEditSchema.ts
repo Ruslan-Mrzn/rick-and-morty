@@ -5,25 +5,13 @@ export const createCharacterEditSchema = (t: TFunction<'translation'>) =>
   zod.object({
     name: zod
       .string()
-      .min(
-        1,
-        t((s) => s.validation.nameRequired)
-      )
-      .max(
-        40,
-        t((s) => s.validation.nameTooLong)
-      )
+      .min(1, t('validation.nameRequired'))
+      .max(40, t('validation.nameTooLong'))
       .trim(),
     location: zod
       .string()
-      .min(
-        1,
-        t((s) => s.validation.locationRequired)
-      )
-      .max(
-        50,
-        t((s) => s.validation.locationTooLong)
-      )
+      .min(1, t('validation.locationRequired'))
+      .max(50, t('validation.locationTooLong'))
       .trim(),
     status: zod
       .union([

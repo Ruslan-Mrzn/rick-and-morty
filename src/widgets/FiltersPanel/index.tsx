@@ -6,10 +6,10 @@ import { useShallow } from 'zustand/react/shallow';
 
 import { SearchIcon } from '@/assets/icons';
 import {
-  GenderEnumLabel,
+  GenderOptionLabel,
   Selector,
-  SpeciesEnumLabel,
-  StatusEnumLabel,
+  SpeciesOptionLabel,
+  StatusOptionLabel,
   TextInput
 } from '@/shared/components';
 import {
@@ -62,7 +62,7 @@ const FiltersPanel = memo(() => {
     <div className={styles.filtersPanel}>
       <TextInput
         variant='bordered'
-        placeholder={t((s) => s.filters.namePlaceholder)}
+        placeholder={t('filters.namePlaceholder')}
         value={nameInput}
         onChange={handleNameInputChange}
         onEnter={handleNameSubmit}
@@ -73,23 +73,23 @@ const FiltersPanel = memo(() => {
       />
       <Selector
         value={filters.status}
-        placeholder={t((s) => s.filters.status)}
+        placeholder={t('filters.status')}
         options={statusOptionsWithAll}
-        OptionComponent={StatusEnumLabel}
+        OptionComponent={StatusOptionLabel}
         onChange={handleFilterChange('status')}
       />
       <Selector
         value={filters.gender}
-        placeholder={t((s) => s.filters.gender)}
+        placeholder={t('filters.gender')}
         options={genderOptionsWithAll}
-        OptionComponent={GenderEnumLabel}
+        OptionComponent={GenderOptionLabel}
         onChange={handleFilterChange('gender')}
       />
       <Selector
         value={filters.species}
-        placeholder={t((s) => s.filters.species)}
+        placeholder={t('filters.species')}
         options={speciesOptionsWithAll}
-        OptionComponent={SpeciesEnumLabel}
+        OptionComponent={SpeciesOptionLabel}
         onChange={handleFilterChange('species')}
       />
     </div>

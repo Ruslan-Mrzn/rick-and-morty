@@ -21,6 +21,7 @@
   letter-spacing: 0.02em;
 
   & .selector__input {
+    align-items: baseline;
     min-height: 2rem;
     padding: 0.2rem 3rem 0.2rem 0.5rem;
   }
@@ -30,11 +31,17 @@
   }
 
   & .selector__list {
+    right: auto;
+
     gap: 0.5rem;
+
+    width: max-content;
+    min-width: 100%;
     padding: 0.5rem;
   }
 
   & .selector__option {
+    align-items: baseline;
     min-height: 1.7rem;
     margin-bottom: 0.5rem;
     line-height: 1.5;

@@ -4,19 +4,50 @@ import { useParams } from 'react-router';
 
 import { useAppErrorMessage, useCharacter, useErrorToast } from '@/hooks';
 import { GoBackBtn, Loader } from '@/shared/components';
-import { formatCharacterFieldValue } from '@/shared/helpers';
+import { speciesOptions } from '@/shared/helpers';
 import type { TCharacter } from '@/shared/types';
 
 import styles from './CharacterPage.module.scss';
 
-const CHARACTER_FIELD_KEYS = [
+type TCharacterFieldKey =
+  | 'gender'
+  | 'status'
+  | 'species'
+  | 'origin'
+  | 'type'
+  | 'location';
+
+const CHARACTER_FIELD_KEYS: readonly TCharacterFieldKey[] = [
   'gender',
   'status',
   'species',
   'origin',
   'type',
   'location'
-] as const satisfies readonly (keyof TCharacter)[];
+] as const;
+
+const getCharacterFieldValue = (
+  key: TCharacterFieldKey,
+  character: TCharacter,
+  t: ReturnType<typeof useTranslation>['t']
+): string => {
+  switch (key) {
+    case 'gender':
+      return t(`genders.${character.gender}`);
+    case 'status':
+      return t(`statuses.${character.status}`);
+    case 'species':
+      return speciesOptions.includes(character.species)
+        ? t(`species.${character.species}`)
+        : character.speciesLabel;
+    case 'origin':
+      return character.origin;
+    case 'type':
+      return character.type ?? '';
+    case 'location':
+      return character.location;
+  }
+};
 
 const CharacterPage = () => {
   const { t } = useTranslation();
@@ -35,7 +66,7 @@ const CharacterPage = () => {
         {isLoading && (
           <Loader
             size='big'
-            text={t((s) => s.common.loadingCharacter)}
+            text={t('common.loadingCharacter')}
           />
         )}
         {errorMessage && (
@@ -53,7 +84,7 @@ const CharacterPage = () => {
             </div>
             <section className={styles.charPage__info}>
               <h2 className={styles.charPage__infoTitle}>
-                {t((s) => s.characterPage.information)}
+                {t('characterPage.information')}
               </h2>
               <dl className={styles.charPage__infoGrid}>
                 {CHARACTER_FIELD_KEYS.map((key) => (
@@ -62,10 +93,10 @@ const CharacterPage = () => {
                     className={styles.charPage__infoItem}
                   >
                     <dt className={styles.charPage__infoLabel}>
-                      {t((s) => s.characterPage.fields[key])}
+                      {t(`characterPage.fields.${key}`)}
                     </dt>
                     <dd className={styles.charPage__infoValue}>
-                      {formatCharacterFieldValue(t, key, character)}
+                      {getCharacterFieldValue(key, character, t)}
                     </dd>
                   </div>
                 ))}

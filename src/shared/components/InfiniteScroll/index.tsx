@@ -55,7 +55,7 @@ const InfiniteScroll = ({
       {!isLoading && !isFetchingNextPage && !hasNextPage && !error && (
         <span className={styles.infiniteScroll__infoText}>
           <SuccessLoadedIcon className={styles.infiniteScroll__successIcon} />
-          {t((s) => s.common.allDataLoaded)}
+          {t('common.allDataLoaded')}
         </span>
       )}
       {!isLoading && errorMessage && (

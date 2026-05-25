@@ -1,12 +1,6 @@
 export { default as classNames } from './classNames';
 export { default as parseAppError } from './parseAppError';
-export { default as translateAppError } from './translateAppError';
-export {
-  formatCharacterFieldValue,
-  translateGender,
-  translateSpecies,
-  translateStatus
-} from './translateEnum';
+export { getAppErrorMessageKey } from './getAppErrorMessageKey';
 export {
   genderOptions,
   statusOptions,

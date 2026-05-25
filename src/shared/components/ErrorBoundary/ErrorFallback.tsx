@@ -13,10 +13,10 @@ const ErrorFallback = ({ onReset }: TErrorFallbackProps) => {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        <h1 className={styles.title}>{t((s) => s.errorBoundary.title)}</h1>
+        <h1 className={styles.title}>{t('errorBoundary.title')}</h1>
 
         <div className={styles.errorContainer}>
-          <p className={styles.message}>{t((s) => s.errorBoundary.message)}</p>
+          <p className={styles.message}>{t('errorBoundary.message')}</p>
         </div>
 
         <Link
@@ -24,10 +24,10 @@ const ErrorFallback = ({ onReset }: TErrorFallbackProps) => {
           className={styles.button}
           onClick={onReset}
         >
-          {t((s) => s.common.goToHomepage)}
+          {t('common.goToHomepage')}
         </Link>
 
-        <p className={styles.helpText}>{t((s) => s.errorBoundary.helpText)}</p>
+        <p className={styles.helpText}>{t('errorBoundary.helpText')}</p>
       </div>
     </div>
   );

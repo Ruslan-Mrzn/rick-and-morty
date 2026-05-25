@@ -19,7 +19,7 @@ const GoBackBtn = memo(() => {
         width={16}
         height={16}
       />
-      {t((s) => s.common.goBack)}
+      {t('common.goBack')}
     </Link>
   );
 });

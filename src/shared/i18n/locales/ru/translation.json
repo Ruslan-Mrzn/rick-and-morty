@@ -5,7 +5,8 @@
     "goToHomepage": "На главную",
     "loadingCharacters": "Загрузка персонажей...",
     "loadingCharacter": "Загрузка персонажа...",
-    "allDataLoaded": "Все данные загружены"
+    "allDataLoaded": "Все данные загружены",
+    "all": "Все"
   },
   "layout": {
     "themeSwitchToLight": "Переключить на светлую тему",
@@ -60,29 +61,26 @@
     "locationRequired": "Локация обязательна",
     "locationTooLong": "Локация слишком длинная"
   },
-  "enums": {
-    "all": "Все",
-    "status": {
-      "alive": "Жив",
-      "dead": "Мёртв",
-      "unknown": "Неизвестно"
-    },
-    "gender": {
-      "female": "Женский",
-      "male": "Мужской",
-      "genderless": "Бесполый",
-      "unknown": "Неизвестно"
-    },
-    "species": {
-      "human": "Человек",
-      "alien": "Пришелец",
-      "humanoid": "Гуманоид",
-      "animal": "Животное",
-      "robot": "Робот",
-      "cronenberg": "Кроненберг",
-      "disease": "Болезнь",
-      "unknown": "Неизвестно"
-    }
+  "statuses": {
+    "alive": "Жив",
+    "dead": "Мёртв",
+    "unknown": "Неизвестно"
+  },
+  "genders": {
+    "female": "Женский",
+    "male": "Мужской",
+    "genderless": "Бесполый",
+    "unknown": "Неизвестно"
+  },
+  "species": {
+    "human": "Человек",
+    "alien": "Пришелец",
+    "humanoid": "Гуманоид",
+    "animal": "Животное",
+    "robot": "Робот",
+    "cronenberg": "Кроненберг",
+    "disease": "Болезнь",
+    "unknown": "Неизвестно"
   },
   "a11y": {
     "logo": "логотип",

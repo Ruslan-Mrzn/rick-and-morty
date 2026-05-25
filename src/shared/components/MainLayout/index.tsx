@@ -23,9 +23,7 @@ const ThemeToggle = memo(() => {
       type='button'
       className={styles.header__btn}
       aria-label={
-        isDark
-          ? t((s) => s.layout.themeSwitchToLight)
-          : t((s) => s.layout.themeSwitchToDark)
+        isDark ? t('layout.themeSwitchToLight') : t('layout.themeSwitchToDark')
       }
       aria-pressed={isDark}
       onClick={toggleTheme}
@@ -63,14 +61,10 @@ const LanguageToggle = memo(() => {
       className={styles.header__btn}
       onClick={handleLanguageToggle}
       aria-label={
-        isRussian
-          ? t((s) => s.layout.langSwitchToRu)
-          : t((s) => s.layout.langSwitchToEn)
+        isRussian ? t('layout.langSwitchToRu') : t('layout.langSwitchToEn')
       }
     >
-      {isRussian
-        ? t((s) => s.layout.langSwitchToRu)
-        : t((s) => s.layout.langSwitchToEn)}
+      {isRussian ? t('layout.langSwitchToRu') : t('layout.langSwitchToEn')}
     </button>
   );
 });
@@ -97,7 +91,7 @@ const Footer = memo(({ className }: TClassName) => {
   return (
     <footer className={styles.footer}>
       <div className={classNames(styles.footer__inner, className)}>
-        <p className={styles.footer__text}>{t((s) => s.layout.footer)}</p>
+        <p className={styles.footer__text}>{t('layout.footer')}</p>
       </div>
     </footer>
   );
