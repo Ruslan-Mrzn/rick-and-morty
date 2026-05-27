@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 
 import { ERROR_CODE, SILENT_ERROR_CODES } from '@/shared/constants';
-import { getAppErrorMessageKey } from '@/shared/helpers/getAppErrorMessageKey';
+import { getAppErrorMessageKey } from '@/shared/helpers';
 import type { TAppError } from '@/shared/types';
 
 export const useErrorToast = (error: TAppError | null) => {
