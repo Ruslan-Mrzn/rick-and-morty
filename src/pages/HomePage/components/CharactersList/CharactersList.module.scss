@@ -1,8 +1,16 @@
 .charactersList {
   display: grid;
-  grid-template-columns: auto auto;
-  row-gap: 3rem;
-  justify-content: space-between;
-
+  grid-template-columns: 1fr;
+  gap: 3rem;
   list-style: none;
+}
+
+.charactersList > li {
+  min-inline-size: 0;
+}
+
+@container characters-list (width >= 67rem) {
+  .charactersList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }

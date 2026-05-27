@@ -3,8 +3,8 @@
 }
 
 .homePage__logo {
-  width: 60rem;
-  height: 20rem;
+  inline-size: 100%;
+  max-inline-size: 60rem;
   margin: 0 auto;
 }
 
@@ -16,13 +16,13 @@
 }
 
 .homePage__filters {
-  display: flex;
-  gap: 3rem;
-  margin: 0 auto;
-  margin-top: 3rem;
+  inline-size: 100%;
+  margin: 3rem auto 0;
 }
 
 .homePage__charactersList {
+  container-name: characters-list;
+  container-type: inline-size;
   margin-top: 3rem;
 }
 

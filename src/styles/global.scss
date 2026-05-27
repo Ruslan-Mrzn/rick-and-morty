@@ -47,3 +47,10 @@ body {
 header .wrapper {
   padding: 0 3rem;
 }
+
+@media (width <= 36rem) {
+  .wrapper,
+  header .wrapper {
+    padding: 0 2.4rem;
+  }
+}

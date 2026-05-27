@@ -30,6 +30,12 @@
 
   &_editing {
     overflow: visible;
+    height: auto;
+    min-height: 3rem;
+
+    &:has(.characterForm__nameError) {
+      padding-top: 1.8rem;
+    }
   }
 }
 
@@ -53,7 +59,7 @@
 
 .characterForm__nameError {
   position: absolute;
-  top: 11%;
+  top: 0;
   left: 0;
 
   font-size: 1.4rem;
@@ -131,4 +137,38 @@
   color: var(--color-text-primary);
 
   background-color: transparent;
+}
+
+@container character-card (width < 40rem) {
+  .characterForm {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(min-content, auto);
+    gap: 1rem;
+    align-content: start;
+
+    height: auto;
+  }
+
+  .characterForm__nameContainer {
+    grid-column: 1 / -1;
+  }
+
+  .characterForm__field {
+    height: auto;
+    min-height: 4.1rem;
+  }
+
+  .characterForm__field:has(.characterForm__status) {
+    overflow: visible;
+    min-width: min-content;
+  }
+
+  .characterForm__status {
+    overflow: visible;
+    flex-shrink: 0;
+
+    & > *:last-child {
+      flex-shrink: 0;
+    }
+  }
 }

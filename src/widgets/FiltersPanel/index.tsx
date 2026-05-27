@@ -1,4 +1,4 @@
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
@@ -13,6 +13,7 @@ import {
   TextInput
 } from '@/shared/components';
 import {
+  classNames,
   genderOptionsWithAll,
   speciesOptionsWithAll,
   statusOptionsWithAll
@@ -21,9 +22,11 @@ import type { TCharactersFilters } from '@/shared/types';
 import { useCharactersFiltersStore } from '@/stores';
 
 import styles from './FiltersPanel.module.scss';
+import FiltersToggleButton from './FiltersToggleButton';
 
 const FiltersPanel = memo(() => {
   const { t } = useTranslation();
+  const [isFiltersPanelExpanded, setIsFiltersPanelExpanded] = useState(false);
   const { filters, nameInput, setFilter, setNameInput, applyNameFilter } =
     useCharactersFiltersStore(
       useShallow((state) => ({
@@ -58,8 +61,16 @@ const FiltersPanel = memo(() => {
     [setNameInput]
   );
 
+  const handleToggleFiltersPanel = useCallback(() => {
+    setIsFiltersPanelExpanded((prev) => !prev);
+  }, []);
+
   return (
-    <div className={styles.filtersPanel}>
+    <div
+      className={classNames(styles.filtersPanel, {
+        [styles.filtersPanel_expanded]: isFiltersPanelExpanded
+      })}
+    >
       <TextInput
         variant='bordered'
         placeholder={t('filters.namePlaceholder')}
@@ -72,11 +83,11 @@ const FiltersPanel = memo(() => {
         icon={<SearchIcon className={styles.searchIcon} />}
       />
       <Selector
-        value={filters.status}
-        placeholder={t('filters.status')}
-        options={statusOptionsWithAll}
-        OptionComponent={StatusOptionLabel}
-        onChange={handleFilterChange('status')}
+        value={filters.species}
+        placeholder={t('filters.species')}
+        options={speciesOptionsWithAll}
+        OptionComponent={SpeciesOptionLabel}
+        onChange={handleFilterChange('species')}
       />
       <Selector
         value={filters.gender}
@@ -86,11 +97,15 @@ const FiltersPanel = memo(() => {
         onChange={handleFilterChange('gender')}
       />
       <Selector
-        value={filters.species}
-        placeholder={t('filters.species')}
-        options={speciesOptionsWithAll}
-        OptionComponent={SpeciesOptionLabel}
-        onChange={handleFilterChange('species')}
+        value={filters.status}
+        placeholder={t('filters.status')}
+        options={statusOptionsWithAll}
+        OptionComponent={StatusOptionLabel}
+        onChange={handleFilterChange('status')}
+      />
+      <FiltersToggleButton
+        isExpanded={isFiltersPanelExpanded}
+        onClick={handleToggleFiltersPanel}
       />
     </div>
   );

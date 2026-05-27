@@ -1,9 +1,47 @@
 .filtersPanel {
   display: flex;
-  justify-content: space-between;
-  width: 100%;
+  flex-wrap: wrap;
+  gap: 1.6rem;
+  align-items: flex-start;
+
+  inline-size: 100%;
+}
+
+.filtersPanel > * {
+  margin: 0;
+}
+
+.filtersPanel > label,
+.filtersPanel > div {
+  flex: 0 1 24rem;
+  max-inline-size: 100%;
+}
+
+.filtersPanel > label {
+  display: block;
+}
+
+.filtersPanel > label > div {
+  inline-size: 100%;
 }
 
 .searchIcon:hover {
   cursor: pointer;
+}
+
+@media (width <= 550px) {
+  .filtersPanel {
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .filtersPanel > label,
+  .filtersPanel > div {
+    flex: 0 0 auto;
+    inline-size: 100%;
+  }
+
+  .filtersPanel:not(.filtersPanel_expanded) > div {
+    display: none;
+  }
 }

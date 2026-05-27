@@ -19,7 +19,9 @@
     "namePlaceholder": "Фильтр по имени...",
     "status": "Статус",
     "gender": "Пол",
-    "species": "Вид"
+    "species": "Вид",
+    "moreFilters": "Ещё фильтры",
+    "lessFilters": "Скрыть фильтры"
   },
   "characterPage": {
     "information": "Информация",

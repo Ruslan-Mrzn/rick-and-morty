@@ -19,7 +19,9 @@
     "namePlaceholder": "Filter by name...",
     "status": "Status",
     "gender": "Gender",
-    "species": "Species"
+    "species": "Species",
+    "moreFilters": "More filters",
+    "lessFilters": "Less filters"
   },
   "characterPage": {
     "information": "Information",
