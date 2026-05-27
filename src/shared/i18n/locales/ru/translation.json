@@ -1,0 +1,92 @@
+{
+  "common": {
+    "tryAgain": "Попробовать снова",
+    "goBack": "Назад",
+    "goToHomepage": "На главную",
+    "loadingCharacters": "Загрузка персонажей...",
+    "loadingCharacter": "Загрузка персонажа...",
+    "allDataLoaded": "Все данные загружены",
+    "all": "Все"
+  },
+  "layout": {
+    "themeSwitchToLight": "Переключить на светлую тему",
+    "themeSwitchToDark": "Переключить на тёмную тему",
+    "footer": "Сделано с любовью - Russel_Mrzn",
+    "langSwitchToRu": "РУ",
+    "langSwitchToEn": "EN"
+  },
+  "filters": {
+    "namePlaceholder": "Фильтр по имени...",
+    "status": "Статус",
+    "gender": "Пол",
+    "species": "Вид"
+  },
+  "characterPage": {
+    "information": "Информация",
+    "fields": {
+      "gender": "Пол",
+      "status": "Статус",
+      "species": "Вид",
+      "origin": "Происхождение",
+      "type": "Тип",
+      "location": "Локация"
+    },
+    "values": {
+      "unknown": "Неизвестно"
+    }
+  },
+  "characterForm": {
+    "gender": "Пол",
+    "species": "Вид",
+    "location": "Локация",
+    "status": "Статус",
+    "namePlaceholder": "Введите имя",
+    "locationPlaceholder": "Введите локацию"
+  },
+  "notFound": {
+    "imageAlt": "страница не найдена"
+  },
+  "errorBoundary": {
+    "title": "Упс! Что-то пошло не так",
+    "message": "Произошла непредвиденная ошибка. Мы уже в курсе.",
+    "helpText": "Если проблема повторяется, свяжитесь с поддержкой"
+  },
+  "errors": {
+    "noCharactersFound": "Персонажи не найдены.",
+    "tooManyRequests": "Слишком много запросов. Попробуйте позже.",
+    "server": "Ошибка сервера. Попробуйте позже.",
+    "unknown": "Произошла неизвестная ошибка.",
+    "fetchFailed": "Не удалось загрузить данные."
+  },
+  "validation": {
+    "nameRequired": "Имя обязательно",
+    "nameTooLong": "Имя слишком длинное",
+    "locationRequired": "Локация обязательна",
+    "locationTooLong": "Локация слишком длинная"
+  },
+  "statuses": {
+    "alive": "Жив",
+    "dead": "Мёртв",
+    "unknown": "Неизвестно"
+  },
+  "genders": {
+    "female": "Женский",
+    "male": "Мужской",
+    "genderless": "Бесполый",
+    "unknown": "Неизвестно"
+  },
+  "species": {
+    "human": "Человек",
+    "alien": "Пришелец",
+    "humanoid": "Гуманоид",
+    "animal": "Животное",
+    "robot": "Робот",
+    "cronenberg": "Кроненберг",
+    "disease": "Болезнь",
+    "unknown": "Неизвестно"
+  },
+  "a11y": {
+    "logo": "логотип",
+    "loader": "загрузка"
+  }
+}

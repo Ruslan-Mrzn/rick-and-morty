@@ -19,6 +19,7 @@ const charactersAdapter = (
         name,
         status: status.toLowerCase() as TStatus,
         species: species.toLowerCase() as TSpecies,
+        speciesLabel: species,
         origin: origin.name,
         type
       };

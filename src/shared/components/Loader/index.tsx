@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import { loader } from '@/assets/images';
 import { classNames } from '@/shared/helpers';
 
@@ -9,6 +11,8 @@ type TLoaderProps = {
 };
 
 const Loader = ({ size, text }: TLoaderProps) => {
+  const { t } = useTranslation();
+
   return (
     <div
       className={classNames(styles.loader, {
@@ -19,7 +23,7 @@ const Loader = ({ size, text }: TLoaderProps) => {
       <img
         className={styles.loader__image}
         src={loader}
-        alt='loader'
+        alt={t('a11y.loader')}
       />
       {text && <span className={styles.loader__text}>{text}</span>}
     </div>

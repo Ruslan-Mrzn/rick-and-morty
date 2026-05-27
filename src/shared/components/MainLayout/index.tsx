@@ -1,5 +1,6 @@
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 
+import { useTranslation } from 'react-i18next';
 import { Outlet } from 'react-router';
 
 import { DarkThemeIcon, LightThemeIcon, LogoIcon } from '@/assets/icons';
@@ -13,6 +14,7 @@ type TClassName = {
 };
 
 const ThemeToggle = memo(() => {
+  const { t } = useTranslation();
   const { theme, toggleTheme } = useThemeStore();
   const isDark = theme === 'dark';
 
@@ -20,7 +22,9 @@ const ThemeToggle = memo(() => {
     <button
       type='button'
       className={styles.header__btn}
-      aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+      aria-label={
+        isDark ? t('layout.themeSwitchToLight') : t('layout.themeSwitchToDark')
+      }
       aria-pressed={isDark}
       onClick={toggleTheme}
     >
@@ -41,6 +45,30 @@ const ThemeToggle = memo(() => {
   );
 });
 
+const LanguageToggle = memo(() => {
+  const { i18n, t } = useTranslation();
+  const isRussian = i18n.language === 'ru';
+
+  const handleLanguageToggle = useCallback(() => {
+    const languageToSet = isRussian ? 'en' : 'ru';
+
+    void i18n.changeLanguage(languageToSet);
+  }, [i18n, isRussian]);
+
+  return (
+    <button
+      type='button'
+      className={styles.header__btn}
+      onClick={handleLanguageToggle}
+      aria-label={
+        isRussian ? t('layout.langSwitchToRu') : t('layout.langSwitchToEn')
+      }
+    >
+      {isRussian ? t('layout.langSwitchToRu') : t('layout.langSwitchToEn')}
+    </button>
+  );
+});
+
 const Header = memo(({ className }: TClassName) => (
   <header className={styles.header}>
     <div className={classNames(styles.header__inner, className)}>
@@ -51,24 +79,23 @@ const Header = memo(({ className }: TClassName) => (
       />
       <div className={styles.header__controls}>
         <ThemeToggle />
-        <button
-          type='button'
-          className={styles.header__btn}
-        >
-          РУ
-        </button>
+        <LanguageToggle />
       </div>
     </div>
   </header>
 ));
 
-const Footer = memo(({ className }: TClassName) => (
-  <footer className={styles.footer}>
-    <div className={classNames(styles.footer__inner, className)}>
-      <p className={styles.footer__text}>Made with love by Russel_Mrzn</p>
-    </div>
-  </footer>
-));
+const Footer = memo(({ className }: TClassName) => {
+  const { t } = useTranslation();
+
+  return (
+    <footer className={styles.footer}>
+      <div className={classNames(styles.footer__inner, className)}>
+        <p className={styles.footer__text}>{t('layout.footer')}</p>
+      </div>
+    </footer>
+  );
+});
 
 const MainLayout = ({ className }: TClassName) => {
   return (
