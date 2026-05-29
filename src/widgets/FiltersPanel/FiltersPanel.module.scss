@@ -1,8 +1,8 @@
 .filtersPanel {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
   gap: 1.6rem;
-  align-items: flex-start;
+  align-items: start;
 
   inline-size: 100%;
 }
@@ -13,8 +13,7 @@
 
 .filtersPanel > label,
 .filtersPanel > div {
-  flex: 0 1 24rem;
-  max-inline-size: 100%;
+  inline-size: 100%;
 }
 
 .filtersPanel > label {
@@ -31,14 +30,8 @@
 
 @media (width <= 550px) {
   .filtersPanel {
-    flex-direction: column;
+    grid-template-columns: 1fr;
     gap: 1.2rem;
-  }
-
-  .filtersPanel > label,
-  .filtersPanel > div {
-    flex: 0 0 auto;
-    inline-size: 100%;
   }
 
   .filtersPanel:not(.filtersPanel_expanded) > div {

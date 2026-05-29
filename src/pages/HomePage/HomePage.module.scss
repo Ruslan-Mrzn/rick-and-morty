@@ -1,4 +1,7 @@
 .homePage {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
   padding: 2.6rem 0;
 }
 
@@ -15,6 +18,15 @@
   margin: 0 auto;
 }
 
+.homePage__loaderInitial {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto;
+}
+
 .homePage__filters {
   inline-size: 100%;
   margin: 3rem auto 0;
@@ -24,6 +36,13 @@
   container-name: characters-list;
   container-type: inline-size;
   margin-top: 3rem;
+}
+
+.homePage__charactersList:has(ul:empty):has(span) {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: center;
 }
 
 .homePage__tryAgainContainer {
