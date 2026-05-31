@@ -57,15 +57,17 @@
 .homePage__tryAgain {
   cursor: pointer;
 
-  width: 8rem;
-  height: 3rem;
+  padding: 0.8rem 1.6rem;
   border: none;
   border-radius: 0.4rem;
 
   font-size: 1.2rem;
   font-weight: 400;
+  line-height: 1.2;
   color: var(--color-text-on-primary);
+  text-align: center;
   text-transform: uppercase;
+  white-space: nowrap;
 
   background-color: var(--color-primary);
 
