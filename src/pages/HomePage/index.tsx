@@ -136,7 +136,7 @@ const HomePage = () => {
         </InfiniteScroll>
       </div>
 
-      {isFetchingNextPage && characters.length > 0 && (
+      {isFetchingNextPage && characters.length > 0 && !error && (
         <div className={styles.homePage__loader}>
           <Loader size='small' />
         </div>
