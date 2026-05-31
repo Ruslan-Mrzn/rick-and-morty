@@ -19,8 +19,7 @@
     "prettier:check": "prettier --check .",
     "preview": "vite preview",
     "prepare": "husky",
-    "generate-api": "orval",
-    "generate:pwa-assets": "node scripts/generate-pwa-assets.mjs"
+    "generate-api": "orval"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

@@ -57,7 +57,6 @@ npm run dev     # запуск dev-сервера
 npm run build   # сборка продакшн-версии
 npm run preview # предпросмотр сборки
 npm run bundle:size    # сборка + анализ бандла (открывает в браузере)
-npm run generate:pwa-assets  # генерация PWA-иконок из public/icon.svg (sharp)
 npm test        # запуск unit-тестов
 npm run test:watch     # запуск тестов в watch-режиме
 npm run test:coverage  # запуск тестов с coverage
@@ -116,7 +115,7 @@ src/
 - **Тёмная тема:** CSS-переменные в `src/styles/theme.scss`, переключение через Zustand (`theme.store`), учёт системных настроек при первом заходе
 - **i18n (en/ru):** переводы в `src/shared/i18n/locales/`, инициализация в `src/shared/lib/i18n.ts` (подключается в `main.tsx`), переключатель в `MainLayout`; для неизвестных видов с API — fallback на `speciesLabel`
 - **Адаптивная вёрстка:** медиа-запросы в SCSS-модулях, мобильная панель фильтров (`FiltersPanel`/`FiltersToggleButton`)
-- **PWA:** настроена через `vite-plugin-pwa` (Workbox `generateSW`), `registerType: autoUpdate`; precache app shell + runtime-кэш API (`NetworkFirst`) и аватарок (`CacheFirst`); манифест с иконками (включая maskable) и скриншотами; иконки генерируются скриптом на `sharp` (`npm run generate:pwa-assets`); `scope`/`start_url` выводятся из динамического `base` (работает на Vercel и GitHub Pages)
+- **PWA:** настроена через `vite-plugin-pwa` (Workbox `generateSW`), `registerType: autoUpdate`; precache app shell + runtime-кэш API (`NetworkFirst`) и аватарок (`CacheFirst`); манифест с иконками (включая maskable) и скриншотами из `public/`; `scope`/`start_url` выводятся из динамического `base` (работает на Vercel и GitHub Pages)
 - **TanStack React Query:** `useInfiniteQuery` для списка персонажей (постраничная подгрузка через `pageParam`)
 - **Поиск по имени:** submit-модель (Enter/клик по иконке), чтобы не создавать кэш на каждое недопечатанное значение
 - Автоматический деплой через GitHub Actions
