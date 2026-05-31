@@ -1,3 +1,5 @@
+@use '@/styles/breakpoints' as *;
+
 .characterCard {
   position: relative;
 
@@ -77,7 +79,7 @@
   }
 }
 
-@media (width <= 36rem) {
+@media (width <= $bp-mobile) {
   .characterCard {
     padding: 0.4rem;
   }

@@ -1,3 +1,5 @@
+@use '@/styles/breakpoints' as *;
+
 .charPage {
   display: grid;
   grid-template-columns: 20% 60% 20%;
@@ -106,7 +108,7 @@
   letter-spacing: 0.02em;
 }
 
-@media (width <= 36rem) {
+@media (width <= $bp-mobile) {
   .charPage {
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
