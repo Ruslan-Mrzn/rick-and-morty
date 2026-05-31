@@ -11,7 +11,7 @@
   align-items: stretch;
 
   inline-size: 100%;
-  min-inline-size: 31.2rem;
+  min-inline-size: min(31.2rem, 100%);
   max-inline-size: 50.8rem;
   min-block-size: 24.8rem;
   padding: 0.7rem;
