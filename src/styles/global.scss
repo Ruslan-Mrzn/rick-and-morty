@@ -1,4 +1,5 @@
 @use './theme';
+@use './breakpoints' as *;
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -46,4 +47,11 @@ body {
 
 header .wrapper {
   padding: 0 3rem;
+}
+
+@media (width <= $bp-mobile) {
+  .wrapper,
+  header .wrapper {
+    padding: 0 2.4rem;
+  }
 }

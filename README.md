@@ -4,10 +4,18 @@
 
 ## Changelog
 
+### 1.3.0
+
+- Адаптивная вёрстка: поддержка мобильных устройств (responsive-стили, мобильная панель фильтров)
+- PWA: установка приложения на устройство и работа оффлайн, service worker через `vite-plugin-pwa` (Workbox), кэширование API и аватарок, манифест с иконками (включая maskable) и скриншотами
+
+### 1.2.0
+
+- Локализация интерфейса (en/ru): переключатель EN/РУ в шапке, сохранение выбора в `localStorage` (`rick-morty-lang`)
+
 ### 1.1.0
 
 - Добавлена тёмная тема: переключатель в шапке, сохранение выбора в `localStorage`, учёт системной темы при первом заходе
-- Локализация интерфейса (en/ru): переключатель EN/РУ в шапке, сохранение выбора в `localStorage` (`rick-morty-lang`)
 
 ### 1.0.0
 
@@ -31,6 +39,7 @@
 - TanStack React Query
 - Vitest + React Testing Library (unit tests)
 - Playwright (e2e tests)
+- vite-plugin-pwa + Workbox (PWA)
 
 ## Установка
 
@@ -77,6 +86,8 @@ npm run test:e2e
 - **404 страница** — с редиректом на главную
 - **Тёмная тема** — переключение светлой/тёмной темы в шапке, выбор сохраняется в `localStorage`
 - **Локализация (en/ru)** — переключение языка EN/РУ в шапке, выбор сохраняется в `localStorage`
+- **Адаптивная вёрстка** — корректное отображение на мобильных и десктопе
+- **PWA** — установка на устройство и работа оффлайн
 
 ## Структура проекта
 
@@ -103,6 +114,8 @@ src/
 - **404 страница:** `public/404.html` перехватывает прямые ссылки и сохраняет путь в `sessionStorage`, затем `src/app/RouterWrapper.tsx` перенаправляет на нужный маршрут внутри приложения
 - **Тёмная тема:** CSS-переменные в `src/styles/theme.scss`, переключение через Zustand (`theme.store`), учёт системных настроек при первом заходе
 - **i18n (en/ru):** переводы в `src/shared/i18n/locales/`, инициализация в `src/shared/lib/i18n.ts` (подключается в `main.tsx`), переключатель в `MainLayout`; для неизвестных видов с API — fallback на `speciesLabel`
+- **Адаптивная вёрстка:** медиа-запросы в SCSS-модулях, мобильная панель фильтров (`FiltersPanel`/`FiltersToggleButton`)
+- **PWA:** настроена через `vite-plugin-pwa` (Workbox `generateSW`), `registerType: autoUpdate`; precache app shell + runtime-кэш API (`NetworkFirst`) и аватарок (`CacheFirst`); манифест с иконками (включая maskable) и скриншотами из `public/`; `scope`/`start_url` выводятся из динамического `base` (работает на Vercel и GitHub Pages)
 - **TanStack React Query:** `useInfiniteQuery` для списка персонажей (постраничная подгрузка через `pageParam`)
 - **Поиск по имени:** submit-модель (Enter/клик по иконке), чтобы не создавать кэш на каждое недопечатанное значение
 - Автоматический деплой через GitHub Actions

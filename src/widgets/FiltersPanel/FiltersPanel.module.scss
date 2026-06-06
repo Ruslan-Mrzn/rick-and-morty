@@ -1,9 +1,42 @@
+@use '@/styles/breakpoints' as *;
+
 .filtersPanel {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
+  gap: 1.6rem;
+  align-items: start;
+
+  inline-size: 100%;
+}
+
+.filtersPanel > * {
+  margin: 0;
+}
+
+.filtersPanel > label,
+.filtersPanel > div {
+  inline-size: 100%;
+}
+
+.filtersPanel > label {
+  display: block;
+}
+
+.filtersPanel > label > div {
+  inline-size: 100%;
 }
 
 .searchIcon:hover {
   cursor: pointer;
+}
+
+@media (width <= $bp-mobile) {
+  .filtersPanel {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+
+  .filtersPanel:not(.filtersPanel_expanded) > div {
+    display: none;
+  }
 }

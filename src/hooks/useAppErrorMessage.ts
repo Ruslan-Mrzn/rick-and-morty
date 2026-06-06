@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
 import { ERROR_CODE } from '@/shared/constants';
-import { getAppErrorMessageKey } from '@/shared/helpers/getAppErrorMessageKey';
+import { getAppErrorMessageKey } from '@/shared/helpers';
 import type { TAppError } from '@/shared/types';
 
 export const useAppErrorMessage = (error: TAppError | null): string | null => {

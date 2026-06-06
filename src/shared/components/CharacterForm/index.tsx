@@ -156,6 +156,11 @@ const CharacterForm = ({
           [styles.characterForm__nameContainer_editing]: Boolean(isEditing)
         })}
       >
+        {isEditing && errors.name && (
+          <span className={styles.characterForm__nameError}>
+            {errors.name?.message}
+          </span>
+        )}
         {isEditing ? (
           <FormTextInput
             control={control}
@@ -173,11 +178,6 @@ const CharacterForm = ({
           </Link>
         )}
       </div>
-      {isEditing && errors.name && (
-        <span className={styles.characterForm__nameError}>
-          {errors.name?.message}
-        </span>
-      )}
       <div className={styles.characterForm__field}>
         <span className={styles.characterForm__fieldTitle}>
           {t('characterForm.gender')}

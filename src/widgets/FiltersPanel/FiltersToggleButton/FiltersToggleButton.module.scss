@@ -1,0 +1,56 @@
+@use '@/styles/breakpoints' as *;
+
+.filtersToggleButton {
+  display: none;
+  gap: 1.2rem;
+  align-items: center;
+  justify-content: center;
+
+  inline-size: 100%;
+  min-block-size: 5.6rem;
+  padding: 0 1.6rem;
+  border: none;
+  border-radius: 0.4rem;
+
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: var(--color-filters-toggle-fg);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+
+  background-color: var(--color-filters-toggle-bg);
+  box-shadow: var(--shadow-filters-toggle);
+
+  transition: opacity 0.1s;
+}
+
+.filtersToggleButton__icon {
+  flex-shrink: 0;
+  color: var(--color-filters-toggle-icon);
+  transition: transform 0.2s;
+
+  &_expanded {
+    transform: rotate(180deg);
+  }
+}
+
+.filtersToggleButton__label {
+  flex-grow: 1;
+  text-align: center;
+}
+
+@media (hover: hover) {
+  .filtersToggleButton {
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.6;
+    }
+  }
+}
+
+@media (width <= $bp-mobile) {
+  .filtersToggleButton {
+    display: flex;
+  }
+}

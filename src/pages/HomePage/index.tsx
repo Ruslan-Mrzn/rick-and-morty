@@ -11,7 +11,10 @@ import { useShallow } from 'zustand/react/shallow';
 import { charactersKeys } from '@/api';
 import { useCharacters, useErrorToast } from '@/hooks';
 import { BigLogo, InfiniteScroll, Loader } from '@/shared/components';
-import { LAST_VIEWED_CHARACTER_STORAGE_KEY } from '@/shared/constants';
+import {
+  ERROR_CODE,
+  LAST_VIEWED_CHARACTER_STORAGE_KEY
+} from '@/shared/constants';
 import type { TCharacter } from '@/shared/types';
 import { useCharactersFiltersStore } from '@/stores';
 import { FiltersPanel } from '@/widgets';
@@ -107,7 +110,7 @@ const HomePage = () => {
       </div>
 
       {isLoading && characters.length === 0 && (
-        <div className={styles.homePage__loader}>
+        <div className={styles.homePage__loaderInitial}>
           <Loader
             size='big'
             text={t('common.loadingCharacters')}
@@ -133,22 +136,25 @@ const HomePage = () => {
         </InfiniteScroll>
       </div>
 
-      {isFetchingNextPage && characters.length > 0 && (
+      {isFetchingNextPage && characters.length > 0 && !error && (
         <div className={styles.homePage__loader}>
           <Loader size='small' />
         </div>
       )}
 
-      {!isLoading && !isFetchingNextPage && error && (
-        <div className={styles.homePage__tryAgainContainer}>
-          <button
-            className={styles.homePage__tryAgain}
-            onClick={tryToFetchCharactersAgain}
-          >
-            {t('common.tryAgain')}
-          </button>
-        </div>
-      )}
+      {!isLoading &&
+        !isFetchingNextPage &&
+        error &&
+        error.code !== ERROR_CODE.NO_CHARACTERS_FOUND && (
+          <div className={styles.homePage__tryAgainContainer}>
+            <button
+              className={styles.homePage__tryAgain}
+              onClick={tryToFetchCharactersAgain}
+            >
+              {t('common.tryAgain')}
+            </button>
+          </div>
+        )}
 
       <Toaster position='bottom-right' />
     </div>

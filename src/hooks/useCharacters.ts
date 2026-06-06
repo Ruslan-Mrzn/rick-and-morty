@@ -57,7 +57,8 @@ const useCharacters = (params: TGetCharactersParams = DEFAULT_QUERY_PARAMS) => {
       requestedPage > loadedPages &&
       hasNextPage &&
       !isFetchingNextPage &&
-      !isLoading
+      !isLoading &&
+      !error
     ) {
       void fetchNextPage();
     }
@@ -67,6 +68,7 @@ const useCharacters = (params: TGetCharactersParams = DEFAULT_QUERY_PARAMS) => {
     hasNextPage,
     isFetchingNextPage,
     isLoading,
+    error,
     fetchNextPage
   ]);
 

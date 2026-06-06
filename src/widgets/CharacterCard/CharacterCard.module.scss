@@ -1,18 +1,26 @@
+@use '@/styles/breakpoints' as *;
+
 .characterCard {
   position: relative;
 
-  display: flex;
+  container-name: character-card;
+  container-type: inline-size;
+  display: grid;
+  grid-template-columns: 24rem minmax(0, 1fr);
   gap: 1.3rem;
-  align-items: center;
+  align-items: stretch;
 
-  width: 50.8rem;
-  height: 24.8rem;
+  inline-size: 100%;
+  min-inline-size: min(31.2rem, 100%);
+  max-inline-size: 50.8rem;
+  min-block-size: 24.8rem;
   padding: 0.7rem;
   padding-right: 1.3rem;
   border-radius: 6px;
 
   background-color: var(--color-bg-character-card);
   box-shadow: var(--shadow-character-card);
+
   &:hover > .characterCard__edit {
     display: block;
   }
@@ -20,21 +28,19 @@
 
 .characterCard__imgContainer {
   overflow: hidden;
-  flex-shrink: 0;
-
-  width: 24rem;
+  width: 100%;
   height: 23.4rem;
   border-radius: 8px 8px 0 0;
 }
 
 .characterCard__img {
-  width: 100%;
-  object-fit: contain;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .characterCard__formContainer {
-  flex-grow: 1;
-  flex-shrink: 1;
   align-self: stretch;
   min-width: 0;
 }
@@ -53,4 +59,28 @@
 
   font-size: 0;
   color: var(--color-text-primary);
+}
+
+@container character-card (width < 40rem) {
+  .characterCard__imgContainer,
+  .characterCard__formContainer {
+    grid-column: 1 / -1;
+    align-self: stretch;
+  }
+
+  .characterCard__imgContainer {
+    aspect-ratio: 304 / 171;
+    inline-size: 100%;
+    block-size: auto;
+  }
+
+  .characterCard__edit {
+    top: 18rem;
+  }
+}
+
+@media (width <= $bp-mobile) {
+  .characterCard {
+    padding: 0.4rem;
+  }
 }
