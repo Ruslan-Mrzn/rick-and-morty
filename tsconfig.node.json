@@ -2,13 +2,14 @@
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
     "target": "ES2023",
-    "lib": ["ES2023"],
+    "lib": ["ES2023", "DOM"],
     "module": "ESNext",
     "types": ["node"],
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@tests/*": ["./tests/*"]
     },
 
     /* Bundler mode */
@@ -31,6 +32,6 @@
     "playwright.config.ts",
     "playwright.visual.config.ts",
     "src/**/*.visual.spec.ts",
-    "src/shared/testing/**/*.ts"
+    "tests/visual/**/*.ts"
   ]
 }

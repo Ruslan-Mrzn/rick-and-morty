@@ -1,10 +1,9 @@
 import { expect, test } from '@playwright/test';
-
 import {
   storyUrl,
   type TStoryTheme,
   waitForStory
-} from '@/shared/testing/storybookVisual';
+} from '@tests/visual/storybookVisual';
 
 const stories: { id: string; theme: TStoryTheme }[] = [
   { id: 'shared-selector--light', theme: 'light' },
