@@ -33,5 +33,6 @@
     "noImplicitAny": true,
     "strictFunctionTypes": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["src/**/*.visual.spec.ts"]
 }
