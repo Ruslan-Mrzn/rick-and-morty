@@ -1,8 +1,10 @@
+// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
 import js from '@eslint/js';
 import stylistic from '@stylistic/eslint-plugin';
 import prettier from 'eslint-config-prettier';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
+import storybook from 'eslint-plugin-storybook';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
@@ -83,10 +85,17 @@ export default defineConfig([
     }
   },
   {
-    files: ['vite.config.ts', 'playwright.config.ts'],
+    files: [
+      'vite.config.ts',
+      'playwright.config.ts',
+      'playwright.visual.config.ts',
+      'src/**/*.visual.spec.ts',
+      'tests/e2e/**/*.ts'
+    ],
     languageOptions: {
       globals: globals.node
     }
   },
-  prettier
+  prettier,
+  ...storybook.configs['flat/recommended']
 ]);

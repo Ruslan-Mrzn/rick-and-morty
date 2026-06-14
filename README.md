@@ -39,6 +39,8 @@
 - TanStack React Query
 - Vitest + React Testing Library (unit tests)
 - Playwright (e2e tests)
+- Storybook (компоненты UI-kit)
+- Playwright + Storybook (скриншотные тесты)
 - vite-plugin-pwa + Workbox (PWA)
 
 ## Установка
@@ -61,6 +63,10 @@ npm test        # запуск unit-тестов
 npm run test:watch     # запуск тестов в watch-режиме
 npm run test:coverage  # запуск тестов с coverage
 npm run test:e2e       # запуск e2e-тестов (Playwright)
+npm run storybook      # запуск Storybook (порт 6006)
+npm run build-storybook # сборка статической версии Storybook
+npm run test:visual    # скриншотные тесты (Playwright + Storybook)
+npm run test:visual:update # обновление baseline-скриншотов
 ```
 
 ## Unit-тесты
@@ -71,11 +77,58 @@ npm run test:e2e       # запуск e2e-тестов (Playwright)
 ## E2E-тесты
 
 - Для e2e используется **Playwright**.
+- Тесты лежат в `tests/e2e/`.
+- Перед прогоном Playwright поднимает dev-сервер приложения (`playwright.config.ts`, `webServer`).
 - Запуск e2e-тестов:
 
 ```bash
 npm run test:e2e
 ```
+
+## Storybook
+
+- Для изолированной разработки и документирования UI-компонентов используется **Storybook**.
+- Конфигурация: `.storybook/`.
+- Stories для shared-компонентов и widgets: `**/index.stories.tsx` рядом с компонентом.
+- Тема (`light`/`dark`) задаётся декоратором `withTheme` из `.storybook/decorators/`.
+- Запуск:
+
+```bash
+npm run storybook
+```
+
+Storybook откроется на http://localhost:6006.
+
+## Скриншотные (visual) тесты
+
+- Для визуальной регрессии используется **Playwright** + **Storybook** (iframe-сторис).
+- Тесты лежат рядом с компонентом: `index.visual.spec.ts`.
+- Baseline-скриншоты хранятся в `__screenshots__/` в папке компонента.
+- Общие хелперы: `tests/visual/storybookVisual.ts`.
+- Отдельный конфиг: `playwright.visual.config.ts`.
+
+Запуск:
+
+```bash
+npm run test:visual          # сравнение с baseline
+npm run test:visual:update   # пересоздать baseline после изменения UI
+```
+
+При добавлении или изменении stories нужно обновить baseline и закоммитить png в `__screenshots__/`.
+
+## CI на GitHub
+
+- Workflow: `.github/workflows/ci.yml`.
+- Триггер: **pull request в `master`** .
+- Draft PR пропускаются — полный прогон только после **Ready for review**.
+
+Jobs:
+
+| Job       | Что проверяет                               |
+| --------- | ------------------------------------------- |
+| `quality` | lint, lint:css, prettier, unit-тесты, build |
+| `e2e`     | Playwright e2e-тесты                        |
+| `visual`  | Playwright скриншотные тесты                |
 
 ## Функционал
 

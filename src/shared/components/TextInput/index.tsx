@@ -1,5 +1,6 @@
-import type { ChangeEvent, KeyboardEvent } from 'react';
+import type { ChangeEvent, KeyboardEvent, MouseEvent } from 'react';
 
+import { CrossIcon } from '@/assets/icons';
 import { classNames } from '@/shared/helpers';
 import type { TextInputProps } from '@/shared/types';
 
@@ -20,7 +21,9 @@ const TextInput = ({
     onChange?.(event.target.value);
   };
 
-  const handleClear = () => {
+  const handleClear = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
     onChange?.('');
     onClear?.();
   };
@@ -57,10 +60,14 @@ const TextInput = ({
           name={name}
         />
         {value && (
-          <span
+          <button
+            type='button'
             className={styles.input__clear}
             onClick={handleClear}
-          ></span>
+            aria-label='Clear'
+          >
+            <CrossIcon />
+          </button>
         )}
       </div>
     </label>

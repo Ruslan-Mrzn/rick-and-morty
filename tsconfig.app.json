@@ -8,8 +8,10 @@
     "module": "ESNext",
     "types": ["vite/client"],
     "skipLibCheck": true,
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@sb/*": [".storybook/*"]
     },
 
     /* Bundler mode */
@@ -31,5 +33,6 @@
     "noImplicitAny": true,
     "strictFunctionTypes": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["src/**/*.visual.spec.ts"]
 }
