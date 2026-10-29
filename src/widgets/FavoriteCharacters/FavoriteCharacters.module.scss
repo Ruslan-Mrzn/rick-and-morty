@@ -124,7 +124,8 @@
   white-space: nowrap;
 
   &:hover {
-    color: var(--color-primary);
+    color: var(--color-accent-portal);
+    text-shadow: 0 0 4px var(--color-accent-portal-glow);
   }
 
   &:focus-visible {
