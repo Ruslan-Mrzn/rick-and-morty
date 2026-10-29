@@ -3,6 +3,7 @@ import CheckIcon from '@/assets/icons/check-icon.svg?react';
 import CrossIcon from '@/assets/icons/cross-icon.svg?react';
 import DarkThemeIcon from '@/assets/icons/dark-theme-icon.svg?react';
 import EditIcon from '@/assets/icons/edit-icon.svg?react';
+import FavoriteIcon from '@/assets/icons/favorite-icon.svg?react';
 import FilterIcon from '@/assets/icons/filter-icon.svg?react';
 import LightThemeIcon from '@/assets/icons/light-theme-icon.svg?react';
 import LogoIcon from '@/assets/icons/logo-icon.svg?react';
@@ -18,6 +19,7 @@ export {
   SelectorArrowIcon,
   SearchIcon,
   EditIcon,
+  FavoriteIcon,
   FilterIcon,
   CrossIcon,
   CheckIcon,

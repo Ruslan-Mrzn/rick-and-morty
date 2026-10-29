@@ -6,7 +6,7 @@ import { Link } from 'react-router';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { CheckIcon, CrossIcon } from '@/assets/icons';
+import { CheckIcon, CrossIcon, FavoriteIcon } from '@/assets/icons';
 import {
   FormTextInput,
   Indicator,
@@ -41,6 +41,8 @@ type CharacterFormProps = {
   setIsEditing: Dispatch<boolean>;
   isEditing: boolean;
   onUpdateCharacter: (_character: TCharacter) => void;
+  isFavorite: boolean;
+  onToggleFavorite: () => void;
 };
 
 const CharacterForm = ({
@@ -57,7 +59,9 @@ const CharacterForm = ({
   },
   setIsEditing,
   isEditing,
-  onUpdateCharacter
+  onUpdateCharacter,
+  isFavorite,
+  onToggleFavorite
 }: CharacterFormProps) => {
   const { t, i18n } = useTranslation();
   const characterEditSchema = useMemo(() => createCharacterEditSchema(t), [t]);
@@ -178,6 +182,22 @@ const CharacterForm = ({
           </Link>
         )}
       </div>
+      <button
+        type='button'
+        className={classNames(styles.characterForm__favorite, {
+          [styles.characterForm__favorite_active]: isFavorite
+        })}
+        aria-label={isFavorite ? t('favorites.remove') : t('favorites.add')}
+        aria-pressed={isFavorite}
+        data-card-favorite='true'
+        onClick={onToggleFavorite}
+      >
+        <FavoriteIcon
+          width={22}
+          height={22}
+          aria-hidden='true'
+        />
+      </button>
       <div className={styles.characterForm__field}>
         <span className={styles.characterForm__fieldTitle}>
           {t('characterForm.gender')}

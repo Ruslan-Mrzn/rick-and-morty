@@ -3,6 +3,7 @@ import { memo, useState } from 'react';
 import { EditIcon } from '@/assets/icons';
 import { CharacterForm } from '@/shared/components';
 import type { TCharacter } from '@/shared/types';
+import { useFavoritesStore } from '@/stores';
 
 import styles from './CharacterCard.module.scss';
 
@@ -13,6 +14,10 @@ type TCharacterCardProps = TCharacter & {
 const CharacterCard = memo(
   ({ onUpdateCharacter, ...character }: TCharacterCardProps) => {
     const [isEditing, setIsEditing] = useState(false);
+    const isFavorite = useFavoritesStore((state) =>
+      state.favorites.some((favorite) => favorite.id === character.id)
+    );
+    const toggleFavorite = useFavoritesStore((state) => state.toggleFavorite);
 
     return (
       <div className={styles.characterCard}>
@@ -29,6 +34,8 @@ const CharacterCard = memo(
             setIsEditing={setIsEditing}
             isEditing={isEditing}
             onUpdateCharacter={onUpdateCharacter}
+            isFavorite={isFavorite}
+            onToggleFavorite={() => toggleFavorite(character)}
           />
         </div>
         {!isEditing && (

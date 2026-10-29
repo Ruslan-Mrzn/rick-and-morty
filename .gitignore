@@ -27,6 +27,9 @@ dist-ssr
 # Qwen skills and rules (private)
 .qwen/
 
+# Local work-in-progress plans (private)
+.plans/
+
 # Bundle analysis reports
 reports/*
 !reports/.gitkeep

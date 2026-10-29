@@ -6,6 +6,7 @@ import { Outlet } from 'react-router';
 import { DarkThemeIcon, LightThemeIcon, LogoIcon } from '@/assets/icons';
 import { classNames } from '@/shared/helpers';
 import { useThemeStore } from '@/stores';
+import FavoriteCharacters from '@/widgets/FavoriteCharacters';
 
 import styles from './MainLayout.module.scss';
 
@@ -78,6 +79,7 @@ const Header = memo(({ className }: TClassName) => (
         className={styles.header__logo}
       />
       <div className={styles.header__controls}>
+        <FavoriteCharacters />
         <ThemeToggle />
         <LanguageToggle />
       </div>

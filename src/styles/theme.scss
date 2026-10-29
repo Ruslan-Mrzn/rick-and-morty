@@ -35,6 +35,9 @@
 
   --color-danger: #d32f2f;
   --color-danger-bright: #f00;
+  --color-favorite-active: #12b800;
+  --color-favorite-badge-bg: #12b800;
+  --color-favorite-badge-fg: #fff;
   --color-status-alive: #12b800;
   --color-status-dead: #df0000;
   --color-status-unknown: #f90;
@@ -100,6 +103,9 @@ html[data-theme='dark'] {
   --color-danger: #ef5350;
   --color-danger-bright: #ff5252;
 
+  --color-favorite-active: #12b800;
+  --color-favorite-badge-bg: #12b800;
+  --color-favorite-badge-fg: #fff;
   --color-status-alive: #66bb6a;
   --color-status-dead: var(--color-danger);
   --color-status-unknown: #ffca28;
