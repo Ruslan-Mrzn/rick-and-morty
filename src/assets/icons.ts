@@ -7,6 +7,7 @@ import FavoriteIcon from '@/assets/icons/favorite-icon.svg?react';
 import FilterIcon from '@/assets/icons/filter-icon.svg?react';
 import LightThemeIcon from '@/assets/icons/light-theme-icon.svg?react';
 import LogoIcon from '@/assets/icons/logo-icon.svg?react';
+import RefreshIcon from '@/assets/icons/refresh-icon.svg?react';
 import SearchIcon from '@/assets/icons/search-icon.svg?react';
 import SelectorArrowIcon from '@/assets/icons/selector-arrow-icon.svg?react';
 import SuccessLoadedIcon from '@/assets/icons/success-loaded-icon.svg?react';
@@ -23,5 +24,6 @@ export {
   FilterIcon,
   CrossIcon,
   CheckIcon,
-  SuccessLoadedIcon
+  SuccessLoadedIcon,
+  RefreshIcon
 };

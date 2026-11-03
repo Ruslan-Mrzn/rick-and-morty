@@ -29,7 +29,8 @@
     "add": "Add to favorites",
     "remove": "Remove from favorites",
     "open": "Open favorite characters",
-    "close": "Close favorite characters"
+    "close": "Close favorite characters",
+    "unavailable": "Favorites widget is unavailable. Click to reload"
   },
   "characterPage": {
     "information": "Information",
