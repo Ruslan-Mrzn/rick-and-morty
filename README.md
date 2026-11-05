@@ -42,6 +42,7 @@
 - Storybook (компоненты UI-kit)
 - Playwright + Storybook (скриншотные тесты)
 - vite-plugin-pwa + Workbox (PWA)
+- Module Federation (`@originjs/vite-plugin-federation`) — загрузка микрофронта избранных персонажей
 
 ## Установка
 
@@ -153,8 +154,18 @@ src/
 ├── shared/        # Общие компоненты и утилиты
 ├── stores/        # Стейт-менеджмент
 ├── widgets/       # Бизнес-блоки
+│   └── FavoriteCharacters/  # Загружается динамически из микрофронта (Module Federation)
 └── main.tsx       # Точка входа
 ```
+
+## Микрофронт «Избранные персонажи»
+
+- Вынесен в отдельное приложение: `rick-and-morty-favorites`
+- Подключается через Module Federation (`@originjs/vite-plugin-federation`)
+- URL задаётся переменной `VITE_FAVORITES_REMOTE_URL`:
+  - **Dev:** `http://localhost:5001/assets/remoteEntry.js` (`.env.example`)
+  - **CI Pages:** берётся из GitHub Variables `VITE_FAVORITES_REMOTE_URL`
+  - **Vercel:** задаётся в `vercel.json` (`build.env`)
 
 ## Особенности
 
@@ -171,4 +182,4 @@ src/
 - **PWA:** настроена через `vite-plugin-pwa` (Workbox `generateSW`), `registerType: autoUpdate`; precache app shell + runtime-кэш API (`NetworkFirst`) и аватарок (`CacheFirst`); манифест с иконками (включая maskable) и скриншотами из `public/`; `scope`/`start_url` выводятся из динамического `base` (работает на Vercel и GitHub Pages)
 - **TanStack React Query:** `useInfiniteQuery` для списка персонажей (постраничная подгрузка через `pageParam`)
 - **Поиск по имени:** submit-модель (Enter/клик по иконке), чтобы не создавать кэш на каждое недопечатанное значение
-- Автоматический деплой через GitHub Actions
+- **Автоматический деплой** через GitHub Actions (CI на PR + Pages на push в `master`)
