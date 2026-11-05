@@ -24,6 +24,9 @@ dist-ssr
 *.sln
 *.sw?
 
+# Kodik workspace (private)
+.kodik/
+
 # Qwen skills and rules (private)
 .qwen/
 

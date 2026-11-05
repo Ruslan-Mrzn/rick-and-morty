@@ -1,5 +1,10 @@
 {
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
   "buildCommand": "npm run build",
-  "outputDirectory": "dist"
+  "outputDirectory": "dist",
+  "build": {
+    "env": {
+      "VITE_FAVORITES_REMOTE_URL": "https://rick-and-morty-favorites.vercel.app/assets/remoteEntry.js"
+    }
+  }
 }

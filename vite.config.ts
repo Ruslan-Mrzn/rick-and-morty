@@ -17,6 +17,10 @@ const date = new Date().toISOString().split('T')[0].replace(/-/g, '');
 
 const base = process.env.VITE_BASE_PATH || '/';
 
+const remoteUrl =
+  process.env.VITE_FAVORITES_REMOTE_URL ||
+  'http://localhost:5001/assets/remoteEntry.js';
+
 export default defineConfig(({ command }) => ({
   base,
   plugins: [
@@ -31,7 +35,7 @@ export default defineConfig(({ command }) => ({
     federation({
       name: 'host_app',
       remotes: {
-        remote_app: 'http://localhost:5001/assets/remoteEntry.js'
+        remote_app: remoteUrl
       },
       shared: ['react', 'react-dom']
     }),
