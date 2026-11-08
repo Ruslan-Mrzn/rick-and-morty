@@ -40,7 +40,7 @@ type CharacterFormProps = {
   data: TCharacter;
   setIsEditing: Dispatch<boolean>;
   isEditing: boolean;
-  onUpdateCharacter: (_character: TCharacter) => void;
+  onUpdateCharacter: (character: TCharacter) => void;
   isFavorite: boolean;
   onToggleFavorite: () => void;
 };

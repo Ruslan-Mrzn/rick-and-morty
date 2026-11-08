@@ -5,9 +5,9 @@ import type { TCharacter } from '@/shared/types';
 
 type TFavoritesStore = {
   favorites: TCharacter[];
-  toggleFavorite: (_character: TCharacter) => void;
-  removeFavorite: (_id: number) => void;
-  updateFavorite: (_character: TCharacter) => void;
+  toggleFavorite: (character: TCharacter) => void;
+  removeFavorite: (id: number) => void;
+  updateFavorite: (character: TCharacter) => void;
 };
 
 const isCharacter = (value: unknown): value is TCharacter => {

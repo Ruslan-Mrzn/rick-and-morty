@@ -16,8 +16,8 @@ type TInfiniteScrollProps = {
   isLoading: boolean;
   isFetchingNextPage: boolean;
   error: TAppError | null;
-  children: (_props: {
-    lastElementRef: (_node: Element | null) => void;
+  children: (props: {
+    lastElementRef: (node: Element | null) => void;
   }) => ReactNode;
 };
 

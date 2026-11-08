@@ -23,7 +23,7 @@ declare module 'remote_app/FavoriteCharacters' {
 
   export type TRemoteFavoriteCharactersProps = {
     favorites: TRemoteFavoriteCharacter[];
-    onRemove: (_id: number) => void;
+    onRemove: (id: number) => void;
     labels: TRemoteFavoriteCharactersLabels;
     linkComponent?: ComponentType<TRemoteLinkComponentProps>;
   };

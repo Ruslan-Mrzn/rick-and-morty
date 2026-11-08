@@ -7,8 +7,8 @@ import styles from './CharactersList.module.scss';
 
 type TCharactersListProps = {
   characters: TCharacter[];
-  updateCharacter: (_character: TCharacter) => void;
-  lastElementRef?: (_node: Element | null) => void;
+  updateCharacter: (character: TCharacter) => void;
+  lastElementRef?: (node: Element | null) => void;
 };
 
 const CharactersList = memo(

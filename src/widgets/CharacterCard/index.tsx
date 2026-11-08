@@ -8,7 +8,7 @@ import { useFavoritesStore } from '@/stores';
 import styles from './CharacterCard.module.scss';
 
 type TCharacterCardProps = TCharacter & {
-  onUpdateCharacter: (_character: TCharacter) => void;
+  onUpdateCharacter: (character: TCharacter) => void;
 };
 
 const CharacterCard = memo(

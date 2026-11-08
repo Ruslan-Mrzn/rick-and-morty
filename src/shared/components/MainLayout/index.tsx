@@ -6,7 +6,7 @@ import { Outlet } from 'react-router';
 import { DarkThemeIcon, LightThemeIcon, LogoIcon } from '@/assets/icons';
 import { classNames } from '@/shared/helpers';
 import { useThemeStore } from '@/stores';
-import FavoriteCharacters from '@/widgets/FavoriteCharacters';
+import { FavoriteCharacters } from '@/widgets';
 
 import styles from './MainLayout.module.scss';
 
