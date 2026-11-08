@@ -1,3 +1,4 @@
+import federation from '@originjs/vite-plugin-federation';
 import react from '@vitejs/plugin-react';
 import fs from 'fs';
 import path from 'path';
@@ -16,7 +17,11 @@ const date = new Date().toISOString().split('T')[0].replace(/-/g, '');
 
 const base = process.env.VITE_BASE_PATH || '/';
 
-export default defineConfig(() => ({
+const remoteUrl =
+  process.env.VITE_FAVORITES_REMOTE_URL ||
+  'http://localhost:5001/assets/remoteEntry.js';
+
+export default defineConfig(({ command }) => ({
   base,
   plugins: [
     react(),
@@ -26,6 +31,13 @@ export default defineConfig(() => ({
         dimensions: true
       },
       include: '**/*.svg?react'
+    }),
+    federation({
+      name: 'host_app',
+      remotes: {
+        remote_app: remoteUrl
+      },
+      shared: ['react', 'react-dom']
     }),
     ViteImageOptimizer(),
     VitePWA({
@@ -108,6 +120,12 @@ export default defineConfig(() => ({
     alias: {
       '@': path.resolve(__dirname, './src')
     }
+  },
+  build: {
+    modulePreload: false,
+    target: 'esnext',
+    minify: command === 'build',
+    cssCodeSplit: false
   },
   test: {
     environment: 'jsdom',

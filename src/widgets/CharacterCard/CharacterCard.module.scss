@@ -22,7 +22,18 @@
   box-shadow: var(--shadow-character-card);
 
   &:hover > .characterCard__edit {
-    display: block;
+    pointer-events: auto;
+    opacity: 1;
+  }
+
+  @media (hover: hover) {
+    &:hover [data-card-favorite],
+    &:focus-within [data-card-favorite],
+    &:hover .characterCard__edit,
+    &:focus-within .characterCard__edit {
+      pointer-events: auto;
+      opacity: 1;
+    }
   }
 }
 
@@ -46,19 +57,22 @@
 }
 
 .characterCard__edit {
+  pointer-events: none;
   cursor: pointer;
 
   position: absolute;
   top: 1.2rem;
   right: 0.9rem;
 
-  display: none;
-
   width: 1.3rem;
   height: 1.3rem;
 
   font-size: 0;
   color: var(--color-text-primary);
+
+  opacity: 0;
+
+  transition: opacity 0.2s;
 }
 
 @container character-card (width < 40rem) {
@@ -75,7 +89,9 @@
   }
 
   .characterCard__edit {
-    top: 18rem;
+    position: absolute;
+    top: anchor(--form-container top);
+    right: anchor(--form-container right);
   }
 }
 

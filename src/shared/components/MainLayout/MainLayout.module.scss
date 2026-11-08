@@ -1,4 +1,6 @@
 .header {
+  position: relative;
+  z-index: 100;
   background-color: var(--color-bg-header-footer);
   box-shadow: var(--shadow-header-footer);
 }

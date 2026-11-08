@@ -6,7 +6,7 @@ import { classNames } from '@/shared/helpers';
 import styles from './Loader.module.scss';
 
 type TLoaderProps = {
-  size: 'big' | 'small';
+  size: 'big' | 'small' | 'tiny';
   text?: string;
 };
 
@@ -17,7 +17,8 @@ const Loader = ({ size, text }: TLoaderProps) => {
     <div
       className={classNames(styles.loader, {
         [styles.loader_big]: size === 'big',
-        [styles.loader_small]: size === 'small'
+        [styles.loader_small]: size === 'small',
+        [styles.loader_tiny]: size === 'tiny'
       })}
     >
       <img

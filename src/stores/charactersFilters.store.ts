@@ -7,10 +7,10 @@ type TCharactersFiltersStore = {
   nameInput: string;
   page: number;
   setFilter: <K extends keyof TCharactersFilters>(
-    _field: K,
-    _value: TCharactersFilters[K]
+    field: K,
+    value: TCharactersFilters[K]
   ) => void;
-  setNameInput: (_value: string) => void;
+  setNameInput: (value: string) => void;
   applyNameFilter: () => void;
   incrementPage: () => void;
 };

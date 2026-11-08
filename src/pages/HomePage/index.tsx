@@ -16,7 +16,7 @@ import {
   LAST_VIEWED_CHARACTER_STORAGE_KEY
 } from '@/shared/constants';
 import type { TCharacter } from '@/shared/types';
-import { useCharactersFiltersStore } from '@/stores';
+import { useCharactersFiltersStore, useFavoritesStore } from '@/stores';
 import { FiltersPanel } from '@/widgets';
 
 import { CharactersList } from './components';
@@ -37,6 +37,7 @@ const HomePage = () => {
 
   const updateCharacterInCache = useCallback(
     (updatedCharacter: TCharacter) => {
+      useFavoritesStore.getState().updateFavorite(updatedCharacter);
       queryClient.setQueryData<InfiniteData<TCharactersPage>>(
         charactersKeys.list(filters),
         (cachedData) =>

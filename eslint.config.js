@@ -32,14 +32,17 @@ export default defineConfig([
       'no-alert': 'error',
       'react-hooks/set-state-in-effect': 'warn',
 
-      'no-unused-vars': [
+      // Core rules are TS-unaware: they report parameters of function types
+      // (e.g. `(arg: T) => void`) as unused and flag TS-provided globals.
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': [
         'error',
         {
           argsIgnorePattern: '^_',
           varsIgnorePattern: '^_'
         }
       ],
-      'no-undef': 'error',
+      'no-undef': 'off',
 
       'default-param-last': 'error',
       'no-empty-function': 'warn',
