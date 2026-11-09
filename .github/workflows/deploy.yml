@@ -35,7 +35,7 @@ jobs:
         run: npm run build
         env:
           VITE_BASE_PATH: /rick-and-morty/
-          VITE_FAVORITES_REMOTE_URL: ${{ vars.VITE_FAVORITES_REMOTE_URL }}
+          VITE_FAVORITES_REMOTE_URL: https://rick-and-morty-favorites.vercel.app/assets/remoteEntry.js
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
