@@ -183,3 +183,46 @@ src/
 - **TanStack React Query:** `useInfiniteQuery` для списка персонажей (постраничная подгрузка через `pageParam`)
 - **Поиск по имени:** submit-модель (Enter/клик по иконке), чтобы не создавать кэш на каждое недопечатанное значение
 - **Автоматический деплой** через GitHub Actions (CI на PR + Pages на push в `master`)
+
+## Docker
+
+Для разработки через Docker используется контейнер с Node.js 22 — образ собирается один раз, dev-сервер запускается внутри контейнера.
+
+**Команды:**
+
+```bash
+make docker-build-dev       # собрать образ (node:22-alpine + зависимости)
+make docker-up-dev          # запустить dev-сервер (порт 5173)
+make docker-down            # остановить контейнер
+make docker-lint            # ESLint в контейнере
+make docker-lint-css        # Stylelint в контейнере
+make docker-format-check    # проверка Prettier в контейнере
+make docker-test            # unit-тесты (Vitest) в свежем контейнере
+make docker-test-coverage   # тесты с coverage
+make docker-test-e2e        # e2e-тесты (Playwright)
+make docker-check           # полный прогон линтеров и тестов перед пушем
+```
+
+## GitHub Codespaces
+
+Проект готов к работе в GitHub Codespaces через Dev Containers.
+
+**Подготовка (один раз):**
+
+1. Сделать **Fork** этого репозитория на свой GitHub
+2. То же самое сделать с репозиторием `rick-and-morty-favorites` (если планируешь связку микрофронта)
+
+**Быстрый старт (в форке):**
+
+1. Открыть **Code → Codespaces → Create a new codespace**
+2. Контейнер поднимется автоматически, dev-сервер уже запущен на порту 5173
+3. Открыть порт 5173 во вкладке Ports — приложение доступно в браузере
+
+**Связка с микрофронтом (по готовности):**
+
+1. В форке `rick-and-morty-favorites` запустить микрофронт (`npm run serve`, порт 5001 Public) — инструкция в README того репозитория
+2. В `vite.config.ts` прописать в `const remoteUrl` публичный адрес 5001 порта микрофронта:
+   ```
+   <публичный адрес 5001 порта микрофронта>/assets/remoteEntry.js
+   ```
+3. Перезапустить dev-сервер (`Ctrl+C` → `npm run dev`)
